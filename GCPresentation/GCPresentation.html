@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title><a href="https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)">Garbage Collection</a></title>
+<meta name="author" content="(Sergey V. Ignatov)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0./css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0./css/theme/sky.css" id="theme"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0./lib/css/zenburn.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0./css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title"><a href="https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)">Garbage Collection</a></h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-09-22 Sat 11:22</p>
+</section>
+<section>
+<section id="slide-orgdcbbbc4">
+<h2 id="orgdcbbbc4">10 Points About Java Heap Space or Java Heap Memory</h2>
+</section>
+</section>
+<section>
+<section id="slide-orgffe7fe4">
+<h2 id="orgffe7fe4">10 Garbage Collection Interview Questions and Answers in Java Programming</h2>
+<div class="outline-text-2" id="text-orgffe7fe4">
+</div>
+</section>
+<section id="slide-org42376fa">
+<h3 id="org42376fa"><b>Question 1 - What is structure of Java Heap? What is Perm Gen space in Heap?</b></h3>
+<ul>
+<li>Answer: Java Heap is divided into different generation e.g. new generation, old generation and PermGen space. PermGen space is used to store class’s metadata    and filling of PermGen space can cause <code>java.lang.OutOfMemory:PermGen</code> space. Its also worth noting to remember JVM option to configure PermGen space in Java.</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0./lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0./js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0./plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>

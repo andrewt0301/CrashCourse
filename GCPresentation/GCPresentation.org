@@ -1,0 +1,16 @@
+#+TITLE: [[https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)][Garbage Collection]]
+#+AUTHOR: Sergey V. Ignatov
+#+DATE:
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.
+#+REVEAL_THEME: sky
+#+REVEAL_HLEVEL: 1
+#+REVEAL_PLUGINS: (highlight)
+#+OPTIONS: toc:nil num:nil tex:t
+#+STARTUP: latexpreview
+* *10 Points About Java Heap Space or Java Heap Memory*
+** *What is Heap space in Java?*
+   -
+* *How Garbage Collection Works in Java*
+* *10 Garbage Collection Interview Questions and Answers in Java Programming*
+** *Question 1 - What is structure of Java Heap? What is Perm Gen space in Heap?*
+   - Answer: Java Heap is divided into different generation e.g. new generation, old generation and PermGen space. PermGen space is used to store class’s metadata    and filling of PermGen space can cause ~java.lang.OutOfMemory:PermGen~ space. Its also worth noting to remember JVM option to configure PermGen space in Java.
