@@ -1,0 +1,37 @@
+/* For example... */
+/* .reveal pre { */
+/*     width: 100%; */
+/*     border: none; */
+/*     box-shadow: none; */
+/* } */
+@import 'https://fonts.googleapis.com/css?family=Open+Sans';
+
+body {
+  background: #ffffff;
+  background-color: #ffffff; }
+
+.reveal {
+  font-family: "Open Sans", sans-serif;
+  font-size: 36px;
+  font-weight: normal;
+  color: #000000; }
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  margin: 0 0 20px 0;
+  color: #154478;
+  font-family: "Open Sans", Impact, sans-serif;
+  font-weight: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
+  text-shadow: none;
+  word-wrap: break-word; }
+
+.reveal table {
+    font-size: 30px;
+}

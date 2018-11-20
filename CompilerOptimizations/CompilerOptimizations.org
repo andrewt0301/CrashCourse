@@ -1,0 +1,524 @@
+#+REVEAL_ROOT: https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:t reveal_control:t
+#+OPTIONS: reveal_mathjax:t reveal_rolling_links:t reveal_keyboard:t
+#+OPTIONS: reveal_overview:t num:nil reveal_toc:nil
+#+OPTIONS: reveal_width:1200 reveal_height:800
+#+REVEAL_MARGIN: 0.2
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_TRANS: none
+#+REVEAL_THEME: sky
+#+OPTIONS: text
+#+OPTIONS: toc:nil num:nil
+#+REVEAL_HLEVEL: 1
+# #+REVEAL_HLEVEL: 999
+#+REVEAL_EXTRA_CSS: ./presentation.css
+#+REVEAL_PLUGINS: (highlight)
+#+STARTUP: latexpreview
+
+#+TITLE: Compiler Optimizations
+#+AUTHOR: Sergey V. Ignatov
+#+EMAIL: s.ignatov@samsung.com
+# #+DATE: 18-09-2018
+* *_Agenda_*
+- What is *Compiler Optimization*
+- History of *Compiler Optimization*
+- Types of *Compiler Optimization*
+- Factors affecting *Compiler Optimization*
+- Techniques of *Compiler Optimization*
+- Future scope
+- Intermediate Representation
+* *_What Is Compiler Optimization_*
+- What is *Compiler Optimization*
+- History of *Compiler Optimization*
+- Types of *Compiler Optimization*
+** *_What Is Compiler Optimization_*
+- In computing, an *optimizing compiler* is a compiler that tries to minimize or maximize some attributes of an executable computer program.
+- /compiler optimization/ = /code optimization/
+- Set of algorithms which transforms a program to an equivalent output program that uses fewer resources:
+  - minimizing program execution time
+  - minimizing memory use
+  - minimizing the power consumed by a program
+** *_History of Compiler Optimization_*
+- One of the earliest notable optimizing compiler was that for BLISS (1970), which was described in The  Design of an Optimizing Compiler (1975)
+- By the 1980s optimizing compilers were sufficiently effective that programming in assembly language declined, and by the late 1990s for even sensitive code, optimizing compilers exceeded the performance of human experts.
+** *_Optimizations at Various Phases_*
+- *Source Code*:
+  - *Algorithms transformations* can produce spectacular improvements.
+  - *Profiling* can be helpful to focus a programmer's attention on important code.
+- *Intermediate Code*:
+  - Compiler can improve loops, procedure calls and address calculations.
+  - Typically only optimizing compilers include this phase.
+- *Target Code*:
+  - Efficient choosing appropriate target-machine instructions.
+  - Efficient using registers.
+  - Peephole optimizations.
+  - Instruction scheduling.
+** *_Types of Compiler Optimization_*
+- Peephole optimizations
+- Local optimizations
+- Global optimizations
+- Loop optimizations
+- Prescient store optimizations
+- Interprocedural, whole-program or link-time optimizations
+- Machine code optimizations
+*** *_Peephole Optimizations_*
+- Usually performed late in the compilation process after machine code has been generated. This form of optimization examines a few adjacent instructions to see whether they can be replaced by a single instruction or a shorter sequence of instructions.
+*** *_Local Optimizations_*
+- These only consider information local to a basic block. Since basic blocks have no control flow, these optimizations need very little analysis (saving time and reducing storage requirements), but this also means that no information is preserved across jumps.
+*** *_Global Optimizations_*
+- These are also called "intraprocedural methods" and act on whole function. This gives them more information to work with but often makes expensive computations necessary.
+*** *_Loop Optimizations_*
+- These act on the statements which make up a loop. Loop optimizations can have a significant impact because many programs spend a large percentage of their time inside loops.
+*** *_Prescient Store Optimizations_*
+- Allow store operations to occur earlier than would otherwise be permitted in the context of threads and locks. The process needs some way of knowing ahead of time what value will be stored by the assignment that it should have followed.
+*** *_Interprocedural, Whole-Program or Link-Time Optimizations_*
+- These analyze all of a program's source code. The greater quantity of information extracted means that optimizations can be more effective compared to when they only have access to local information.
+*** *_Machine Code Optimizations_*
+- These analyze the executable task image of the program after all of an executable machine code has been linked. Some of the techniques that can be applied in a more limited scope, such as macro compression are more effective when the entire executable task image is available for analysis.
+- In addition to scoped optimizations there are two further general categories of optimization:
+  - Programming language-independent vs language-dependent
+  - Machine independent vs machine dependent
+*** *_Programming Language-Dependent VS Language-Independent_*
+- Most high-level languages share common programming constructs and abstractions: decision (~if~, ~switch~, ~case~), looping (~for~, ~while~, ~repeat~...~until~, ~do~...~while~), and encapsulation (structures, objects).
+- However, certain language features make some kinds of optimizations difficult. For instance, the existence of pointers in ~C~ and ~C++~ makes it difficult to optimize array accesses.
+*** *_Machine Independent VS Machine Dependent_*
+- Many optimizations that operate on abstract programming concepts (loops, objects, structures) are independent of the machine targeted by the compiler, but many of the most effective optimizations are those that best exploit special features of the target platform. E.g.: Instruction which do several things at once, such as decrement register and branch if not zero.
+** *_Factors Affecting Compiler Optimization_*
+- The machine itself.
+- The architecture of the target CPU.
+- The architecture of the machine.
+- Intended use of the generated code.
+*** *_The Machine Itself_*
+- Many of the choices about which optimizations can and should be done depend on the characteristics of the target machine.
+- It is sometimes possible to parameterize some of these machine dependent factors, so that a single piece of compiler code can be used to optimize different machines just by altering the machine description parameters.
+*** *_The Architecture of the Target CPU_*
+- RISC vs CISC
+- Pipelines
+- Number of functional units
+*** *_The Architecture of the Machine_*
+- Techniques such as inline expansion and loop unrolling may increase the size of the generated code and reduce code locality.
+- Cache/Memory transfer rates: These give the compiler an indication of the penalty for cache misses.
+- This is used mainly in specialized applications.
+*** *_Intended Use of the Generated Code_*
+- Debugging
+- General purpose use
+- Special-purpose use
+- Embedded systems
+**** *_Debugging_*
+- While writing an application, a programmer will recompile and test often, and so compilation must be fast.
+**** *_General Purpose Use_*
+- Prepackaged software is very often expected to be executed on a variety of machines and CPUs that may share the same instruction set, but have different timing, cache or memory characteristics.
+**** *_Special-Purpose Use_*
+- If the software is compiled to be used on one or a few very similar machines, with known characteristics, then the compiler can heavily time the generated code to those specific machines.
+**** *_Embedded Systems_*
+- Embedded software can be tightly tuned to an exact CPU and memory size. So, for example, compilers for embedded software usually offer options that reduce code size at the expense of speed, because memory is the main cost of an embedded computer.
+** *_Future Scope_*
+- Artifical intelligence will detect all the code which can be optimized.
+* *_Techniques of Compiler Optimizations_*
+- [[http://compileroptimizations.com/][Compiler Optimizations]]
+** *_Instruction Combining_*
+#+BEGIN_SRC c
+int i;
+void f()
+{
+  i++;
+  i++;
+}
+#+END_SRC
+#+BEGIN_SRC c
+int i;
+void f()
+{
+  i += 2;
+}
+#+END_SRC
+** *_Constant Folding_*
+#+BEGIN_SRC c
+int f()
+{
+  return (3 + 5);
+}
+#+END_SRC
+#+BEGIN_SRC c
+int f()
+{
+  return 8;
+}
+#+END_SRC
+** *_Constant Propagation_*
+#+BEGIN_SRC c
+void f()
+{
+  x = 3;
+  y = x + 4;
+}
+#+END_SRC
+#+BEGIN_SRC c
+void f()
+{
+  x = 3;
+  y = 7;
+}
+#+END_SRC
+** *_Common SubExpression (CSE) Elimination_*
+#+BEGIN_SRC c
+void f()
+{
+  i = x + y + 1;
+  j = x + y;
+}
+#+END_SRC
+#+BEGIN_SRC c
+void f()
+{
+  t1 = x + y;
+  i = t1 + 1;
+  j = t1;
+}
+#+END_SRC
+** *_Integer Multiply Optimization_*
+#+BEGIN_SRC c
+int f(int i)
+{
+  return i * 4;
+}
+#+END_SRC
+#+BEGIN_SRC c
+int f(int i)
+{
+  return i << 2;
+}
+#+END_SRC
+** *_Integer Divide Optimization_*
+#+BEGIN_SRC c
+int f(int i)
+{
+  return i / 2;
+}
+#+END_SRC
+#+BEGIN_SRC c
+int f(int i)
+{
+  return i >> 1;
+}
+#+END_SRC
+** *_Loop Fusion_*
+#+BEGIN_SRC c
+void f()
+{
+  int i;
+  for (int i = 0; i < 100; i++)
+    a[i] += 10;
+  for (int i = 0; i < 100; i++)
+    b[i] += 10;
+}
+#+END_SRC
+#+BEGIN_SRC c
+void f()
+{
+  int i;
+  for (int i = 0; i < 100; i++) {
+    a[i] += 10;
+    b[i] += 10;
+  }
+}
+#+END_SRC
+** *_Dead Code Elimination_*
+#+BEGIN_SRC c
+int global;
+void f()
+{
+  int i;
+  i = 1;      // dead store
+  global = 1; // dead store
+  global = 2;
+  return;
+  global = 3; // unreachable
+}
+#+END_SRC
+#+BEGIN_SRC c
+void f()
+{
+  global = 2;
+  return;
+}
+#+END_SRC
+** *_Redundant Code Elimination_*
+#+BEGIN_SRC c
+{
+  if (1 < 2) {
+    printf("i is smaller than 2");
+  } else {
+    printf("math is broken");
+  }
+}
+#+END_SRC
+#+BEGIN_SRC c
+{
+  printf("i is smaller than 2");
+}
+#+END_SRC
+** *_Expression Simplification_*
+#+BEGIN_SRC c
+void f(int i)
+{
+  a[0] = i + 0;
+  a[1] = i * 0;
+  a[2] = i - i;
+  a[3] = 1 + i + 1;
+}
+#+END_SRC
+#+BEGIN_SRC c
+void f(int i)
+{
+  a[0] = i;
+  a[1] = 0;
+  a[2] = 0;
+  a[3] = 2 + i;
+}
+#+END_SRC
+** *_Forward Store_*
+#+BEGIN_SRC c
+int sum;
+void f()
+{
+  sum = 0;
+  for (int i = 0; i < 100; i++) {
+    sum += a[i];
+  }
+}
+#+END_SRC
+#+BEGIN_SRC c
+int sum;
+void f()
+{
+  register int t = 0;
+  for (int i = 0; i < 100; i++) {
+    t += a[i];
+  }
+  sum = t;
+}
+#+END_SRC
+** *_Loop Invariant Code Motion_*
+#+BEGIN_SRC c
+#define BLACK 1
+struct Triangle {...};
+struct Triangle *triangle[];
+{
+  int color;
+  for (int i = 0; i < 100; i++) {
+    color = BLACK;
+    Draw(t, color);
+  }
+}
+#+END_SRC
+#+BEGIN_SRC c
+#define BLACK 1
+struct Triangle {...};
+struct Triangle *triangle[];
+{
+  int color = BLACK;
+  for (int i = 0; i < 100; i++) {
+    Draw(t, color);
+  }
+}
+#+END_SRC
+** *_If Optimization_*
+#+BEGIN_SRC c
+void f(int *p)
+{
+  if (p)
+    g(1);
+  if (p)
+    g(2);
+}
+#+END_SRC
+#+BEGIN_SRC c
+void f(int *p)
+{
+  if (p) {
+    g(1);
+    g(2);
+  }
+}
+#+END_SRC
+** *_If Optimization_*
+#+BEGIN_SRC c
+void f(int *p)
+{
+  if (p) {
+    g(1);
+    if (p)
+      g(2);
+}
+#+END_SRC
+#+BEGIN_SRC c
+void f(int *p)
+{
+  if (p) {
+    g(1);
+    g(2);
+  }
+}
+#+END_SRC
+** *_~new~ Expression Optimization_*
+#+BEGIN_SRC c++
+{
+  int a[];
+  a = new int[100];
+}
+#+END_SRC
+#+BEGIN_SRC c++
+{
+  // a not used, so not allocated
+}
+#+END_SRC
+** *_~try...catch~ Block Optimization_*
+#+BEGIN_SRC c++
+try
+{
+  a = (int)5;
+}
+catch (Exception e)
+{
+  //
+}
+#+END_SRC
+#+BEGIN_SRC c++
+a = 5;
+#+END_SRC
+** *_Loop Unrolling_*
+#+BEGIN_SRC c
+for (int i = 0; i < 100; i++) {
+  g();
+}
+#+END_SRC
+#+BEGIN_SRC c
+for (int i = 0; i < 100; i += 2) {
+  g();
+  g();
+}
+#+END_SRC
+** *_Unswitching_*
+#+BEGIN_SRC c
+for (int i = 0; i < 100; i++) {
+  if (x)
+    a[i] = i;
+  else
+    b[i] = i;
+}
+#+END_SRC
+#+BEGIN_SRC c
+  if (x) {
+    for (int i = 0; i < 100; i++) {
+      a[i] = i;
+    }
+  } else {
+    for (int i = 0; i < 100; i++) {
+      b[i] = i;
+    }
+  }
+#+END_SRC
+** *_Induction Variable Elimination_*
+#+BEGIN_SRC c
+int a[SIZE];
+int b[SIZE];
+
+void f (void)
+{
+  int i1, i2, i3;
+
+  for (i1 = 0, i2 = 0, i3 = 0; i1 < SIZE; i1++)
+    a[i2++] = b[i3++];
+  return;
+}
+#+END_SRC
+#+BEGIN_SRC c
+int a[SIZE];
+int b[SIZE];
+
+void f (void)
+{
+  int i1;
+
+  for (i1 = 0; i1 < SIZE; i1++)
+    a[i1] = b[i1];
+  return;
+}
+#+END_SRC
+** *_Strength Reduction_*
+#+BEGIN_SRC c
+int s = 0, v = 0;
+for (int i = 0; i < n; i++) {
+  v = 4 * i;
+  s = s + v;
+}
+#+END_SRC
+#+BEGIN_SRC c
+int s = 0, v = 0;
+for (int i = 0; i < n; i++) {
+  v = v + 4;
+  s = s + v;
+}
+#+END_SRC
+** *_Function Inlining_*
+#+BEGIN_SRC c
+int add (int x, int y)
+{
+  return x + y;
+}
+
+int sub (int x, int y)
+{
+  return add (x, -y);
+}
+#+END_SRC
+#+BEGIN_SRC c
+int sub (int x, int y)
+{
+  return x - y;
+}
+#+END_SRC
+* *_Intermediate Representation_*
+- An *Intermediate Representation* is a representation of a program “between” the source and target languages. A good IR is one that is fairly independent of the source and target languages, so that it maximizes its ability to be used in a retargetable compiler.
+- Is translated from an *Abstract Syntax Tree* of a program.
+- It should *be easy to produce*.
+- It should *be easy to translate* to target machine code.
+#+ATTR_HTML: :width 1000px;
+[[./images/IR1.png]]
+** *_Why Use an IR?_*
+- If a compiler translates the source language to its target machine language without having the option for generating intermediate code, then for each new machine, a full native compiler is required.
+- Because translation appears to /inherently/ require analysis and synthesis. Intermediate code eliminates the need of a new full compiler for every unique machine by keeping the analysis portion same for all the compilers.
+- To break the difficult problem of translation into simpler, more manageable pieces.
+** *_Why Use an IR?_*
+- To build retargetable compilers:
+  - We can build new backends for existing front-end (making the source language more /portable across machines/)
+  - We can build a new front-end for an existing back-end (so a new machine can quickly get a set of compilers for different source languages).
+  - We only have to write /2n/ half-compilers instead of /n(n-1)/ full compilers.
+- To perform /machine independent/ optimizations. It becomes easier to apply the source code modifications to improve code performance by applying code optimization techniques on the intermediate code.
+** *_Why Use an IR?_*
+#+ATTR_HTML: :width 400px;
+[[./images/IR2.png]]
+** *_Why Use an IR?_*
+- Ideally, details of the source language are confined to the front end, and details of the target machine to the back end.
+#+ATTR_HTML: :width 400px;
+[[./images/IR3.png]]
+** *_Styles of IR_*
+- Intermediate representations are usually:
+  - Structured (graph or tree-based)
+  - Flat, tuple-based, generally three-address code (quadruples)
+  - Flat, stack-based
+  - Or any combination of the above three
+** *_Styles of IR_*
+#+ATTR_HTML: :width 1000px;
+#+BEGIN_SRC c
+while (x < 4 * y) {
+    x = y / 3 >> x;
+    if (y)
+        print(x - 3);
+}
+#+END_SRC
+** *_Styles of IR: Semantic Graph_*
+#+ATTR_HTML: :width 780px;
+[[./images/SemanticGraph.png]]
