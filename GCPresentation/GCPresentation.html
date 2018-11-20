@@ -27,12 +27,12 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Garbage Collection</h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-10-22 Mon 13:06</p>
+<section id="sec-title-slide"><h1 class="title">Garbage Collection</h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-11-14 Ср 23:58</p>
 </section>
 
 <section>
-<section id="slide-orge75546d">
-<h2 id="orge75546d"><b><span class="underline">Agenda</span></b></h2>
+<section id="slide-org90c7efa">
+<h2 id="org90c7efa"><b><span class="underline">Agenda</span></b></h2>
 <ul>
 <li><b>Garbage Collector Basics</b></li>
 <li><b>Terminology</b></li>
@@ -46,13 +46,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org4686c54">
-<h2 id="org4686c54"><b><span class="underline">Garbage Collector Basics</span></b></h2>
-<div class="outline-text-2" id="text-org4686c54">
+<section id="slide-org393069e">
+<h2 id="org393069e"><b><span class="underline">Garbage Collector Basics</span></b></h2>
+<div class="outline-text-2" id="text-org393069e">
 </div>
 </section>
-<section id="slide-org1247030">
-<h3 id="org1247030"><b><span class="underline">What Is It?</span></b></h3>
+<section id="slide-orgcc0cd82">
+<h3 id="orgcc0cd82"><b><span class="underline">What Is It?</span></b></h3>
 <ul>
 <li>Find data objects in the program, that cannot be accessed in the future</li>
 <li>Reclaim resources used by these objects</li>
@@ -61,8 +61,8 @@
 </ul>
 
 </section>
-<section id="slide-orgac4eec7">
-<h3 id="orgac4eec7"><b><span class="underline">Advantages</span></b></h3>
+<section id="slide-org5215457">
+<h3 id="org5215457"><b><span class="underline">Advantages</span></b></h3>
 <ul>
 <li>Getting rid of dangling pointer bugs</li>
 <li>Getting rid of double free bugs</li>
@@ -71,8 +71,8 @@
 </ul>
 
 </section>
-<section id="slide-org58a7a3d">
-<h3 id="org58a7a3d"><b><span class="underline">Disadvantages</span></b></h3>
+<section id="slide-org49488e5">
+<h3 id="org49488e5"><b><span class="underline">Disadvantages</span></b></h3>
 <ul>
 <li>Extra computing resources</li>
 <li>Unpredictable collection time</li>
@@ -81,8 +81,8 @@
 </ul>
 
 </section>
-<section id="slide-orgd34b8f9">
-<h3 id="orgd34b8f9"><b><span class="underline">Conclusion</span></b></h3>
+<section id="slide-org9e2743a">
+<h3 id="org9e2743a"><b><span class="underline">Conclusion</span></b></h3>
 <ul>
 <li>Studies showed that performance of systems with well-implemented garbage collectiors is highly competitive with systems with explicit deallocation.</li>
 <li>Automatic deallocation allows a programmer not to worry about memory management, increasing writeability of a system, and decreasing development time and costs.</li>
@@ -92,8 +92,8 @@
 </ul>
 
 </section>
-<section id="slide-orgad36a48">
-<h3 id="orgad36a48"><b><span class="underline">Brief History</span></b></h3>
+<section id="slide-orge406a95">
+<h3 id="orge406a95"><b><span class="underline">Brief History</span></b></h3>
 <ul>
 <li><b>Automatic Garbage Collector</b>
 <ul>
@@ -117,21 +117,21 @@
 </section>
 </section>
 <section>
-<section id="slide-org8d85ddd">
-<h2 id="org8d85ddd"><b><span class="underline">Terminology</span></b></h2>
-<div class="outline-text-2" id="text-org8d85ddd">
+<section id="slide-orgec2f45b">
+<h2 id="orgec2f45b"><b><span class="underline">Terminology</span></b></h2>
+<div class="outline-text-2" id="text-orgec2f45b">
 </div>
 </section>
-<section id="slide-orgdf7d332">
-<h3 id="orgdf7d332"><a href="https://en.wikipedia.org/wiki/Dangling_pointer"><b><span class="underline">Dangling Pointers</span></b></a></h3>
+<section id="slide-org326f5ea">
+<h3 id="org326f5ea"><a href="https://en.wikipedia.org/wiki/Dangling_pointer"><b><span class="underline">Dangling Pointers</span></b></a></h3>
 <ul>
 <li><b>Dangling pointers</b> or <b>wild pointers</b> in computer programming are pointers that do not point to a valid object of the appropriate type. These are special cases of memory safety violations. More generally, dangling references and wild references are references that do not resolve to a valid destination.</li>
 
 </ul>
 
 </section>
-<section id="slide-orgd6443c0">
-<h3 id="orgd6443c0"><a href="https://en.wikipedia.org/wiki/Dangling_pointer"><b><span class="underline">Dangling Pointers</span></b></a></h3>
+<section id="slide-orgca6e8e2">
+<h3 id="orgca6e8e2"><a href="https://en.wikipedia.org/wiki/Dangling_pointer"><b><span class="underline">Dangling Pointers</span></b></a></h3>
 
 <div class="figure">
 <p><img src="./images/Dangling_Pointer.png" alt="Dangling_Pointer.png" width="500px" />
@@ -140,22 +140,22 @@
 
 
 </section>
-<section id="slide-orgb4e311b">
-<h3 id="orgb4e311b"><b><span class="underline">Java Native Interface (JNI)</span></b></h3>
+<section id="slide-org8191f62">
+<h3 id="org8191f62"><b><span class="underline">Java Native Interface (JNI)</span></b></h3>
 <ul>
 <li><b>JNI</b> is a programming framework that enables Java code running in a Java Virtual Machine (JVM) to call and be called by native applications (programs specific to a hardware and operating system platform) and libraries written in other languages such as C, C++ and assembly.</li>
 
 </ul>
 </section>
-<section id="slide-org9fd52cf">
-<h3 id="org9fd52cf"><b><span class="underline">Garbage Collection Roots</span></b></h3>
+<section id="slide-orgea9a088">
+<h3 id="orgea9a088"><b><span class="underline">Garbage Collection Roots</span></b></h3>
 <ul>
 <li>A garbage collection root is an object that is accessible from outside the heap. Every object tree must have one or more root objects. As long as the application can reach those roots, the whole tree is reachable.</li>
 
 </ul>
 </section>
-<section id="slide-org8ccfb91">
-<h3 id="org8ccfb91"><b><span class="underline">Garbage Collection Roots</span></b></h3>
+<section id="slide-org9f682c4">
+<h3 id="org9f682c4"><b><span class="underline">Garbage Collection Roots</span></b></h3>
 <ul>
 <li><b>Local variables</b>: input parameters or locally created objects of methods that are still in the stack of a thread. For all intents and purposes, local variables are GC roots.</li>
 <li><b>Active threads</b>: A started, but not stopped thread are always considered live objects and are therefore GC roots. This is especially important for thread local variables.</li>
@@ -164,8 +164,8 @@
 
 </ul>
 </section>
-<section id="slide-orgbf627ac">
-<h3 id="orgbf627ac"><b><span class="underline">Garbage Collection Roots</span></b></h3>
+<section id="slide-orgd017776">
+<h3 id="orgd017776"><b><span class="underline">Garbage Collection Roots</span></b></h3>
 <ul>
 <li><b>System Class</b>: Class loaded by bootstrap(initial loading)/system class loader.</li>
 <li><b>JNI Local</b>: Local variable in native code, such as user defined JNI code or JVM internal code.</li>
@@ -176,8 +176,8 @@
 
 </ul>
 </section>
-<section id="slide-orga2f2392">
-<h3 id="orga2f2392"><b><span class="underline">Garbage Collection Roots</span></b></h3>
+<section id="slide-orgba1c58c">
+<h3 id="orgba1c58c"><b><span class="underline">Garbage Collection Roots</span></b></h3>
 <ul>
 <li><b>Finalizable</b>: An object which is in a queue awaiting its finalizer to be run.</li>
 <li><b>Unfinalized</b>: An object which has a finalize method, but has not been finalized and is not yet on the finalizer queue.</li>
@@ -187,16 +187,16 @@
 
 </ul>
 </section>
-<section id="slide-orgb5aefea">
-<h3 id="orgb5aefea"><b><span class="underline">Garbage Collection Roots</span></b></h3>
+<section id="slide-orga8adacc">
+<h3 id="orga8adacc"><b><span class="underline">Garbage Collection Roots</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/GCRoots.png" alt="GCRoots.png" width="750px" />
 </p>
 </div>
 </section>
-<section id="slide-org5c5e0ed">
-<h3 id="org5c5e0ed"><b><span class="underline">Garbage Collection Roots For Simple Program</span></b></h3>
+<section id="slide-org99522e3">
+<h3 id="org99522e3"><b><span class="underline">Garbage Collection Roots For Simple Program</span></b></h3>
 <ul>
 <li>A simple Java application has the following GC roots:
 <ul>
@@ -208,15 +208,15 @@
 
 </ul>
 </section>
-<section id="slide-org7f7c4fe">
-<h3 id="org7f7c4fe"><b><span class="underline">OopMap Structure</span></b></h3>
+<section id="slide-org43fdf1c">
+<h3 id="org43fdf1c"><b><span class="underline">OopMap Structure</span></b></h3>
 <ul>
 <li>OopMap is a structure that records where object references (OOPs) are located on the Java stack. Its primary purpose is to find <b><span class="underline">GC roots</span></b> on Java stacks and to update the references whenever objects are moved within the Heap.</li>
 
 </ul>
 </section>
-<section id="slide-orgbc7354a">
-<h3 id="orgbc7354a"><b><span class="underline">OopMap Structure</span></b></h3>
+<section id="slide-org77fd86b">
+<h3 id="org77fd86b"><b><span class="underline">OopMap Structure</span></b></h3>
 <ul>
 <li>There are three kinds of OopMaps:
 <ul>
@@ -228,8 +228,8 @@
 
 </ul>
 </section>
-<section id="slide-org2fe081f">
-<h3 id="org2fe081f"><b><span class="underline">GC Safepoints</span></b></h3>
+<section id="slide-orgc696c08">
+<h3 id="orgc696c08"><b><span class="underline">GC Safepoints</span></b></h3>
 <ul>
 <li>A <b><span class="underline">GC Safepoints</span></b> is a point or range in a thread's execution where the collector can identify all the references in that thread's execution stack.
 <ul>
@@ -249,55 +249,55 @@
 </section>
 </section>
 <section>
-<section id="slide-org1313f8e">
-<h2 id="org1313f8e"><b><span class="underline">Garbage Collector Terminology</span></b></h2>
-<div class="outline-text-2" id="text-org1313f8e">
+<section id="slide-orgb5d694a">
+<h2 id="orgb5d694a"><b><span class="underline">Garbage Collector Terminology</span></b></h2>
+<div class="outline-text-2" id="text-orgb5d694a">
 </div>
 </section>
-<section id="slide-org3eaa1ff">
-<h3 id="org3eaa1ff"><b><span class="underline">Parallel Collector</span></b></h3>
+<section id="slide-org9e12ad5">
+<h3 id="org9e12ad5"><b><span class="underline">Parallel Collector</span></b></h3>
 <ul>
 <li>A <span class="underline">Parallel Collector</span> uses multiple CPUs to perform Garbage Collection</li>
 
 </ul>
 </section>
-<section id="slide-orgee2146c">
-<h3 id="orgee2146c"><b><span class="underline">Concurrent Collector</span></b></h3>
+<section id="slide-org455c3c3">
+<h3 id="org455c3c3"><b><span class="underline">Concurrent Collector</span></b></h3>
 <ul>
 <li>A <span class="underline">Concurrent Collector</span> performs Garbage Collection work concurrently with the application's own execution</li>
 
 </ul>
 </section>
-<section id="slide-org0628576">
-<h3 id="org0628576"><b><span class="underline">Stop-The-World Collector</span></b></h3>
+<section id="slide-orga0991b2">
+<h3 id="orga0991b2"><b><span class="underline">Stop-The-World Collector</span></b></h3>
 <ul>
 <li>A <span class="underline">Stop-The-World Collector</span> performs Garbage Collection while the application is completely stopped</li>
 
 </ul>
 </section>
-<section id="slide-org00ac8e8">
-<h3 id="org00ac8e8"><b><span class="underline">Incremental Collector</span></b></h3>
+<section id="slide-orgf185b75">
+<h3 id="orgf185b75"><b><span class="underline">Incremental Collector</span></b></h3>
 <ul>
 <li>An <span class="underline">Incremental Collector</span> performs a Garbage Collection operation or phase as a series of smaller discrete operations with (potentially long) gaps between</li>
 
 </ul>
 </section>
-<section id="slide-orgf8940bd">
-<h3 id="orgf8940bd"><b><span class="underline">Mostly</span></b></h3>
+<section id="slide-org9ac25f8">
+<h3 id="org9ac25f8"><b><span class="underline">Mostly</span></b></h3>
 <ul>
 <li><span class="underline">Mostly</span> means sometimes it isn't (usually means a different fall back mechanism exists)</li>
 
 </ul>
 </section>
-<section id="slide-org6dcbb4d">
-<h3 id="org6dcbb4d"><b><span class="underline">Conservative Collector</span></b></h3>
+<section id="slide-org4dd34e0">
+<h3 id="org4dd34e0"><b><span class="underline">Conservative Collector</span></b></h3>
 <ul>
 <li>A Collector is <span class="underline">Conservative</span> if it is unaware of some object references at collection time, or is unsure about whether a field is a referenced or not</li>
 
 </ul>
 </section>
-<section id="slide-orgef25a24">
-<h3 id="orgef25a24"><b><span class="underline">Precice Collector</span></b></h3>
+<section id="slide-org54df64e">
+<h3 id="org54df64e"><b><span class="underline">Precice Collector</span></b></h3>
 <ul>
 <li>A Collector is <span class="underline">Precice</span> if it can fully identify and process all object references at the time of collection
 <ul>
@@ -310,8 +310,8 @@
 
 </ul>
 </section>
-<section id="slide-orgd349d78">
-<h3 id="orgd349d78"><b><span class="underline">Common to All Precise GC Mechanism</span></b></h3>
+<section id="slide-org618dd57">
+<h3 id="org618dd57"><b><span class="underline">Common to All Precise GC Mechanism</span></b></h3>
 <ul>
 <li>Identify the live objects in the memory heap</li>
 <li>Reclaim resources held by dead objects</li>
@@ -325,8 +325,8 @@
 
 </ul>
 </section>
-<section id="slide-org2313b70">
-<h3 id="org2313b70"><b><span class="underline">Mark (aka "Trace")</span></b></h3>
+<section id="slide-orgf6acc9b">
+<h3 id="orgf6acc9b"><b><span class="underline">Mark (aka "Trace")</span></b></h3>
 <ul>
 <li>Start from "roots" (thread stacks, statics, etc)</li>
 <li>"Paint" anything you can reach as "live"</li>
@@ -340,8 +340,8 @@
 
 </ul>
 </section>
-<section id="slide-org7fa8e21">
-<h3 id="org7fa8e21"><b><span class="underline">Sweep</span></b></h3>
+<section id="slide-orgc436e94">
+<h3 id="orgc436e94"><b><span class="underline">Sweep</span></b></h3>
 <ul>
 <li>Scan through the heap, identify "dead" objects and track them somehow
 <ul>
@@ -352,8 +352,8 @@
 
 </ul>
 </section>
-<section id="slide-org31cd318">
-<h3 id="org31cd318"><b><span class="underline">Compact</span></b></h3>
+<section id="slide-org4e71ed3">
+<h3 id="org4e71ed3"><b><span class="underline">Compact</span></b></h3>
 <ul>
 <li>Over time, heap will get "swiss cheesed": contiguous dead space between objects may not be large enough to fit new objects (aka "fragmentation")</li>
 <li>Compaction moves live objects together to reclaim contiguous empty space (aka "relocate")</li>
@@ -363,8 +363,8 @@
 
 </ul>
 </section>
-<section id="slide-orga790817">
-<h3 id="orga790817"><b><span class="underline">Copy</span></b></h3>
+<section id="slide-org0d3f57a">
+<h3 id="org0d3f57a"><b><span class="underline">Copy</span></b></h3>
 <ul>
 <li>A copying collector moves all live objects from a "from" space to a "to" space &amp; reclaim "from" space</li>
 <li>At start of copy, all objects are in "from" space and all references point to "from" space.</li>
@@ -374,8 +374,8 @@
 
 </ul>
 </section>
-<section id="slide-orgd5e57fe">
-<h3 id="orgd5e57fe"><b><span class="underline">Mark/Sweep/Compact, Copy, Mark/Compact</span></b></h3>
+<section id="slide-org5a474d1">
+<h3 id="org5a474d1"><b><span class="underline">Mark/Sweep/Compact, Copy, Mark/Compact</span></b></h3>
 <ul>
 <li>Copy requires 2x the max. live set to be reliable</li>
 <li>Mark/Compact [typically] requires 2x the max. live set in order to fully recover garbage in each cycle</li>
@@ -388,8 +388,8 @@
 </ul>
 
 </section>
-<section id="slide-orge679d63">
-<h3 id="orge679d63"><b><span class="underline">Generational Collection</span></b></h3>
+<section id="slide-orgb2dc8ea">
+<h3 id="orgb2dc8ea"><b><span class="underline">Generational Collection</span></b></h3>
 <ul>
 <li>Generational Hypothesis: most objects die young</li>
 <li>Focus collection efforts on young generation:
@@ -413,8 +413,8 @@
 </ul>
 
 </section>
-<section id="slide-org84bb8b9">
-<h3 id="org84bb8b9"><b><span class="underline">Generational Collection</span></b></h3>
+<section id="slide-orga30b4bd">
+<h3 id="orga30b4bd"><b><span class="underline">Generational Collection</span></b></h3>
 <ul>
 <li>Requires a "Remembered set": a way to track all references into the young generatin from the outside</li>
 <li>Remembered set is also part of "roots" for young generation collection</li>
@@ -429,8 +429,8 @@
 </ul>
 
 </section>
-<section id="slide-org5da7a26">
-<h3 id="org5da7a26"><b><span class="underline">How Does The Remembered Set Work?</span></b></h3>
+<section id="slide-orge6f10fa">
+<h3 id="orge6f10fa"><b><span class="underline">How Does The Remembered Set Work?</span></b></h3>
 <ul>
 <li>Generational collectors require a "Remembered set": a way to track all references into the young generation from the outside</li>
 <li>Each store of a NewGen reference into and OldGen object needs to be intercepted and tracked</li>
@@ -449,8 +449,8 @@
 </ul>
 
 </section>
-<section id="slide-org84af067">
-<h3 id="org84af067"><b><span class="underline">The Typical Combos In Commercial Server JVMs</span></b></h3>
+<section id="slide-org4394acc">
+<h3 id="org4394acc"><b><span class="underline">The Typical Combos In Commercial Server JVMs</span></b></h3>
 <ul>
 <li>Young generation <span class="underline">usually</span> uses a copying collector</li>
 <li>Young generation is <span class="underline">usually</span> monolithic, stop-the-world</li>
@@ -461,8 +461,8 @@
 </section>
 </section>
 <section>
-<section id="slide-org62b7882">
-<h2 id="org62b7882"><b><span class="underline">Useful Terms</span></b></h2>
+<section id="slide-org5980387">
+<h2 id="org5980387"><b><span class="underline">Useful Terms</span></b></h2>
 <ul>
 <li><b>Mutator</b>: Your program&#x2026;</li>
 <li><b>Parallel</b>: Can use multiple CPUs</li>
@@ -473,8 +473,8 @@
 
 </ul>
 </section>
-<section id="slide-org658b519">
-<h3 id="org658b519"><b><span class="underline">Useful Terms</span></b></h3>
+<section id="slide-orgc6458a2">
+<h3 id="orgc6458a2"><b><span class="underline">Useful Terms</span></b></h3>
 <ul>
 <li><b>Generational</b>: Collects young objects and long lived objects separately</li>
 <li><b>Promotion</b>: Allocation into old generation</li>
@@ -493,8 +493,8 @@
 </section>
 </section>
 <section>
-<section id="slide-orga74a638">
-<h2 id="orga74a638"><b><span class="underline">Useful Metrics</span></b></h2>
+<section id="slide-orgd4d7017">
+<h2 id="orgd4d7017"><b><span class="underline">Useful Metrics</span></b></h2>
 <ul>
 <li><b>Heap Population</b> (aka Live set): How much of your heap is alive</li>
 <li><b>Allocation Rate</b>: How fast you allocate</li>
@@ -504,8 +504,8 @@
 
 </ul>
 </section>
-<section id="slide-orga09fbc3">
-<h3 id="orga09fbc3"><b><span class="underline">Useful Metrics</span></b></h3>
+<section id="slide-orgd25add4">
+<h3 id="orgd25add4"><b><span class="underline">Useful Metrics</span></b></h3>
 <ul>
 <li><b>Cycle Time</b>: How long it takes the collector to free up memory</li>
 <li><b>Marking Time</b>: How long it takes the collector to find all live objects</li>
@@ -516,13 +516,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgc4c687f">
-<h2 id="orgc4c687f"><b><span class="underline">Memory Management</span></b></h2>
-<div class="outline-text-2" id="text-orgc4c687f">
+<section id="slide-org4e26e90">
+<h2 id="org4e26e90"><b><span class="underline">Memory Management</span></b></h2>
+<div class="outline-text-2" id="text-org4e26e90">
 </div>
 </section>
-<section id="slide-org3baff8c">
-<h3 id="org3baff8c"><b><span class="underline">Java Virtual Machine Generations</span></b></h3>
+<section id="slide-orgd84ea00">
+<h3 id="orgd84ea00"><b><span class="underline">Java Virtual Machine Generations</span></b></h3>
 <ul>
 <li>The Heap is broken up into smaller parts of generations:
 <ul>
@@ -539,31 +539,31 @@
 </p>
 </div>
 </section>
-<section id="slide-org2a84efa">
-<h3 id="org2a84efa"><b><span class="underline">Young Generation</span></b></h3>
+<section id="slide-orgadbb4a5">
+<h3 id="orgadbb4a5"><b><span class="underline">Young Generation</span></b></h3>
 <ul>
 <li>The <b>Young Generation</b> is where all new objects are allocated and aged. When the young generation fills up, this causes a <b>minor garbage collection</b>. Minor collections can be optimized assuming a high object mortality rate. A young generation full of dead objects is collected very quickly. Some surviving objects are aged and eventually move to the old generation.</li>
 
 </ul>
 </section>
-<section id="slide-org3eab418">
-<h3 id="org3eab418"><b><span class="underline">Old Generation</span></b></h3>
+<section id="slide-org61e1902">
+<h3 id="org61e1902"><b><span class="underline">Old Generation</span></b></h3>
 <ul>
 <li>The <b>Old Generation</b> is used to store long surviving objects. Typically, a threshold is set for young generation object and when that age is met, the object gets moved to the old generation. Eventually the old generation needs to be collected. This event is called a <b>major garbage collection</b>.</li>
 <li><b>Major garbage collection</b> are also <b>Stop the World</b> events. Often a major collection is much slower because it involves all live objects. So for Responsive applications, major garbage collections should be minimized. Also note, that the length of the Stop the World event for a major garbage collection is affected by the kind of garbage collector that is used for the old generation space.</li>
 
 </ul>
 </section>
-<section id="slide-org32d68c2">
-<h3 id="org32d68c2"><b><span class="underline">Permanent Generation</span></b></h3>
+<section id="slide-org7b068a4">
+<h3 id="org7b068a4"><b><span class="underline">Permanent Generation</span></b></h3>
 <ul>
 <li>The <b>Permanent generation</b> contains metadata required by the JVM to describe the classes and methods used in the application. The permanent generation is populated by the JVM at runtime based on classes in use by the application. In addition, Java SE library classes and methods may be stored here.</li>
 <li>Classes may get collected (unloaded) if the JVM finds they are no longer needed and space may be needed for other classes. The permanent generation is included in a full garbage collection.</li>
 
 </ul>
 </section>
-<section id="slide-org6e8bf6c">
-<h3 id="org6e8bf6c"><b><span class="underline">Object Allocation Phases</span></b></h3>
+<section id="slide-orgb68336f">
+<h3 id="orgb68336f"><b><span class="underline">Object Allocation Phases</span></b></h3>
 <ul>
 <li>First, any new objects are allocated to the eden space. Both survivor spaces start out empty.</li>
 
@@ -574,8 +574,8 @@
 </p>
 </div>
 </section>
-<section id="slide-orgb263a26">
-<h3 id="orgb263a26"><b><span class="underline">Object Allocation Phases</span></b></h3>
+<section id="slide-orgeed47b5">
+<h3 id="orgeed47b5"><b><span class="underline">Object Allocation Phases</span></b></h3>
 <ul>
 <li>When the eden space fills up, a minor garbage collection is triggered.</li>
 
@@ -586,8 +586,8 @@
 </p>
 </div>
 </section>
-<section id="slide-orgcc2ace3">
-<h3 id="orgcc2ace3"><b><span class="underline">Object Allocation Phases</span></b></h3>
+<section id="slide-org9f71a3a">
+<h3 id="org9f71a3a"><b><span class="underline">Object Allocation Phases</span></b></h3>
 <ul>
 <li>Referenced objects are moved to the first survivor space. Unreferenced objects are deleted when the eden space is cleared.</li>
 
@@ -598,23 +598,23 @@
 </p>
 </div>
 </section>
-<section id="slide-orga2a122b">
-<h3 id="orga2a122b"><b><span class="underline">Object Allocation Phases</span></b></h3>
+<section id="slide-org328bd84">
+<h3 id="org328bd84"><b><span class="underline">Object Allocation Phases</span></b></h3>
 <ul>
 <li>At the next minor GC, the same thing happens for the eden space. Unreferenced objects are deleted and referenced objects are moved to a survivor space. However, in this case, they are moved to the second survivor space (S1). In addition, objects from the last minor GC on the first survivor space (S0) have their age incremented and get moved to S1. Once all surviving objects have been moved to S1, both S0 and eden are cleared. Notice we now have differently aged object in the survivor space.</li>
 
 </ul>
 </section>
-<section id="slide-org750ea7d">
-<h3 id="org750ea7d"><b><span class="underline">Object Allocation Phases</span></b></h3>
+<section id="slide-org7431a41">
+<h3 id="org7431a41"><b><span class="underline">Object Allocation Phases</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/Slide8.png" alt="Slide8.png" />
 </p>
 </div>
 </section>
-<section id="slide-org9ef156d">
-<h3 id="org9ef156d"><b><span class="underline">Object Allocation Phases</span></b></h3>
+<section id="slide-orge6cff46">
+<h3 id="orge6cff46"><b><span class="underline">Object Allocation Phases</span></b></h3>
 <ul>
 <li>At the next minor GC, the same process repeats. However this time the survivor spaces switch. Referenced objects are moved to S0. Surviving objects are aged. Eden and S1 are cleared.</li>
 
@@ -625,8 +625,8 @@
 </p>
 </div>
 </section>
-<section id="slide-orgfd412cd">
-<h3 id="orgfd412cd"><b><span class="underline">Object Allocation Phases</span></b></h3>
+<section id="slide-org21e3655">
+<h3 id="org21e3655"><b><span class="underline">Object Allocation Phases</span></b></h3>
 <ul>
 <li>This slide demonstrates promotion. After a minor GC, when aged objects reach a certain age threshold (8 in this example) they are promoted from young generation to old generation.</li>
 
@@ -637,8 +637,8 @@
 </p>
 </div>
 </section>
-<section id="slide-org1c65a94">
-<h3 id="org1c65a94"><b><span class="underline">Object Allocation Phases</span></b></h3>
+<section id="slide-org31f14cb">
+<h3 id="org31f14cb"><b><span class="underline">Object Allocation Phases</span></b></h3>
 <ul>
 <li>As minor GCs continue to occure objects will continue to be promoted to the old generation space.</li>
 
@@ -649,8 +649,8 @@
 </p>
 </div>
 </section>
-<section id="slide-orgb41f441">
-<h3 id="orgb41f441"><b><span class="underline">Object Allocation Phases</span></b></h3>
+<section id="slide-org5d567a5">
+<h3 id="org5d567a5"><b><span class="underline">Object Allocation Phases</span></b></h3>
 <ul>
 <li>So that pretty much covers the entire process with the young generation. Eventually, a major GC will be performed on the old generation which cleans up and compacts that space.</li>
 
@@ -663,13 +663,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org0e19aab">
-<h2 id="org0e19aab"><b><span class="underline">Garbage Collection Algorithms</span></b></h2>
-<div class="outline-text-2" id="text-org0e19aab">
+<section id="slide-org57738f3">
+<h2 id="org57738f3"><b><span class="underline">Garbage Collection Algorithms</span></b></h2>
+<div class="outline-text-2" id="text-org57738f3">
 </div>
 </section>
-<section id="slide-orgf4c9e4f">
-<h3 id="orgf4c9e4f"><b><span class="underline">References Counting Algorithm</span></b></h3>
+<section id="slide-org6722726">
+<h3 id="org6722726"><b><span class="underline">References Counting Algorithm</span></b></h3>
 <ul>
 <li><b>Algorithm</b>:
 <ul>
@@ -680,16 +680,16 @@
 
 </ul>
 </section>
-<section id="slide-org08656e1">
-<h3 id="org08656e1"><b><span class="underline">References Counting Algorithm</span></b></h3>
+<section id="slide-org9cfe8ff">
+<h3 id="org9cfe8ff"><b><span class="underline">References Counting Algorithm</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/RefcountAlgorithm.gif" alt="RefcountAlgorithm.gif" width="800px" />
 </p>
 </div>
 </section>
-<section id="slide-org5c77377">
-<h3 id="org5c77377"><b><span class="underline">References Counting Algorithm</span></b></h3>
+<section id="slide-org587b6e7">
+<h3 id="org587b6e7"><b><span class="underline">References Counting Algorithm</span></b></h3>
 <ul>
 <li><b>Pros</b>:
 <ul>
@@ -701,8 +701,8 @@
 
 </ul>
 </section>
-<section id="slide-org4ab9a0c">
-<h3 id="org4ab9a0c"><b><span class="underline">References Counting Algorithm</span></b></h3>
+<section id="slide-orga36626e">
+<h3 id="orga36626e"><b><span class="underline">References Counting Algorithm</span></b></h3>
 <ul>
 <li><b>Cons</b>:
 <ul>
@@ -718,8 +718,8 @@
 
 </ul>
 </section>
-<section id="slide-org3784af3">
-<h3 id="org3784af3"><b><span class="underline">References Counting Algorithm</span></b></h3>
+<section id="slide-orge33b21c">
+<h3 id="orge33b21c"><b><span class="underline">References Counting Algorithm</span></b></h3>
 <ul>
 <li><b>Cons</b>:
 <ul>
@@ -729,8 +729,8 @@
 
 </ul>
 </section>
-<section id="slide-orga9eea5f">
-<h3 id="orga9eea5f"><b><span class="underline">References Counting Algorithm</span></b></h3>
+<section id="slide-orgc83c6b7">
+<h3 id="orgc83c6b7"><b><span class="underline">References Counting Algorithm</span></b></h3>
 <ul>
 <li><b>Cons</b>:
 <ul>
@@ -740,22 +740,22 @@
 
 </ul>
 </section>
-<section id="slide-orgdc87598">
-<h3 id="orgdc87598"><b><span class="underline">References Counting Algorithm</span></b></h3>
+<section id="slide-org342017c">
+<h3 id="org342017c"><b><span class="underline">References Counting Algorithm</span></b></h3>
 <ul>
 <li>Reference counting is not used in general purpose programming languages because of the above mentioned disadvantages. It is mostly used in applications such as file, disk block management system and some simple graphic toolkits.</li>
 
 </ul>
 </section>
-<section id="slide-orgef6d9ee">
-<h3 id="orgef6d9ee"><b><span class="underline">Mark-Sweep Algorithm</span></b></h3>
+<section id="slide-org1bc8c12">
+<h3 id="org1bc8c12"><b><span class="underline">Mark-Sweep Algorithm</span></b></h3>
 <ul>
 <li>Whereas the Reference Counting Algorithm is at work every time an object is referenced or dereferenced,    Mark-Sweep is usually run at specified time intervals.</li>
 
 </ul>
 </section>
-<section id="slide-org5153f6e">
-<h3 id="org5153f6e"><b><span class="underline">Mark-Sweep Algorithm</span></b></h3>
+<section id="slide-org1448c9f">
+<h3 id="org1448c9f"><b><span class="underline">Mark-Sweep Algorithm</span></b></h3>
 <ul>
 <li><b>Algorithm</b>:</li>
 <li><b>Step 1</b>: Starting from the root set, we trace through our graph of memory. Mark all objects reached.</li>
@@ -763,8 +763,8 @@
 
 </ul>
 </section>
-<section id="slide-orge9eec4b">
-<h3 id="orge9eec4b"><b><span class="underline">Mark-Sweep Algorithm</span></b></h3>
+<section id="slide-orgbe8abb3">
+<h3 id="orgbe8abb3"><b><span class="underline">Mark-Sweep Algorithm</span></b></h3>
 <ul>
 <li><b>Pros</b>:
 <ul>
@@ -775,8 +775,8 @@
 </ul>
 
 </section>
-<section id="slide-orged05e1e">
-<h3 id="orged05e1e"><b><span class="underline">Mark-Sweep Algorithm</span></b></h3>
+<section id="slide-orgd5cb7d5">
+<h3 id="orgd5cb7d5"><b><span class="underline">Mark-Sweep Algorithm</span></b></h3>
 <ul>
 <li><b>Cons</b>:
 <ul>
@@ -788,8 +788,8 @@
 </ul>
 
 </section>
-<section id="slide-orgf680dc2">
-<h3 id="orgf680dc2"><b><span class="underline">Mark-Compact Algorithm</span></b></h3>
+<section id="slide-orgbfbda73">
+<h3 id="orgbfbda73"><b><span class="underline">Mark-Compact Algorithm</span></b></h3>
 <ul>
 <li>This algorithm is essentially a variaton on the Mark-Sweep algorithm just described.</li>
 <li><b>Algorithm</b>:
@@ -801,8 +801,8 @@
 
 </ul>
 </section>
-<section id="slide-org3f12137">
-<h3 id="org3f12137"><b><span class="underline">Mark-Compact Algorithm</span></b></h3>
+<section id="slide-orgc454109">
+<h3 id="orgc454109"><b><span class="underline">Mark-Compact Algorithm</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/markcoll.gif" alt="markcoll.gif" />
@@ -810,8 +810,8 @@
 </div>
 
 </section>
-<section id="slide-org9800566">
-<h3 id="org9800566"><b><span class="underline">Mark-Compact Algorithm</span></b></h3>
+<section id="slide-orgf44d01b">
+<h3 id="orgf44d01b"><b><span class="underline">Mark-Compact Algorithm</span></b></h3>
 <ul>
 <li><b>Pros</b>:
 <ul>
@@ -822,8 +822,8 @@
 
 </ul>
 </section>
-<section id="slide-org0ffa0bb">
-<h3 id="org0ffa0bb"><b><span class="underline">Mark-Compact Algorithm</span></b></h3>
+<section id="slide-org912e46b">
+<h3 id="org912e46b"><b><span class="underline">Mark-Compact Algorithm</span></b></h3>
 <ul>
 <li><b>Cons</b>:
 <ul>
@@ -833,15 +833,15 @@
 
 </ul>
 </section>
-<section id="slide-orga1bf0d6">
-<h3 id="orga1bf0d6"><b><span class="underline">Copying Garbage Collection</span></b></h3>
+<section id="slide-org9cbfe13">
+<h3 id="org9cbfe13"><b><span class="underline">Copying Garbage Collection</span></b></h3>
 <ul>
 <li>Like the Mark-Sweep algorithm, Copying garbage collection does not really collect garbage. The collector moves all live objects into an area of memory, so the rest of the heap is available to be used by the program since it contains garbage. This method integrates the copying process into the data transversal, so an object will only be visited once.</li>
 
 </ul>
 </section>
-<section id="slide-org92573df">
-<h3 id="org92573df"><b><span class="underline">Copying Garbage Collection: Stop&amp;Copy</span></b></h3>
+<section id="slide-orgecd4b40">
+<h3 id="orgecd4b40"><b><span class="underline">Copying Garbage Collection: Stop&amp;Copy</span></b></h3>
 <ul>
 <li>In this method the heap space is divided into two contiguous semispaces (fromspace and tospace). During program execution, only one of these spaces is used.</li>
 <li>Memory is allocated linearly upwards in the current semispace as demanded by the execution program. When the space is exhausted the program is stopped and the garbage collector is executed.</li>
@@ -849,24 +849,24 @@
 
 </ul>
 </section>
-<section id="slide-org5a477ae">
-<h3 id="org5a477ae"><b><span class="underline">Copying Garbage Collection: Stop&amp;Copy</span></b></h3>
+<section id="slide-org0367c76">
+<h3 id="org0367c76"><b><span class="underline">Copying Garbage Collection: Stop&amp;Copy</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/copy1.gif" alt="copy1.gif" />
 </p>
 </div>
 </section>
-<section id="slide-orgada4996">
-<h3 id="orgada4996"><b><span class="underline">Copying Garbage Collection: Stop&amp;Copy</span></b></h3>
+<section id="slide-org20fce19">
+<h3 id="org20fce19"><b><span class="underline">Copying Garbage Collection: Stop&amp;Copy</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/copy2.gif" alt="copy2.gif" />
 </p>
 </div>
 </section>
-<section id="slide-org1dea588">
-<h3 id="org1dea588"><b><span class="underline">Copying Garbage Collection: Cheney's Algorithm</span></b></h3>
+<section id="slide-org95c3a09">
+<h3 id="org95c3a09"><b><span class="underline">Copying Garbage Collection: Cheney's Algorithm</span></b></h3>
 <ul>
 <li>Form an initial queue of objects which can be immediately reached from the root set.</li>
 <li>A "scan" pointer is advanced through the objects location by location. Every time a pointer into fromspace is encountered, the object the pointer refers to is copied to the end of the queue.</li>
@@ -874,24 +874,24 @@
 
 </ul>
 </section>
-<section id="slide-orgcc8a829">
-<h3 id="orgcc8a829"><b><span class="underline">Copying Garbage Collection: Cheney's Algorithm</span></b></h3>
+<section id="slide-org0d928aa">
+<h3 id="org0d928aa"><b><span class="underline">Copying Garbage Collection: Cheney's Algorithm</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/cheney1.gif" alt="cheney1.gif" />
 </p>
 </div>
 </section>
-<section id="slide-orgd03d370">
-<h3 id="orgd03d370"><b><span class="underline">Copying Garbage Collection: Cheney's Algorithm</span></b></h3>
+<section id="slide-org794970e">
+<h3 id="org794970e"><b><span class="underline">Copying Garbage Collection: Cheney's Algorithm</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/cheney2.gif" alt="cheney2.gif" />
 </p>
 </div>
 </section>
-<section id="slide-org3db24db">
-<h3 id="org3db24db"><b><span class="underline">Copying Garbage Collection: Cheney's Algorithm</span></b></h3>
+<section id="slide-org864f190">
+<h3 id="org864f190"><b><span class="underline">Copying Garbage Collection: Cheney's Algorithm</span></b></h3>
 <ul>
 <li><b>Advantages</b>:
 <ul>
@@ -907,8 +907,8 @@
 
 </ul>
 </section>
-<section id="slide-org129bcd4">
-<h3 id="org129bcd4"><b><span class="underline">Non-Copying Implicit Collector</span></b></h3>
+<section id="slide-org9a81019">
+<h3 id="org9a81019"><b><span class="underline">Non-Copying Implicit Collector</span></b></h3>
 <ul>
 <li>This method is similar to the copying collector just described.</li>
 <li>In the copying collector, the set is an area of memory.</li>
@@ -918,8 +918,8 @@
 
 </ul>
 </section>
-<section id="slide-org9c435d7">
-<h3 id="org9c435d7"><b><span class="underline">Non-Copying Implicit Collector</span></b></h3>
+<section id="slide-org13638e7">
+<h3 id="org13638e7"><b><span class="underline">Non-Copying Implicit Collector</span></b></h3>
 <ul>
 <li><b>Advantages over copying</b>:
 <ul>
@@ -937,8 +937,8 @@
 
 </ul>
 </section>
-<section id="slide-org8018c48">
-<h3 id="org8018c48"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
+<section id="slide-org962fe3b">
+<h3 id="org962fe3b"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
 <ul>
 <li><b>Why Incremental?</b>
 <ul>
@@ -950,8 +950,8 @@
 
 </ul>
 </section>
-<section id="slide-org486318e">
-<h3 id="org486318e"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
+<section id="slide-org0b5b82f">
+<h3 id="org0b5b82f"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
 <ul>
 <li><b>Tricolor Marking and Coherence</b>
 <ul>
@@ -979,16 +979,16 @@
 
 </ul>
 </section>
-<section id="slide-orgba97787">
-<h3 id="orgba97787"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
+<section id="slide-orgfc17ef7">
+<h3 id="orgfc17ef7"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/Tricolor.jpg" alt="Tricolor.jpg" width="700px" />
 </p>
 </div>
 </section>
-<section id="slide-orgefbe848">
-<h3 id="orgefbe848"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
+<section id="slide-org28a5e4f">
+<h3 id="org28a5e4f"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
 <ul>
 <li>The collector examines all data objects that are in use by starting with the root stack and making successive waves of examining objects.</li>
 <li><b>step 1</b>
@@ -1001,6 +1001,12 @@
 <li>Each gray object is viewed in turn and all of its child objects (objects pointed to by it) are colored gray, and then it is colored black.</li>
 
 </ul></li>
+
+</ul>
+</section>
+<section id="slide-orgfaa08f3">
+<h3 id="orgfaa08f3"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
+<ul>
 <li><b>step 3</b>
 <ul>
 <li>The mutator makes a change in the graph of objects by swapping the pointers A-&gt;C and B-&gt;D. Now when the collector looks at object B, it is only pointing to object C, which is already gray.</li>
@@ -1014,8 +1020,8 @@
 
 </ul>
 </section>
-<section id="slide-org8210124">
-<h3 id="org8210124"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
+<section id="slide-org7b9303e">
+<h3 id="org7b9303e"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
 <ul>
 <li><b>Maintaining Coherence</b> There are two basic approaches to coordinating the collector with the mutator:
 <ul>
@@ -1025,15 +1031,15 @@
 
 </ul>
 </section>
-<section id="slide-orgadfe528">
-<h3 id="orgadfe528"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
+<section id="slide-orga0f4b7e">
+<h3 id="orga0f4b7e"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
 <ul>
 <li><b>Write Barrier</b> - On the write side, the mutator must do two things to fool the incremental garbage collector. First it must write a pointer from a black object to a white object, and second, it must destroy the original pointer to the white object before the collector gets to it. Since it must do both of these things, a write barrier would only have to prevent one of them from succeeding to maintain coherence.</li>
 
 </ul>
 </section>
-<section id="slide-org97536c6">
-<h3 id="org97536c6"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
+<section id="slide-org178b4dc">
+<h3 id="org178b4dc"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
 <ul>
 <li><b>Write Barrier</b> <i>incremental update</i>
 <ul>
@@ -1043,8 +1049,8 @@
 
 </ul>
 </section>
-<section id="slide-org4b86ce3">
-<h3 id="org4b86ce3"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
+<section id="slide-orgfb1498e">
+<h3 id="orgfb1498e"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
 <ul>
 <li><b>Write Barrier</b> <i>snapshot-at-beginning</i>
 <ul>
@@ -1054,33 +1060,39 @@
 
 </ul>
 </section>
-<section id="slide-orgae895de">
-<h3 id="orgae895de"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
+<section id="slide-orgc4a94f0">
+<h3 id="orgc4a94f0"><b><span class="underline">Incremental Garbage Collection</span></b></h3>
 <ul>
 <li>Both <b>Read</b> and <b>Write barriers</b> are usually implemented in software by having the compiler add instructions in the appropriate place. The overhead for this is great, but less so for the write barriers because heap writes tend to be less common than heap reads. For the read barriers, tens of percent was a common estimate for the increase in overhead</li>
 
 </ul>
 </section>
-<section id="slide-org64eac9c">
-<h3 id="org64eac9c"><b><span class="underline">Generational Garbage Collection</span></b></h3>
+<section id="slide-org5e08672">
+<h3 id="org5e08672"><b><span class="underline">Generational Garbage Collection</span></b></h3>
 <ul>
 <li>One of the limitations of simple garbage collection algorithms is that the system has to analyze all the data in heap. For example, a Copying Algorithm has to copy all the live data every time it used. This may cause significant increases in execution time.</li>
 <li>Studies in 1970s and 1980s found that large Lisp programs were spending from 25 to 40 percent of their execution time for garbage collection.</li>
+
+</ul>
+</section>
+<section id="slide-orgded6e0a">
+<h3 id="orgded6e0a"><b><span class="underline">Generational Garbage Collection</span></b></h3>
+<ul>
 <li>Other studies show that most objects live for very short time (the so-called "weak generational hypothesis"), so most objects have to be deallocated during the next garbage collection.</li>
 <li>The opposing theory, the "strong generational hypothesis", which states that the older an object is, the more likely it is to die, does not appear to hold. Object lifetime distribution does not fall smoothly, and if an object has survived a few collections, it is likely to live quite long.</li>
 
 </ul>
 </section>
-<section id="slide-org20d05e5">
-<h3 id="org20d05e5"><b><span class="underline">Generational Garbage Collection</span></b></h3>
+<section id="slide-orgc3dc5b0">
+<h3 id="orgc3dc5b0"><b><span class="underline">Generational Garbage Collection</span></b></h3>
 <ul>
 <li><b>Implication</b>: if we can concentrate on collection of young objects and do not touch too often older ones, the amount of data that has to be analyzed and copied is considerably reduced. We can therefore make significant gains in garbage collection efficiency.</li>
 <li>This approach, which allows us to avoid analyzing older objects during each collection (thus keeping the costs of collection down), is called <b>Generational Collection</b>.</li>
 
 </ul>
 </section>
-<section id="slide-org3c6985a">
-<h3 id="org3c6985a"><b><span class="underline">Generational Garbage Collection</span></b></h3>
+<section id="slide-org6e53018">
+<h3 id="org6e53018"><b><span class="underline">Generational Garbage Collection</span></b></h3>
 <ul>
 <li>How does it work?
 <ul>
@@ -1091,8 +1103,8 @@
 
 </ul>
 </section>
-<section id="slide-orgd2a715b">
-<h3 id="orgd2a715b"><b><span class="underline">Generational Garbage Collection</span></b></h3>
+<section id="slide-org9bfca8b">
+<h3 id="org9bfca8b"><b><span class="underline">Generational Garbage Collection</span></b></h3>
 <ul>
 <li>How does it work?
 <ul>
@@ -1107,8 +1119,8 @@
 </p>
 </div>
 </section>
-<section id="slide-org6ebb8a7">
-<h3 id="org6ebb8a7"><b><span class="underline">Generational Garbage Collection</span></b></h3>
+<section id="slide-org2d68e31">
+<h3 id="org2d68e31"><b><span class="underline">Generational Garbage Collection</span></b></h3>
 <ul>
 <li>How does it work?
 <ul>
@@ -1123,8 +1135,8 @@
 </p>
 </div>
 </section>
-<section id="slide-orge56abaa">
-<h3 id="orge56abaa"><b><span class="underline">Generational Garbage Collection</span></b></h3>
+<section id="slide-org5eb7486">
+<h3 id="org5eb7486"><b><span class="underline">Generational Garbage Collection</span></b></h3>
 <ul>
 <li><b>Difficulties with Generational Collection</b>:
 <ul>
@@ -1136,8 +1148,8 @@
 
 </ul>
 </section>
-<section id="slide-orgef6ca76">
-<h3 id="orgef6ca76"><b><span class="underline">Generational Garbage Collection</span></b></h3>
+<section id="slide-orge75a888">
+<h3 id="orge75a888"><b><span class="underline">Generational Garbage Collection</span></b></h3>
 <ul>
 <li><b>Difficulties with Generational Collection</b>:
 <ul>
@@ -1153,8 +1165,8 @@
 
 </ul>
 </section>
-<section id="slide-org103471a">
-<h3 id="org103471a"><b><span class="underline">Generational Garbage Collection</span></b></h3>
+<section id="slide-orgaa70b1a">
+<h3 id="orgaa70b1a"><b><span class="underline">Generational Garbage Collection</span></b></h3>
 <ul>
 <li><b>Overall</b>: generational collection significantly improves the performance of collectors for most of programs. Such collectors are in widespread use</li>
 
@@ -1197,7 +1209,58 @@ multiplex: {
 // Optional libraries used to extend on reveal.js
 dependencies: [
  { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
-});
+,  audio: {
+    advance: -1, autoplay: true, defaultDuration: 0, playerOpacity: 0.3,
+    playerStyle: 'position: fixed; bottom: 9.5vh; left: 0%; width: 30%; height:30px; z-index: 33;' },
+  anything: [
+	{className: "animate",  initialize: (function(container, options){
+		Reveal.addEventListener( 'fragmentshown', function( event ) {
+			if (typeof event.fragment.beginElement === "function" ) {
+				event.fragment.beginElement();
+			}
+		});
+		Reveal.addEventListener( 'fragmenthidden', function( event ) {
+			if (event.fragment.hasAttribute('data-reverse') ) {
+				var reverse = event.fragment.parentElement.querySelector('[id=\"' + event.fragment.getAttribute('data-reverse') + '\"]');
+				if ( reverse && typeof reverse.beginElement === "function" ) {
+					reverse.beginElement();
+				}
+			}
+		});
+		if ( container.getAttribute("data-svg-src") ) {
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function() {
+				if (xhr.readyState === 4) {
+					var svg = container.querySelector('svg');
+					container.removeChild( svg );
+					container.innerHTML = xhr.responseText + container.innerHTML;
+					if ( svg ) {
+						container.querySelector('svg').innerHTML = container.querySelector('svg').innerHTML + svg.innerHTML;
+					}
+				}
+				else {
+					console.warn( "Failed to get file. ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
+				}
+			};
+			xhr.open( 'GET', container.getAttribute("data-svg-src"), true );
+			xhr.send();
+		}
+	}) },
+	{className: "randomPic",
+	 defaults: {imgalt: "Dummy alt text",
+		    imgcaption: "Image by {name}",
+		    choices: [ {name: "dummyname", path: "dummypath"} ]},
+	 initialize: (function(container, options){
+	     var choice = Math.trunc( Math.random()*(options.choices.length) );
+	     var img = "<img src='" + options.choices[choice].path + "' alt='" + options.choices[choice].imgalt + "' />";
+	     var caption = options.imgcaption.replace(new RegExp('\{name\}', 'gm'), options.choices[choice].name);
+	     container.innerHTML = img + caption;
+	 }) },
+	{className: "notes",
+	 initialize: (function(container, options){
+	     container.addEventListener('click', function(e) { RevealNotes.open(); });
+	 }) }
+],});
 </script>
 </body>
 </html>
