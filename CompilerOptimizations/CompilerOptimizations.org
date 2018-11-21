@@ -571,5 +571,38 @@ int sub (int x, int y)
 # minus2 -- c2
 # }
 # #+END_SRC
-#+ATTR_HTML: :width 600px;
-[[./images/DAG.png]][[file:./images/DAG.png]]
+#+ATTR_HTML: :width 500px
+[[./images/DAG.png]]
+** *_Directed Acyclic Graphs (DAGs)_*
+- The DAG can be built from the AST by doing a post-order traversal, constructing each node and linking to an existing node if the constructed already exists in the DAG, otherwise add the constructed node to the DAG
+** *_3-Address Code_*
+- In /3-address code/ there is at most one operator on the right-hand of an instruction and at most three names. Hence, in /3-address code/, the valid instructions for expressions are:
+  - /x = y op z/
+  - /x = op y/
+  - /x = op/
+- Complex expressions in the source language can be translated in a sequence of /3-address code/ instructions.
+- /3-address code/ is actually *linearized* version of an AST or DAG
+- {{{color(red, Typicall statements types:)}}}
+  - *assignments*: /x = y op z/, /x = y[i]/
+  - *branches*: /goto L/, /if x relop y goto L/
+  - *procedure calls* and *procedure returns*: /param x, call p/, /return/
+  - *address and pointer assignments*: /x = &y/, /x = *y/, /*x = y/
+** *_Stack Machine Code_*
+- Can simplify /IR/ by assuming implicit stack:
+  - /z = x - 2 * y/ becomes
+#+BEGIN_SRC asm
+push z
+push x
+push 2
+push y
+multiply
+substract
+store
+#+END_SRC
+- {{{color(red, Advantages:)}}}
+  - compact form
+  - introduced names are implicit, not explicit
+  - simple to generate and execute code
+- {{{color(red, Disadvantages:)}}}
+  - processors operate on registers, not stacks
+  - difficult to reuse values on the stack
