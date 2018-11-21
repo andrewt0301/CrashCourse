@@ -514,7 +514,27 @@ int sub (int x, int y)
   - Freedom of expression
   - Level of abstraction
 - The importance of different properties varies between compilers
-  - Selecting an appropriate /IR/ for a compiler is critical
+  - Selecting anappropriate /IR/ for a compiler is critical
+** *_Level of Abstraction: High_*
+- Operands look a lot like the source language, with structured objects like arrays and structs.
+- Keep structure of source language program explicit
+- Source program can be reconstructed from it
+- Operands are semantic objects, including arrays and structs
+- No breaking down of array indexing computations
+- No thought of registers
+- No concern for runtime systems
+** *_Level of Abstraction: Medium_*
+- There are no structured objects, but still target language independent
+- Can be source or target oriented
+- Language and machine independent
+- Break down data structure references to deal only with simple integers and floats
+- Great for architecture-independent optimizations
+** *_Level of Abstraction: Low_*
+- Operands are extremely close to target machine
+- Architecture dependent
+- Deviates from target language only in its inclusion of pseudo-operations and symbolic (virtual) registers
+- Inimately concerned with run-time storage management issues like stake frames and parameter passing
+- Used for architecture dependent optimizations
 ** *_Styles of IR_*
 - Intermediate representations are usually:
   - Structural
@@ -587,6 +607,11 @@ int sub (int x, int y)
   - *branches*: /goto L/, /if x relop y goto L/
   - *procedure calls* and *procedure returns*: /param x, call p/, /return/
   - *address and pointer assignments*: /x = &y/, /x = *y/, /*x = y/
+** *_3-Address Code_*
+- {{{color(red: Advantages)}}}
+  - Resembles many machines
+  - Introduces a new set of machines (the temp results)
+  - Compact form
 ** *_Stack Machine Code_*
 - Can simplify /IR/ by assuming implicit stack:
   - /z = x - 2 * y/ becomes
@@ -603,6 +628,18 @@ store
   - compact form
   - introduced names are implicit, not explicit
   - simple to generate and execute code
+  - Useful where code is transmitted over slow communication links (the net)
 - {{{color(red, Disadvantages:)}}}
   - processors operate on registers, not stacks
   - difficult to reuse values on the stack
+** *_3-Address Code: Quadruples_*
+- /Quadruples/ are a data structure for storing 3-address code instructions. Each /quadruple/ or simply /quad/, has for elements:
+  - /op, arg1, arg2/ and /result/
+  - In the case of instructions such as /x = y/ and /x = op y/, /arg2/ is not used
+  - In the case of instructions such as /param x1/, /arg2/ and /result/ are not used.
+  - In the case of /jump/ instructions, the target label is put into /result/.
+- /Quadruples/ is the native repesentation of /3-address code/:
+  - table of /k * 4/ small integers
+  - simple record structure
+  - easy to reorder
+  - explicit names
