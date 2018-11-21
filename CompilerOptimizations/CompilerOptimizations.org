@@ -15,6 +15,7 @@
 #+REVEAL_EXTRA_CSS: ./presentation.css
 #+REVEAL_PLUGINS: (highlight)
 #+STARTUP: latexpreview
+#+MACRO: color @@html:<font color="$1">$2</font>@@
 
 #+TITLE: Compiler Optimizations
 #+AUTHOR: Sergey V. Ignatov
@@ -498,27 +499,77 @@ int sub (int x, int y)
   - We only have to write /2n/ half-compilers instead of /n(n-1)/ full compilers.
 - To perform /machine independent/ optimizations. It becomes easier to apply the source code modifications to improve code performance by applying code optimization techniques on the intermediate code.
 ** *_Why Use an IR?_*
-#+ATTR_HTML: :width 400px;
+#+ATTR_HTML: :width 550px;
 [[./images/IR2.png]]
 ** *_Why Use an IR?_*
 - Ideally, details of the source language are confined to the front end, and details of the target machine to the back end.
-#+ATTR_HTML: :width 400px;
+#+ATTR_HTML: :width 550px;
 [[./images/IR3.png]]
+** *_Intermediate Representations_*
+- Decision in /IR/ design affect speed and efficiency of the compiler
+- Some important /IR/ properties
+  - Ease of generation
+  - Ease of manipulation
+  - Procedure size
+  - Freedom of expression
+  - Level of abstraction
+- The importance of different properties varies between compilers
+  - Selecting an appropriate /IR/ for a compiler is critical
 ** *_Styles of IR_*
 - Intermediate representations are usually:
-  - Structured (graph or tree-based)
-  - Flat, tuple-based, generally three-address code (quadruples)
+  - Structural
+  - Flat, tuple-based, generally three-address code
   - Flat, stack-based
   - Or any combination of the above three
-** *_Styles of IR_*
-#+ATTR_HTML: :width 1000px;
-#+BEGIN_SRC c
-while (x < 4 * y) {
-    x = y / 3 >> x;
-    if (y)
-        print(x - 3);
-}
-#+END_SRC
-** *_Styles of IR: Semantic Graph_*
-#+ATTR_HTML: :width 780px;
-[[./images/SemanticGraph.png]]
+** *_Structural IR_*
+- Graphically oriented
+- Heavily used in source-to-source translators
+- Tend to be large
+- {{{color(blue, Examples: Trees, ASTs, DAGs)}}}
+** *_Linear IR_*
+- Pseudo-code for an abstract machine
+- Level of abstraction varies
+- Simple, compact data structures
+- Easier to rearrange
+- {{{color(blue, Examples: 3 address code, Stack machine code, Single Static Assignment form)}}}
+** *_Hybrid IR_*
+- Combination of graphs and linear code
+- Attempt to take best of each
+- {{{color(blue, Examples: Control Flow Graph)}}}
+** *_Abstract Syntax Tree_*
+- An *Abstract Syntax Tree (AST)* is a way of representing the syntax of a programming language as a hierarchical tree-like structure. This structure is used for generating symbol tables for compilers and later code generation. The tree represents all of the constructs in the language and their subsequent rules. AST is the procedure's parse tree.
+- For ease of manipulation, can use a linearized (operator) form of the tree: $x - 2*y$ $\rightarrow$ $x 2 y *$ - postfix form
+** *_Directed Acyclic Graphs (DAGs)_*
+- /Directed Acyclic Graph/ (DAG) is a variant of /Abstract Syntax Tree/ (AST) where nodes are not duplicated and any given node may have more than one parent. It is very efficient at representing expressions and hence generate efficient code for the expression.
+- Example: $a + a * (b - c) + (b - c) * d$
+# #+BEGIN_SRC dot :file ./images/DAG.png :cmdline -Kdot -Tpng
+# graph {
+# plus1 [label="+"]
+# plus2 [label="+"]
+# aster1 [label="*"]
+# a1 [label="a"]
+# aster2 [label="*"]
+# d1 [label="d"]
+# minus1 [label="-"]
+# a2 [label="a"]
+# minus2 [label="-"]
+# b1 [label="b"]
+# c1 [label="c"]
+# b2 [label="b"]
+# c2 [label="c"]
+# plus1 -- plus2
+# plus1 -- aster1
+# plus2 -- a1
+# plus2 -- aster2
+# aster1 -- d1
+# aster1 -- minus1
+# aster2 -- a2
+# aster2 -- minus2
+# minus1 -- b1
+# minus1 -- c1
+# minus2 -- b2
+# minus2 -- c2
+# }
+# #+END_SRC
+#+ATTR_HTML: :width 600px;
+[[./images/DAG.png]][[file:./images/DAG.png]]
