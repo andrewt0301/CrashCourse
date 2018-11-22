@@ -29,6 +29,7 @@
 - Techniques of *Compiler Optimization*
 - Future scope
 - Intermediate Representation
+- LLVM IR
 * *_What Is Compiler Optimization_*
 - What is *Compiler Optimization*
 - History of *Compiler Optimization*
@@ -791,3 +792,110 @@ L2:
     - any instruction immediately following a jump
   - For each /*leader*/ its /basic block/ are all the subsequent instructions until the next /*leader*/
   - The jumps (conditional or unconditional) are always to /*leaders*/ (i.e. the start of a /*basic block*/) and these form the edges in the /*control flow graph*/
+** *_Static Single Assignment (SSA)_*
+- An /IR/ is in /*Static Single Assignment (SSA)*/ form if each variable (or temporary) is *assigned exactly once* and every variable (or temporary) is *assigned a value before* it is used
+- If a variable is used more than once then each use is assigned a separate variable, generally using subscripts to distinguish between them:
+  - $p = a + b$ $\rightarrow$ $p_{1} = a + b$
+  - $q = p - c$ $\rightarrow$ $q_{1} = p_{1} - c$
+  - $p = q * d$ $\rightarrow$ $p_{2} = q_{1} * d$
+  - $p = e - p$ $\rightarrow$ $p_{3} = e - p_{2}$
+  - $q = p + q$ $\rightarrow$ $q_{2} = p_{3} + q_{1}$
+** *_SSA Example_*
+# #+BEGIN_SRC dot :file ./images/CFG0.png :cmdline
+# digraph {
+#   # rankdir=LR
+#   block1 [shape=rectangle label="x = 3"]
+#   block2 [shape=rectangle label="a > b"]
+#   block3 [shape=rectangle label="y = a + b"]
+#   block4 [shape=rectangle label="y = a - b"]
+#   block5 [shape=rectangle label="z = 2 * y"]
+#   block6 [shape=rectangle label="y = y * 10"]
+#   block7 [shape=rectangle label="w = y + z"]
+#   block8 [shape=rectangle label="w = w + y"]
+#   block9 [shape=rectangle label="z = w + x"]
+#   block1 -> block2
+#   block2 -> block3
+#   block2 -> block4
+#   block3 -> block5
+#   block4 -> block6
+#   block5 -> block7
+#   block6 -> block8
+#   block7 -> block9
+#   Bblock8 -> block9
+# }
+# #+END_SRC
+
+#+ATTR_HTML: :width 310px
+[[./images/CFG0.png]]
+
+** *_SSA Example_*
+# #+BEGIN_SRC dot :file ./images/CFG1.png :cmdline
+# digraph {
+#   # rankdir=LR
+#   block1 [shape=rectangle label="x1 = 3"]
+#   block2 [shape=rectangle label="a1 > b1"]
+#   block3 [shape=rectangle label="y1 = a1 + b1"]
+#   block4 [shape=rectangle label="y2 = a1 - b1"]
+#   block5 [shape=rectangle label="z1 = 2 * y1"]
+#   block6 [shape=rectangle label="y3 = y2 * 10"]
+#   block7 [shape=rectangle label="w2 = y1 + z1"]
+#   block8 [shape=rectangle label="w3 = w1 + y3"]
+#   block9 [shape=rectangle label="z1 = w? + x1"]
+#   block1 -> block2
+#   block2 -> block3
+#   block2 -> block4
+#   block3 -> block5
+#   block4 -> block6
+#   block5 -> block7
+#   block6 -> block8
+#   block7 -> block9
+#   block8 -> block9
+#   block1 -> block9 [color=blue]
+# }
+# #+END_SRC
+
+#+ATTR_HTML: :width 420px
+[[file:./images/CFG1.png]]
+** *_Static Single Assignment_*
+- Add *SSA edges* from definitions to uses
+  - No intervening statements define variable
+  - Safe to propagate facts about variables only along edges
+** *_What About Joines?_*
+# #+BEGIN_SRC dot :file ./images/CFG2.png :cmdline
+# digraph {
+#   # rankdir=LR
+#   block1 [shape=rectangle label="x1 = 3"]
+#   block2 [shape=rectangle label="a1 > b1"]
+#   block3 [shape=rectangle label="y1 = a1 + b1"]
+#   block4 [shape=rectangle label="y2 = a1 - b1"]
+#   block5 [shape=rectangle label="z1 = 2 * y1"]
+#   block6 [shape=rectangle label="y3 = y2 * 10"]
+#   block7 [shape=rectangle label="w2 = y1 + z1"]
+#   block8 [shape=rectangle label="w3 = w1 + y3"]
+#   block9 [shape=rectangle label="w4 = Ф(w2, w3)"]
+#   block10 [shape=rectangle label="z1 = w4 + x1"]
+#   block1 -> block2
+#   block2 -> block3
+#   block2 -> block4
+#   block3 -> block5
+#   block4 -> block6
+#   block5 -> block7
+#   block6 -> block8
+#   block7 -> block9
+#   block8 -> block9
+#   block9 -> block10
+#   block1 -> block10 [color=blue]
+# }
+# #+END_SRC
+
+#+ATTR_HTML: :width 380px
+[[./images/CFG2.png]]
+** *_What About Joines?_*
+- Add *Ф* function/nodes to model joins
+  - One argument for each incoming branch
+  - Operationally: selects one of the arguments based on how control flow reach this node
+  - At code generation time, need to eliminate *Ф* nodes
+- We need a *Ф* function at some node *if*
+  - Two non-null CFG paths that both define some variable
+  - Such that both paths start at two distinct nodes and end at this node
+* *_LLVM IR_*
