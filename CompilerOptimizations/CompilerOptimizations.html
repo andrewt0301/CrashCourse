@@ -28,11 +28,11 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Compiler Optimizations</h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-11-21 Ср 14:18</p>
+<section id="sec-title-slide"><h1 class="title">Compiler Optimizations</h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-11-22 Чт 14:17</p>
 </section>
 <section>
-<section id="slide-org48d4ab8">
-<h2 id="org48d4ab8"><b><span class="underline">Agenda</span></b></h2>
+<section id="slide-org25920fc">
+<h2 id="org25920fc"><b><span class="underline">Agenda</span></b></h2>
 <ul>
 <li>What is <b>Compiler Optimization</b></li>
 <li>History of <b>Compiler Optimization</b></li>
@@ -46,8 +46,8 @@
 </section>
 </section>
 <section>
-<section id="slide-org287c908">
-<h2 id="org287c908"><b><span class="underline">What Is Compiler Optimization</span></b></h2>
+<section id="slide-orga1e992e">
+<h2 id="orga1e992e"><b><span class="underline">What Is Compiler Optimization</span></b></h2>
 <ul>
 <li>What is <b>Compiler Optimization</b></li>
 <li>History of <b>Compiler Optimization</b></li>
@@ -55,8 +55,8 @@
 
 </ul>
 </section>
-<section id="slide-org85d4646">
-<h3 id="org85d4646"><b><span class="underline">What Is Compiler Optimization</span></b></h3>
+<section id="slide-org4c8cc62">
+<h3 id="org4c8cc62"><b><span class="underline">What Is Compiler Optimization</span></b></h3>
 <ul>
 <li>In computing, an <b>optimizing compiler</b> is a compiler that tries to minimize or maximize some attributes of an executable computer program.</li>
 <li><i>compiler optimization</i> = <i>code optimization</i></li>
@@ -70,16 +70,16 @@
 
 </ul>
 </section>
-<section id="slide-org3894f29">
-<h3 id="org3894f29"><b><span class="underline">History of Compiler Optimization</span></b></h3>
+<section id="slide-org6dba7ff">
+<h3 id="org6dba7ff"><b><span class="underline">History of Compiler Optimization</span></b></h3>
 <ul>
 <li>One of the earliest notable optimizing compiler was that for BLISS (1970), which was described in The  Design of an Optimizing Compiler (1975)</li>
 <li>By the 1980s optimizing compilers were sufficiently effective that programming in assembly language declined, and by the late 1990s for even sensitive code, optimizing compilers exceeded the performance of human experts.</li>
 
 </ul>
 </section>
-<section id="slide-org0ace899">
-<h3 id="org0ace899"><b><span class="underline">Optimizations at Various Phases</span></b></h3>
+<section id="slide-org3ef1d21">
+<h3 id="org3ef1d21"><b><span class="underline">Optimizations at Various Phases</span></b></h3>
 <ul>
 <li><b>Source Code</b>:
 <ul>
@@ -104,8 +104,8 @@
 
 </ul>
 </section>
-<section id="slide-org7357d7b">
-<h3 id="org7357d7b"><b><span class="underline">Types of Compiler Optimization</span></b></h3>
+<section id="slide-org7031cfe">
+<h3 id="org7031cfe"><b><span class="underline">Types of Compiler Optimization</span></b></h3>
 <ul>
 <li>Peephole optimizations</li>
 <li>Local optimizations</li>
@@ -117,50 +117,50 @@
 
 </ul>
 </section>
-<section id="slide-org33c62d3">
-<h4 id="org33c62d3"><b><span class="underline">Peephole Optimizations</span></b></h4>
+<section id="slide-orga418de3">
+<h4 id="orga418de3"><b><span class="underline">Peephole Optimizations</span></b></h4>
 <ul>
 <li>Usually performed late in the compilation process after machine code has been generated. This form of optimization examines a few adjacent instructions to see whether they can be replaced by a single instruction or a shorter sequence of instructions.</li>
 
 </ul>
 </section>
-<section id="slide-org2255c62">
-<h4 id="org2255c62"><b><span class="underline">Local Optimizations</span></b></h4>
+<section id="slide-orgc2466f6">
+<h4 id="orgc2466f6"><b><span class="underline">Local Optimizations</span></b></h4>
 <ul>
 <li>These only consider information local to a basic block. Since basic blocks have no control flow, these optimizations need very little analysis (saving time and reducing storage requirements), but this also means that no information is preserved across jumps.</li>
 
 </ul>
 </section>
-<section id="slide-orgbe745be">
-<h4 id="orgbe745be"><b><span class="underline">Global Optimizations</span></b></h4>
+<section id="slide-org6ca1750">
+<h4 id="org6ca1750"><b><span class="underline">Global Optimizations</span></b></h4>
 <ul>
 <li>These are also called "intraprocedural methods" and act on whole function. This gives them more information to work with but often makes expensive computations necessary.</li>
 
 </ul>
 </section>
-<section id="slide-org99fdd99">
-<h4 id="org99fdd99"><b><span class="underline">Loop Optimizations</span></b></h4>
+<section id="slide-org60e040d">
+<h4 id="org60e040d"><b><span class="underline">Loop Optimizations</span></b></h4>
 <ul>
 <li>These act on the statements which make up a loop. Loop optimizations can have a significant impact because many programs spend a large percentage of their time inside loops.</li>
 
 </ul>
 </section>
-<section id="slide-orga140783">
-<h4 id="orga140783"><b><span class="underline">Prescient Store Optimizations</span></b></h4>
+<section id="slide-orgd390421">
+<h4 id="orgd390421"><b><span class="underline">Prescient Store Optimizations</span></b></h4>
 <ul>
 <li>Allow store operations to occur earlier than would otherwise be permitted in the context of threads and locks. The process needs some way of knowing ahead of time what value will be stored by the assignment that it should have followed.</li>
 
 </ul>
 </section>
-<section id="slide-org9c19fd1">
-<h4 id="org9c19fd1"><b><span class="underline">Interprocedural, Whole-Program or Link-Time Optimizations</span></b></h4>
+<section id="slide-org150ed4f">
+<h4 id="org150ed4f"><b><span class="underline">Interprocedural, Whole-Program or Link-Time Optimizations</span></b></h4>
 <ul>
 <li>These analyze all of a program's source code. The greater quantity of information extracted means that optimizations can be more effective compared to when they only have access to local information.</li>
 
 </ul>
 </section>
-<section id="slide-org2fc3a35">
-<h4 id="org2fc3a35"><b><span class="underline">Machine Code Optimizations</span></b></h4>
+<section id="slide-org8dcacff">
+<h4 id="org8dcacff"><b><span class="underline">Machine Code Optimizations</span></b></h4>
 <ul>
 <li>These analyze the executable task image of the program after all of an executable machine code has been linked. Some of the techniques that can be applied in a more limited scope, such as macro compression are more effective when the entire executable task image is available for analysis.</li>
 <li>In addition to scoped optimizations there are two further general categories of optimization:
@@ -172,23 +172,23 @@
 
 </ul>
 </section>
-<section id="slide-org8c5e1dd">
-<h4 id="org8c5e1dd"><b><span class="underline">Programming Language-Dependent VS Language-Independent</span></b></h4>
+<section id="slide-org1f3d4b5">
+<h4 id="org1f3d4b5"><b><span class="underline">Programming Language-Dependent VS Language-Independent</span></b></h4>
 <ul>
 <li>Most high-level languages share common programming constructs and abstractions: decision (<code>if</code>, <code>switch</code>, <code>case</code>), looping (<code>for</code>, <code>while</code>, <code>repeat</code>&#x2026;~until~, <code>do</code>&#x2026;~while~), and encapsulation (structures, objects).</li>
 <li>However, certain language features make some kinds of optimizations difficult. For instance, the existence of pointers in <code>C</code> and <code>C++</code> makes it difficult to optimize array accesses.</li>
 
 </ul>
 </section>
-<section id="slide-org62bc438">
-<h4 id="org62bc438"><b><span class="underline">Machine Independent VS Machine Dependent</span></b></h4>
+<section id="slide-orgf88aead">
+<h4 id="orgf88aead"><b><span class="underline">Machine Independent VS Machine Dependent</span></b></h4>
 <ul>
 <li>Many optimizations that operate on abstract programming concepts (loops, objects, structures) are independent of the machine targeted by the compiler, but many of the most effective optimizations are those that best exploit special features of the target platform. E.g.: Instruction which do several things at once, such as decrement register and branch if not zero.</li>
 
 </ul>
 </section>
-<section id="slide-org017e9ea">
-<h3 id="org017e9ea"><b><span class="underline">Factors Affecting Compiler Optimization</span></b></h3>
+<section id="slide-orgeca35af">
+<h3 id="orgeca35af"><b><span class="underline">Factors Affecting Compiler Optimization</span></b></h3>
 <ul>
 <li>The machine itself.</li>
 <li>The architecture of the target CPU.</li>
@@ -197,16 +197,16 @@
 
 </ul>
 </section>
-<section id="slide-orgf59c2a6">
-<h4 id="orgf59c2a6"><b><span class="underline">The Machine Itself</span></b></h4>
+<section id="slide-org768c916">
+<h4 id="org768c916"><b><span class="underline">The Machine Itself</span></b></h4>
 <ul>
 <li>Many of the choices about which optimizations can and should be done depend on the characteristics of the target machine.</li>
 <li>It is sometimes possible to parameterize some of these machine dependent factors, so that a single piece of compiler code can be used to optimize different machines just by altering the machine description parameters.</li>
 
 </ul>
 </section>
-<section id="slide-org5e099d5">
-<h4 id="org5e099d5"><b><span class="underline">The Architecture of the Target CPU</span></b></h4>
+<section id="slide-orgcb2c0af">
+<h4 id="orgcb2c0af"><b><span class="underline">The Architecture of the Target CPU</span></b></h4>
 <ul>
 <li>RISC vs CISC</li>
 <li>Pipelines</li>
@@ -214,8 +214,8 @@
 
 </ul>
 </section>
-<section id="slide-org63ab15d">
-<h4 id="org63ab15d"><b><span class="underline">The Architecture of the Machine</span></b></h4>
+<section id="slide-orgcc4448e">
+<h4 id="orgcc4448e"><b><span class="underline">The Architecture of the Machine</span></b></h4>
 <ul>
 <li>Techniques such as inline expansion and loop unrolling may increase the size of the generated code and reduce code locality.</li>
 <li>Cache/Memory transfer rates: These give the compiler an indication of the penalty for cache misses.</li>
@@ -223,8 +223,8 @@
 
 </ul>
 </section>
-<section id="slide-org97dfa93">
-<h4 id="org97dfa93"><b><span class="underline">Intended Use of the Generated Code</span></b></h4>
+<section id="slide-org332bf68">
+<h4 id="org332bf68"><b><span class="underline">Intended Use of the Generated Code</span></b></h4>
 <ul>
 <li>Debugging</li>
 <li>General purpose use</li>
@@ -233,25 +233,25 @@
 
 </ul>
 <ul class="org-ul">
-<li><a id="org4dbe580"></a><b><span class="underline">Debugging</span></b><br />
+<li><a id="org7752d14"></a><b><span class="underline">Debugging</span></b><br />
 <ul>
 <li>While writing an application, a programmer will recompile and test often, and so compilation must be fast.</li>
 
 </ul>
 </li>
-<li><a id="orgd1beadd"></a><b><span class="underline">General Purpose Use</span></b><br />
+<li><a id="orgdcf7213"></a><b><span class="underline">General Purpose Use</span></b><br />
 <ul>
 <li>Prepackaged software is very often expected to be executed on a variety of machines and CPUs that may share the same instruction set, but have different timing, cache or memory characteristics.</li>
 
 </ul>
 </li>
-<li><a id="orgd1487f9"></a><b><span class="underline">Special-Purpose Use</span></b><br />
+<li><a id="org8280b7a"></a><b><span class="underline">Special-Purpose Use</span></b><br />
 <ul>
 <li>If the software is compiled to be used on one or a few very similar machines, with known characteristics, then the compiler can heavily time the generated code to those specific machines.</li>
 
 </ul>
 </li>
-<li><a id="orgb10eb34"></a><b><span class="underline">Embedded Systems</span></b><br />
+<li><a id="orgc5ae9dc"></a><b><span class="underline">Embedded Systems</span></b><br />
 <ul>
 <li>Embedded software can be tightly tuned to an exact CPU and memory size. So, for example, compilers for embedded software usually offer options that reduce code size at the expense of speed, because memory is the main cost of an embedded computer.</li>
 
@@ -259,8 +259,8 @@
 </li>
 </ul>
 </section>
-<section id="slide-org5b4f653">
-<h3 id="org5b4f653"><b><span class="underline">Future Scope</span></b></h3>
+<section id="slide-org69b4df6">
+<h3 id="org69b4df6"><b><span class="underline">Future Scope</span></b></h3>
 <ul>
 <li>Artifical intelligence will detect all the code which can be optimized.</li>
 
@@ -268,15 +268,15 @@
 </section>
 </section>
 <section>
-<section id="slide-orgc19b251">
-<h2 id="orgc19b251"><b><span class="underline">Techniques of Compiler Optimizations</span></b></h2>
+<section id="slide-org1f5199b">
+<h2 id="org1f5199b"><b><span class="underline">Techniques of Compiler Optimizations</span></b></h2>
 <ul>
 <li><a href="http://compileroptimizations.com/">Compiler Optimizations</a></li>
 
 </ul>
 </section>
-<section id="slide-orgb7ce014">
-<h3 id="orgb7ce014"><b><span class="underline">Instruction Combining</span></b></h3>
+<section id="slide-org93e46e3">
+<h3 id="org93e46e3"><b><span class="underline">Instruction Combining</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >int i;
@@ -297,8 +297,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-org495cf48">
-<h3 id="org495cf48"><b><span class="underline">Constant Folding</span></b></h3>
+<section id="slide-org9f4abf9">
+<h3 id="org9f4abf9"><b><span class="underline">Constant Folding</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >int f()
@@ -316,8 +316,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-org228b3db">
-<h3 id="org228b3db"><b><span class="underline">Constant Propagation</span></b></h3>
+<section id="slide-orgcd18da6">
+<h3 id="orgcd18da6"><b><span class="underline">Constant Propagation</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >void f()
@@ -337,8 +337,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-org6b36a3f">
-<h3 id="org6b36a3f"><b><span class="underline">Common SubExpression (CSE) Elimination</span></b></h3>
+<section id="slide-org06531a4">
+<h3 id="org06531a4"><b><span class="underline">Common SubExpression (CSE) Elimination</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >void f()
@@ -359,8 +359,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-org85a3e67">
-<h3 id="org85a3e67"><b><span class="underline">Integer Multiply Optimization</span></b></h3>
+<section id="slide-orgdba9430">
+<h3 id="orgdba9430"><b><span class="underline">Integer Multiply Optimization</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >int f(int i)
@@ -378,8 +378,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-orgc4cbe3d">
-<h3 id="orgc4cbe3d"><b><span class="underline">Integer Divide Optimization</span></b></h3>
+<section id="slide-org0288925">
+<h3 id="org0288925"><b><span class="underline">Integer Divide Optimization</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >int f(int i)
@@ -397,8 +397,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-org6d563a5">
-<h3 id="org6d563a5"><b><span class="underline">Loop Fusion</span></b></h3>
+<section id="slide-org7e0a37c">
+<h3 id="org7e0a37c"><b><span class="underline">Loop Fusion</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >void f()
@@ -424,8 +424,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-org6f232c8">
-<h3 id="org6f232c8"><b><span class="underline">Dead Code Elimination</span></b></h3>
+<section id="slide-org6712bfb">
+<h3 id="org6712bfb"><b><span class="underline">Dead Code Elimination</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >int global;
@@ -450,8 +450,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-org2dc6cb9">
-<h3 id="org2dc6cb9"><b><span class="underline">Redundant Code Elimination</span></b></h3>
+<section id="slide-org3e8d1d5">
+<h3 id="org3e8d1d5"><b><span class="underline">Redundant Code Elimination</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >{
@@ -471,8 +471,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-orge4927ef">
-<h3 id="orge4927ef"><b><span class="underline">Expression Simplification</span></b></h3>
+<section id="slide-org7029e02">
+<h3 id="org7029e02"><b><span class="underline">Expression Simplification</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >void f(int i)
@@ -496,8 +496,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-org87b6e9c">
-<h3 id="org87b6e9c"><b><span class="underline">Forward Store</span></b></h3>
+<section id="slide-org08d266d">
+<h3 id="org08d266d"><b><span class="underline">Forward Store</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >int sum;
@@ -524,8 +524,8 @@ void f()
 </code></pre>
 </div>
 </section>
-<section id="slide-org8f120fa">
-<h3 id="org8f120fa"><b><span class="underline">Loop Invariant Code Motion</span></b></h3>
+<section id="slide-org73feca7">
+<h3 id="org73feca7"><b><span class="underline">Loop Invariant Code Motion</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >#define BLACK 1
@@ -554,8 +554,8 @@ struct Triangle *triangle[];
 </code></pre>
 </div>
 </section>
-<section id="slide-orgff0f918">
-<h3 id="orgff0f918"><b><span class="underline">If Optimization</span></b></h3>
+<section id="slide-orgdc582e2">
+<h3 id="orgdc582e2"><b><span class="underline">If Optimization</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >void f(int *p)
@@ -579,8 +579,8 @@ struct Triangle *triangle[];
 </code></pre>
 </div>
 </section>
-<section id="slide-org7534c08">
-<h3 id="org7534c08"><b><span class="underline">If Optimization</span></b></h3>
+<section id="slide-orga098625">
+<h3 id="orga098625"><b><span class="underline">If Optimization</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >void f(int *p)
@@ -604,8 +604,8 @@ struct Triangle *triangle[];
 </code></pre>
 </div>
 </section>
-<section id="slide-orge27e583">
-<h3 id="orge27e583"><b><span class="underline"><code>new</code> Expression Optimization</span></b></h3>
+<section id="slide-orgee585cb">
+<h3 id="orgee585cb"><b><span class="underline"><code>new</code> Expression Optimization</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c++" >{
@@ -622,8 +622,8 @@ struct Triangle *triangle[];
 </code></pre>
 </div>
 </section>
-<section id="slide-org9cf821b">
-<h3 id="org9cf821b"><b><span class="underline"><code>try...catch</code> Block Optimization</span></b></h3>
+<section id="slide-orge56f5dd">
+<h3 id="orge56f5dd"><b><span class="underline"><code>try...catch</code> Block Optimization</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c++" >try
@@ -642,8 +642,8 @@ catch (Exception e)
 </code></pre>
 </div>
 </section>
-<section id="slide-org93f0015">
-<h3 id="org93f0015"><b><span class="underline">Loop Unrolling</span></b></h3>
+<section id="slide-orgfb909cc">
+<h3 id="orgfb909cc"><b><span class="underline">Loop Unrolling</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >for (int i = 0; i < 100; i++) {
@@ -660,8 +660,8 @@ catch (Exception e)
 </code></pre>
 </div>
 </section>
-<section id="slide-org43a7320">
-<h3 id="org43a7320"><b><span class="underline">Unswitching</span></b></h3>
+<section id="slide-org4490aa5">
+<h3 id="org4490aa5"><b><span class="underline">Unswitching</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >for (int i = 0; i < 100; i++) {
@@ -686,8 +686,8 @@ catch (Exception e)
 </code></pre>
 </div>
 </section>
-<section id="slide-orgdfa19aa">
-<h3 id="orgdfa19aa"><b><span class="underline">Induction Variable Elimination</span></b></h3>
+<section id="slide-orgf079318">
+<h3 id="orgf079318"><b><span class="underline">Induction Variable Elimination</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >int a[SIZE];
@@ -719,8 +719,8 @@ void f (void)
 </code></pre>
 </div>
 </section>
-<section id="slide-org5b4a19b">
-<h3 id="org5b4a19b"><b><span class="underline">Strength Reduction</span></b></h3>
+<section id="slide-orged24ee1">
+<h3 id="orged24ee1"><b><span class="underline">Strength Reduction</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >int s = 0, v = 0;
@@ -740,8 +740,8 @@ for (int i = 0; i < n; i++) {
 </code></pre>
 </div>
 </section>
-<section id="slide-orge583c49">
-<h3 id="orge583c49"><b><span class="underline">Function Inlining</span></b></h3>
+<section id="slide-orgcc86d24">
+<h3 id="orgcc86d24"><b><span class="underline">Function Inlining</span></b></h3>
 <div class="org-src-container">
 
 <pre><code class="c" >int add (int x, int y)
@@ -766,8 +766,8 @@ int sub (int x, int y)
 </section>
 </section>
 <section>
-<section id="slide-orgdfec44d">
-<h2 id="orgdfec44d"><b><span class="underline">Intermediate Representation</span></b></h2>
+<section id="slide-org020b453">
+<h2 id="org020b453"><b><span class="underline">Intermediate Representation</span></b></h2>
 <ul>
 <li>An <b>Intermediate Representation</b> is a representation of a program “between” the source and target languages. A good IR is one that is fairly independent of the source and target languages, so that it maximizes its ability to be used in a retargetable compiler.</li>
 <li>Is translated from an <b>Abstract Syntax Tree</b> of a program.</li>
@@ -781,8 +781,8 @@ int sub (int x, int y)
 </p>
 </div>
 </section>
-<section id="slide-orgef3d0e3">
-<h3 id="orgef3d0e3"><b><span class="underline">Why Use an IR?</span></b></h3>
+<section id="slide-org9312421">
+<h3 id="org9312421"><b><span class="underline">Why Use an IR?</span></b></h3>
 <ul>
 <li>If a compiler translates the source language to its target machine language without having the option for generating intermediate code, then for each new machine, a full native compiler is required.</li>
 <li>Because translation appears to <i>inherently</i> require analysis and synthesis. Intermediate code eliminates the need of a new full compiler for every unique machine by keeping the analysis portion same for all the compilers.</li>
@@ -790,8 +790,8 @@ int sub (int x, int y)
 
 </ul>
 </section>
-<section id="slide-org5f17deb">
-<h3 id="org5f17deb"><b><span class="underline">Why Use an IR?</span></b></h3>
+<section id="slide-org3a1a4d4">
+<h3 id="org3a1a4d4"><b><span class="underline">Why Use an IR?</span></b></h3>
 <ul>
 <li>To build retargetable compilers:
 <ul>
@@ -804,16 +804,16 @@ int sub (int x, int y)
 
 </ul>
 </section>
-<section id="slide-org9255582">
-<h3 id="org9255582"><b><span class="underline">Why Use an IR?</span></b></h3>
+<section id="slide-org6f666f8">
+<h3 id="org6f666f8"><b><span class="underline">Why Use an IR?</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/IR2.png" alt="IR2.png" width="550px;" />
 </p>
 </div>
 </section>
-<section id="slide-org4bf5b32">
-<h3 id="org4bf5b32"><b><span class="underline">Why Use an IR?</span></b></h3>
+<section id="slide-org902c269">
+<h3 id="org902c269"><b><span class="underline">Why Use an IR?</span></b></h3>
 <ul>
 <li>Ideally, details of the source language are confined to the front end, and details of the target machine to the back end.</li>
 
@@ -824,8 +824,8 @@ int sub (int x, int y)
 </p>
 </div>
 </section>
-<section id="slide-org7d6da27">
-<h3 id="org7d6da27"><b><span class="underline">Intermediate Representations</span></b></h3>
+<section id="slide-org16b3f42">
+<h3 id="org16b3f42"><b><span class="underline">Intermediate Representations</span></b></h3>
 <ul>
 <li>Decision in <i>IR</i> design affect speed and efficiency of the compiler</li>
 <li>Some important <i>IR</i> properties
@@ -839,14 +839,73 @@ int sub (int x, int y)
 </ul></li>
 <li>The importance of different properties varies between compilers
 <ul>
-<li>Selecting an appropriate <i>IR</i> for a compiler is critical</li>
+<li>Selecting anappropriate <i>IR</i> for a compiler is critical</li>
 
 </ul></li>
 
 </ul>
 </section>
-<section id="slide-org124acd9">
-<h3 id="org124acd9"><b><span class="underline">Styles of IR</span></b></h3>
+<section id="slide-orgd9d24d9">
+<h3 id="orgd9d24d9"><b><span class="underline">Level of Abstraction: High</span></b></h3>
+<ul>
+<li>Operands look a lot like the source language, with structured objects like arrays and structs.</li>
+<li>Keep structure of source language program explicit</li>
+<li>Source program can be reconstructed from it</li>
+<li>Operands are semantic objects, including arrays and structs</li>
+<li>No breaking down of array indexing computations</li>
+<li>No thought of registers</li>
+<li>No concern for runtime systems</li>
+
+</ul>
+</section>
+<section id="slide-org9259942">
+<h3 id="org9259942"><b><span class="underline">Level of Abstraction: Medium</span></b></h3>
+<ul>
+<li>There are no structured objects, but still target language independent</li>
+<li>Can be source or target oriented</li>
+<li>Language and machine independent</li>
+<li>Break down data structure references to deal only with simple integers and floats</li>
+<li>Great for architecture-independent optimizations</li>
+
+</ul>
+</section>
+<section id="slide-orgce9702e">
+<h3 id="orgce9702e"><b><span class="underline">Level of Abstraction: Low</span></b></h3>
+<ul>
+<li>Operands are extremely close to target machine</li>
+<li>Architecture dependent</li>
+<li>Deviates from target language only in its inclusion of pseudo-operations and symbolic (virtual) registers</li>
+<li>Inimately concerned with run-time storage management issues like stake frames and parameter passing</li>
+<li>Used for architecture dependent optimizations</li>
+
+</ul>
+</section>
+<section id="slide-org1646b7d">
+<h3 id="org1646b7d"><b><span class="underline">Memory Models</span></b></h3>
+<ul>
+<li>Two major <b>Memory Models</b>:
+<ul>
+<li><b>Register-To-Register Model</b>
+<ul>
+<li>Keep all values that can legally be stored in a register in registers</li>
+<li>Ignore machine limitations on number of registers</li>
+<li>Compiler back-end must insert loads and stores</li>
+
+</ul></li>
+<li><b>Memory-To-Memory Model</b>
+<ul>
+<li>Keep all values in memory</li>
+<li>Only promote values to registers directly before they are used</li>
+<li>Compiler back-end can remove loads and stores</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org9406c7e">
+<h3 id="org9406c7e"><b><span class="underline">Styles of IR</span></b></h3>
 <ul>
 <li>Intermediate representations are usually:
 <ul>
@@ -859,8 +918,8 @@ int sub (int x, int y)
 
 </ul>
 </section>
-<section id="slide-org0b47364">
-<h3 id="org0b47364"><b><span class="underline">Structural IR</span></b></h3>
+<section id="slide-orgc4d41a6">
+<h3 id="orgc4d41a6"><b><span class="underline">Structural IR</span></b></h3>
 <ul>
 <li>Graphically oriented</li>
 <li>Heavily used in source-to-source translators</li>
@@ -869,8 +928,8 @@ int sub (int x, int y)
 
 </ul>
 </section>
-<section id="slide-org8701232">
-<h3 id="org8701232"><b><span class="underline">Linear IR</span></b></h3>
+<section id="slide-org1b307f4">
+<h3 id="org1b307f4"><b><span class="underline">Linear IR</span></b></h3>
 <ul>
 <li>Pseudo-code for an abstract machine</li>
 <li>Level of abstraction varies</li>
@@ -880,8 +939,8 @@ int sub (int x, int y)
 
 </ul>
 </section>
-<section id="slide-org72d375b">
-<h3 id="org72d375b"><b><span class="underline">Hybrid IR</span></b></h3>
+<section id="slide-org107e5af">
+<h3 id="org107e5af"><b><span class="underline">Hybrid IR</span></b></h3>
 <ul>
 <li>Combination of graphs and linear code</li>
 <li>Attempt to take best of each</li>
@@ -889,16 +948,16 @@ int sub (int x, int y)
 
 </ul>
 </section>
-<section id="slide-org08a90a0">
-<h3 id="org08a90a0"><b><span class="underline">Abstract Syntax Tree</span></b></h3>
+<section id="slide-orgf8f58ef">
+<h3 id="orgf8f58ef"><b><span class="underline">Abstract Syntax Tree</span></b></h3>
 <ul>
 <li>An <b>Abstract Syntax Tree (AST)</b> is a way of representing the syntax of a programming language as a hierarchical tree-like structure. This structure is used for generating symbol tables for compilers and later code generation. The tree represents all of the constructs in the language and their subsequent rules. AST is the procedure's parse tree.</li>
 <li>For ease of manipulation, can use a linearized (operator) form of the tree: \(x - 2*y\) \(\rightarrow\) \(x 2 y *\) - postfix form</li>
 
 </ul>
 </section>
-<section id="slide-orgcb0a510">
-<h3 id="orgcb0a510"><b><span class="underline">Directed Acyclic Graphs (DAGs)</span></b></h3>
+<section id="slide-org884c7fd">
+<h3 id="org884c7fd"><b><span class="underline">Directed Acyclic Graphs (DAGs)</span></b></h3>
 <ul>
 <li><i>Directed Acyclic Graph</i> (DAG) is a variant of <i>Abstract Syntax Tree</i> (AST) where nodes are not duplicated and any given node may have more than one parent. It is very efficient at representing expressions and hence generate efficient code for the expression.</li>
 <li>Example: \(a + a * (b - c) + (b - c) * d\)</li>
@@ -911,15 +970,15 @@ int sub (int x, int y)
 </p>
 </div>
 </section>
-<section id="slide-orgfce48bf">
-<h3 id="orgfce48bf"><b><span class="underline">Directed Acyclic Graphs (DAGs)</span></b></h3>
+<section id="slide-org1858f81">
+<h3 id="org1858f81"><b><span class="underline">Directed Acyclic Graphs (DAGs)</span></b></h3>
 <ul>
 <li>The DAG can be built from the AST by doing a post-order traversal, constructing each node and linking to an existing node if the constructed already exists in the DAG, otherwise add the constructed node to the DAG</li>
 
 </ul>
 </section>
-<section id="slide-org7676487">
-<h3 id="org7676487"><b><span class="underline">3-Address Code</span></b></h3>
+<section id="slide-org9d8fdab">
+<h3 id="org9d8fdab"><b><span class="underline">3-Address Code</span></b></h3>
 <ul>
 <li>In <i>3-address code</i> there is at most one operator on the right-hand of an instruction and at most three names. Hence, in <i>3-address code</i>, the valid instructions for expressions are:
 <ul>
@@ -936,13 +995,27 @@ int sub (int x, int y)
 <li><b>branches</b>: <i>goto L</i>, <i>if x relop y goto L</i></li>
 <li><b>procedure calls</b> and <b>procedure returns</b>: <i>param x, call p</i>, <i>return</i></li>
 <li><b>address and pointer assignments</b>: <i>x = &amp;y</i>, <i>x = *y</i>, <i>*x = y</i></li>
+<li><b>indexed instructions</b>: <i>x[i] = y</i>, <i>x = y[i]</i></li>
 
 </ul></li>
 
 </ul>
 </section>
-<section id="slide-orgb262d93">
-<h3 id="orgb262d93"><b><span class="underline">3-Address Code</span></b></h3>
+<section id="slide-orgc2c1a48">
+<h3 id="orgc2c1a48"><b><span class="underline">3-Address Code</span></b></h3>
+<ul>
+<li>An <i>Address</i> can be one of the following:
+<ul>
+<li><b>Name</b> - is a pointer to the symbol table entyr that corresponds to a source program name (variable)</li>
+<li><b>Constant</b></li>
+<li><b>Temporary</b> - <i>compiler-generated temporaries</i> created as needed. They may be removed by different optimization phases. The remaining <i>temporaries</i> will be allocated to hardware registers if possible</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgeb71fcf">
+<h3 id="orgeb71fcf"><b><span class="underline">3-Address Code</span></b></h3>
 <ul>
 <li><font color="red: Advantages"></font>
 <ul>
@@ -954,8 +1027,8 @@ int sub (int x, int y)
 
 </ul>
 </section>
-<section id="slide-org7c1ee90">
-<h3 id="org7c1ee90"><b><span class="underline">Stack Machine Code</span></b></h3>
+<section id="slide-orge411389">
+<h3 id="orge411389"><b><span class="underline">Stack Machine Code</span></b></h3>
 <ul>
 <li>Can simplify <i>IR</i> by assuming implicit stack:
 <ul>
@@ -981,7 +1054,7 @@ store
 <li>compact form</li>
 <li>introduced names are implicit, not explicit</li>
 <li>simple to generate and execute code</li>
-<li>Useful where code is transmitted over slow communication links (the net)</li>
+<li>useful where code is transmitted over slow communication links (the net)</li>
 
 </ul></li>
 <li><font color="red"> Disadvantages:</font>
@@ -993,8 +1066,8 @@ store
 
 </ul>
 </section>
-<section id="slide-orgc143150">
-<h3 id="orgc143150"><b><span class="underline">3-Address Code: Quadruples</span></b></h3>
+<section id="slide-org2a09de4">
+<h3 id="org2a09de4"><b><span class="underline">3-Address Code: Quadruples</span></b></h3>
 <ul>
 <li><i>Quadruples</i> are a data structure for storing 3-address code instructions. Each <i>quadruple</i> or simply <i>quad</i>, has for elements:
 <ul>
@@ -1010,6 +1083,413 @@ store
 <li>simple record structure</li>
 <li>easy to reorder</li>
 <li>explicit names</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org2eeed63">
+<h3 id="org2eeed63"><b><span class="underline">3-Address Code: Quadruples</span></b></h3>
+<ul>
+<li><i>a = b * -c + b * -c</i></li>
+<li>3-adress code</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="c" >t1 = minus c
+t2 = b * t1
+t3 = minus c
+t4 = b * t3
+t5 = t2 + t4
+a = t5
+</code></pre>
+</div>
+<ul>
+<li>Quadruples</li>
+
+</ul>
+<table>
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left"><i>op</i></th>
+<th scope="col" class="org-left"><i>arg1</i></th>
+<th scope="col" class="org-left"><i>arg2</i></th>
+<th scope="col" class="org-left"><i>result</i></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">minus</td>
+<td class="org-left"><i>c</i></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><i>t1</i></td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">*</td>
+<td class="org-left"><i>b</i></td>
+<td class="org-left"><i>t1</i></td>
+<td class="org-left"><i>t2</i></td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">minus</td>
+<td class="org-left"><i>c</i></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><i>t3</i></td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">*</td>
+<td class="org-left"><i>b</i></td>
+<td class="org-left"><i>t3</i></td>
+<td class="org-left"><i>t4</i></td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">+</td>
+<td class="org-left"><i>t2</i></td>
+<td class="org-left"><i>t4</i></td>
+<td class="org-left"><i>t5</i></td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">=</td>
+<td class="org-left"><i>t5</i></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><i>a</i></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slide-org32ffa4f">
+<h3 id="org32ffa4f"><b><span class="underline">3-Address Code: Triple</span></b></h3>
+<ul>
+<li>With <i>quadruples</i> the <i>result</i> field is used to specify the <i>temporary</i> that holds the result of the instruction. <i>Triples</i> are an optimization (in terms of space) where we use the instruction's position to specify the <i>temporary</i> that will hold the result.</li>
+
+</ul>
+<table>
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left"><i>op</i></th>
+<th scope="col" class="org-left"><i>arg1</i></th>
+<th scope="col" class="org-left"><i>arg2</i></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">minus</td>
+<td class="org-left"><i>c</i></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">*</td>
+<td class="org-left"><i>b</i></td>
+<td class="org-left">(0)</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">minus</td>
+<td class="org-left"><i>c</i></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">*</td>
+<td class="org-left"><i>b</i></td>
+<td class="org-left">(2)</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">+</td>
+<td class="org-left">(1)</td>
+<td class="org-left">(3)</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">=</td>
+<td class="org-left"><i>a</i></td>
+<td class="org-left">(4)</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>The bracketed numbers are pointers to the <i>temporaries</i> associated with each entry in the <i>triple</i> structure.</li>
+
+</ul>
+</section>
+<section id="slide-org7f0fe7c">
+<h3 id="org7f0fe7c"><b><span class="underline">3-Address Code: Triple</span></b></h3>
+<ul>
+<li>In the case of copy instructions, <i>arg1</i> holds the receiving location and <i>arg2</i> holds the source location</li>
+<li>In the case of jump instructions, <i>arg1</i> holds the condition and <i>arg2</i> holds the target label</li>
+<li>Ternary operations, like \(x\)[\(i\)] = \(y\), require 2 entries in the triple structure:
+<ul>
+<li>0 <i>op</i>:[], <i>arg1</i>:\(x\), <i>arg2</i>:\(i\)</li>
+<li>1 <i>op</i>:=, <i>arg1</i>:(0), <i>arg2</i>:\(y\)</li>
+
+</ul></li>
+<li>Index is used as implicit name</li>
+<li>25% less space consumed than quads</li>
+<li>Much harder to reorder</li>
+
+</ul>
+</section>
+<section id="slide-org7e71539">
+<h3 id="org7e71539"><b><span class="underline">3-Address Code: Indirect Triple</span></b></h3>
+<ul>
+<li>In the subsequent optimization stage, <i>triples</i> cause complications as reordering the triples will result in a triple referring to the wrong <i>temporary</i>. The solution is to use another table to index into the <i>triple</i> structure</li>
+
+</ul>
+<table>
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left"><i>op</i></th>
+<th scope="col" class="org-left"><i>arg1</i></th>
+<th scope="col" class="org-left"><i>arg2</i></th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">idx</th>
+<th scope="col" class="org-left">ref</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">minus</td>
+<td class="org-left"><i>c</i></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">25</td>
+<td class="org-left">(0)</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">*</td>
+<td class="org-left"><i>b</i></td>
+<td class="org-left">(0)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">26</td>
+<td class="org-left">(1)</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">minus</td>
+<td class="org-left"><i>c</i></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">27</td>
+<td class="org-left">(2)</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">*</td>
+<td class="org-left"><i>b</i></td>
+<td class="org-left">(2)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">28</td>
+<td class="org-left">(3)</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">+</td>
+<td class="org-left">(1)</td>
+<td class="org-left">(3)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">29</td>
+<td class="org-left">(4)</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">=</td>
+<td class="org-left"><i>a</i></td>
+<td class="org-left">(4)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">30</td>
+<td class="org-left">(5)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The entries in the index table can be reordered without messing up the references to <i>temporaries</i></li>
+
+</ul>
+</section>
+<section id="slide-orgd7e87ed">
+<h3 id="orgd7e87ed"><b><span class="underline">Basic Block</span></b></h3>
+<ul>
+<li>A <b>Basic Block</b> is maximal sequence of instructions with:
+<ul>
+<li>no labels (except at the first instruction), and</li>
+<li>no jumps (except at the last instruction)</li>
+
+</ul></li>
+<li><b>Idea</b>:
+<ul>
+<li>Cannot jump into a basic block (except at the beginning)</li>
+<li>Cannot jump out of a basic block (except at end)</li>
+<li>Each instruction in a basic block is executed after all the preceding instructions have been executed</li>
+
+</ul></li>
+<li>Example:</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="c" >L:
+  t = 2 * x;
+  w = t + x;
+  if (w > 0) goto L;
+</code></pre>
+</div>
+</section>
+<section id="slide-org99e4cd5">
+<h3 id="org99e4cd5"><b><span class="underline">Basic Block</span></b></h3>
+<ul>
+<li>A <b>Basic Block</b> is:
+<ul>
+<li>a <b>maximal-length sequence of instructions</b> that will execute in its entirely</li>
+<li>a <b>maximal-length straight-line code block</b></li>
+<li>a <b>maximal-length code block</b> with only one entry and one exit</li>
+
+</ul></li>
+<li>&#x2026; in the abscence of hardware faults, interrupts, crashes, threading problems, etc</li>
+<li>To locate <b>Basic Blocks</b> in flattened code:
+<ul>
+<li><b>Starts with</b>: (1) target of a branch (label) or (2) the instruction after a conditional branch</li>
+<li><b>Ends with</b>: (1) a branch or (2) the instruction before the target of a branch</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgaf0eb38">
+<h3 id="orgaf0eb38"><b><span class="underline">Control Flow Graph (CFG)</span></b></h3>
+<ul>
+<li>a <b>Control Flow Graph (CFG)</b> is a data structure that represents the flow of control in an intermediate representation, such as 3-address code.</li>
+<li>a <b>Control Flow Graph (CFG)</b> is a directed graph with
+<ul>
+<li>basics blocks as <b>nodes</b></li>
+<li>an <b>edge</b> from block A to block B if the execution can flow from the last instruction in A to the first instruction in B</li>
+<li>e.g., the last instruction in A is jump to \(L_{B}\)</li>
+<li>e.g., the the execution can fall-through from block A to block B</li>
+<li>the body of a method (or procedure) can be represented as CFG
+<ul>
+<li>there is one <b>initial node</b> in a method (procedure) CFG</li>
+<li>all <b>"return"</b> nodes in a method (procedure) CFG are <b>terminal</b> nodes. Sometimes all <b>return</b> nodes can have additional edges (one for each) to the only <b>exit</b> terminal node</li>
+<li>conditional and unconditional <b>jumps</b> represent <b>edges</b> in a method (procedure) CFG</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org0dabafa">
+<h3 id="org0dabafa"><b><span class="underline">Control Flow Graph Example</span></b></h3>
+<div class="org-src-container">
+
+<pre><code class="c" >  goto L2;
+L1:
+  t0 = 3 >> x;
+  t1 = y / t0;
+  x = t1;
+  if (y == 0) goto L3;
+  t2 = x - 3;
+  print t2;
+L3:
+L2:
+  t4 = 4 * y;
+  x = t4 < t5;
+  if (t5 != 0) goto L1;
+</code></pre>
+</div>
+</section>
+<section id="slide-orga5a4569">
+<h3 id="orga5a4569"><b><span class="underline">Control Flow Graph Example</span></b></h3>
+
+<div class="figure">
+<p><img src="./images/CFG.png" alt="CFG.png" width="1300px" />
+</p>
+</div>
+</section>
+<section id="slide-org0c76bc9">
+<h3 id="org0c76bc9"><b><span class="underline">Building Control Flow Graph</span></b></h3>
+<ul>
+<li>To decompose a method (or procedure) into <i><b>basic blocks</b></i> first:
+<ul>
+<li>Identify the <i><b>Leaders</b></i>:
+<ul>
+<li>the \(1^{st}\) instruction of a method (procedure)</li>
+<li>any instruction that is the target of a jump (conditional or unconditional); and</li>
+<li>any instruction immediately following a jump</li>
+
+</ul></li>
+<li>For each <i><b>leader</b></i> its <i>basic block</i> are all the subsequent instructions until the next <i><b>leader</b></i></li>
+<li>The jumps (conditional or unconditional) are always to <i><b>leaders</b></i> (i.e. the start of a <i><b>basic block</b></i>) and these form the edges in the <i><b>control flow graph</b></i></li>
 
 </ul></li>
 
