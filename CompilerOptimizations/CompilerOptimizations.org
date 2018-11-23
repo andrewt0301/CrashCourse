@@ -916,3 +916,178 @@ L2:
     - overlap information
     - virtual register assignments
 * *_LLVM IR_*
+- LLVM is a compiler infrastructure designed as a set of reusable libraries with well-defined interfaces
+  - Implemented in C++
+  - Several front-ends (C, C++, ADA, Java, Fortran, ...)
+  - Several back-ends (SPARC, PowerPC, ARM, x86, MIPS, ...)
+  - First release: 2003
+  - Open source
+  - [[http://llvm.org][http://llvm.org]]
+** *_Goals of LLVM IR_*
+- *Easy to produce, understand, and define*
+- *Language- and Target-Independent*
+  - AST-level IR is not very feasible
+    - Every analysis/xform must know about 'all' languages
+- *One IR for analysis and optimization*
+  - IR must be able to support aggressive IPO, loop opts, scalar opts, ... high- and low-level optimization
+- *Optimize as much as early as possible*
+  - Can't postpone everything until link or runtime
+  - No lowering in the IR
+** *_LLVM Program Structure_*
+- *Module contains Functions/GlobalVariables*
+  - Module is unit of compilation/analysis/optimization
+- *Function contains BasicBlocks/Arguments*
+  - Functions roughly correspond to functions in C
+- *BasicBlock contains list of instructions*
+  - Each block ends in a control flow instruction
+- *Instruction is opcode + vector of operans*
+  - All operands have types
+  - Instruction result is typed
+** *_LLVM Coding Basics_*
+- *LLVM IR is almost all double-linked lists*:
+  - Module contains lists of Functions and GlobalVariables
+  - Function contains list of BasicBlocks and Arguments
+  - BasicBlock contains list of Instructions
+- *Linked lists are traversed with iterators*:
+#+BEGIN_SRC c++
+Function *M = ...;
+for (Function::iterator I = M->begin(); I != M->end(); ++I) {
+  BasicBlock &BB = *I;
+}
+#+END_SRC
+** *_LLVM Instruction Set Overview_*
+- *Low-level and target-independent semantics*
+  - RISC-like 3-address code (add, mul, shift, branch, load, store, etc)
+  - Only 31 op-codes (types of instructions) exist
+  - Infinite virtual register set in SSA form
+  - Simple, low-level control flow constructs
+  - Load/store instructions with typed-pointers
+  - Variables: local, global, heap
+- *IR has text, binary, and in-memory forms*
+  - Human-readable LLVM assembly (.ll files)
+  - Dense 'bitcode' binary representation (.bc files)
+  - C++ classes
+- *LLVM IR is SSA form*
+  - Each variable is assigned exactly once
+  - Def-use chains are explicit and each contains a single elements
+** *_LLVM Instruction Set Overview_*
+- *High-level information exposed in the code*
+  - Explicit dataflow through SSA form
+  - Explicit control-flow graph (even for exceptions)
+  - Explicit language-independent type-information
+  - Explicit typed pointer arithmetic
+    - Preserve array subscript and structure indexing
+** *_LLVM Type System Details_*
+- *The entire type system consists of*:
+  - Primitives: label, void, float, integer, ...
+    - Arbitrary bit-width intergers ($i1$, $i32$, $i64$)
+    - Derived: pointer, array, structure, function
+    - No high-level types: type-system is language neutral
+  - *Type system allows arbitrary casts*:
+    - Allows expressing weakly-typed languages, like C
+    - /Front-ends/ can /{{{color(green, implement)}}}/ safe languages
+    - Also easy to define a type-safe subset of LLVM
+** *_Lowering Source-Level Types to LLVM IR_*
+- *Source language types are lowered*:
+  - Rich type systems expanded to simple type system
+  - Implicit & abstract types are made explicit & concrete
+- *Examples of lowering*:
+  - References turn into pointers: $T&$ $\rightarrow$ $T*$
+  - Complex numbers: $complex$ $float$ $\rightarrow$ $\{float, float\}$
+  - Bitfields: $struct$ $X$ $\{int:4, int:2\}$ $\rightarrow$ $\{i32\}$
+  - Inheritance: $class$ $T:S\{int$ $X;\}$ $\rightarrow$ $\{S, i32\}$
+  - Methods: $class$ $T\{void$ $foo();\}$ $\rightarrow$ $void$ $foo(T*);$
+** *_LLVM IR Operations_*
+- *Arithmetic*: $add$, $sub$, $mul$, $udiv$, $sdiv$, ...
+  - /%tmp = add i32 %indvar, -512/
+- *Logical operations*: $shl$, $lshr$, $ashr$, $and$, or $xor$
+  - /%shr21 = ashr i32 %mul20, 8/
+- *Memory access*: $load$, $store$, $alloca$, $getelemntptr$
+  - /%tmp3 = load i64 * %tmp2/
+- *Comparison*: $icmp$, $select$
+  - /%cmp12 = icmp slt i32 %add, 1024/
+- *Control flow*: $call$, $ret$, $br$, $witch$, ...
+  - /call void @foo(i32 %phitmp)/
+- *Function*
+  - /<return type> (a list of parameter types)/
+- *Ф-instruction*
+  - /<res> = phi <type> [<val-0>,<label-0],[<val-1>,<label-1],.../
+  - return value /val-i/ of type /type/ such that the basic block executed right before the current one is of /label-i/
+** *_LLVM IR Primitive Types_*
+- void: $void$
+- bool: $i1$
+- integers: $i[N]$ where $N$ is $1$ to $2^{23}-1$
+- floating-points:
+  - $half$ (16-bit floating point value)
+  - $float$ (32-bit floating point value)
+  - $double$ (64-bit floating point value)
+- pointer types: /<type>*/
+** *_LLVM IR Registers_*
+- Identifier syntax
+  - Named registers: /[0%][a-zA-Z$._][a-zA-Z$.0-9_]*/
+  - Unnamed registers: /[0%][0-9][0-9]*/
+- A register has a function-level scope
+  - Two registers in different functions may have the same identifier
+- A register is assigned for a particular type and a value at its first (and the only) definition
+** *_LLVM IR Variables_*
+- In LLVM all addressable objects ("lvalues") are explicitly allocated
+- *Global variables*
+  - Each variable has a global scope symbol that points to the memory address of the object
+  - Variable identifier: /[@][a-zA-Z$.-][a-zA-Z$.0-9_]*/
+- *Local variables*
+  - The $alloca$ instruction allocates memory in the stack frame.
+  - Deallocated automatically if the function returns.
+- *Heap variables*
+  - The $malloc$ function call allocates memory on the heap
+  - The $free$ function call frees the memory allocated by $malloc$
+** *_LLVM IR Aggregate & Function Types_*
+- *Array*
+  - /[<# of elements> x <type>]/
+  - Single dimension array example: /[40 x i32], [4 x i8]/
+  - Multi-dimensional array example: /[3 x[4 x i8]],[i2 x [10 x float]]/
+- *Structure*
+  - /type {<a list of types>}/
+  - examples: /type{ i32, i32, i32}/, /type{ i8, i32 }/
+- *Function*
+
+** *_LLVM IR Example_*
+#+BEGIN_SRC c++
+unsigned add1(unsigned a, unsigned b) {
+  return a+b;
+}
+
+// Perhaps not the most efficient way to add two numbers.
+unsigned add2(unsigned a, unsigned b) {
+  if (a == 0) return b;
+  return add2(a-1, b+1);
+}
+#+END_SRC
+#+BEGIN_SRC c++
+define i32 @add1(i32 %a, i32 %b) {
+entry:
+  %tmp1 = add i32 %a, %b
+  ret i32 %tmp1
+}
+
+define i32 @add2(i32 %a, i32 %b) {
+entry:
+  %tmp1 = icmp eq i32 %a, 0
+  br i1 %tmp1, label %done, label %recurse
+
+recurse:
+  %tmp2 = sub i32 %a, 1
+  %tmp3 = add i32 %b, 1
+  %tmp4 = call i32 @add2(i32 %tmp2, i32 %tmp3)
+  ret i32 %tmp4
+
+done:
+  ret i32 %b
+}
+#+END_SRC
+** *_LLVM IR Generating Commands_*
+- *Generate the *.bc*
+  - ~$ clang -c -emit-llmv program.c -o program.bc~
+- *Generate the *.ll (human-readable form)*
+  - ~$ clang -S -emit-llvm program.c -o program.ll~
+- *Using interpreter to run bitcode*
+  - ~$lli program.bc~
