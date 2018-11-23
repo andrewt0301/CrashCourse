@@ -898,4 +898,21 @@ L2:
 - We need a *Ф* function at some node *if*
   - Two non-null CFG paths that both define some variable
   - Such that both paths start at two distinct nodes and end at this node
+** *_Other Necessary Components_*
+- Representing the code is only part of an /IR/. Other necessary components are:
+  - *Symbol Table*
+    - name
+    - type
+    - is array
+    - source line info
+    - scope
+    - is initialized
+    - memory position
+  - *Constant Table*
+    - representation, type
+    - storage class, memory offset in the constant pool
+  - *Storage Map*
+    - overall storage layout
+    - overlap information
+    - virtual register assignments
 * *_LLVM IR_*
