@@ -29,6 +29,7 @@
   - *Useful Metrics*
   - *Memory Management*
   - *Garbage Collection Algorithms*
+  - *Garbage Collectors in Oracle HotSpot JVM_*
 * *_Garbage Collector Basics_*
 ** *_What Is It?_*
 - Find data objects in the program, that cannot be accessed in the future
@@ -455,3 +456,49 @@
      - In the first case, inter-generation pointers can be easily recorded by checking each object during its promotion. The second case is harder - the collector needs to check each pointer store and provide some extra bookkeeping in case an inter-generational pointer is created. The process of trapping pointer stores and recording them is called "write barrier".
 ** *_Generational Garbage Collection_*
    - *Overall*: generational collection significantly improves the performance of collectors for most of programs. Such collectors are in widespread use
+* *_Garbage Collectors in Oracle HotSpot JVM_*
+- Oracle HotSpot JVM has four types of GC implementations:
+  - Serial Garbage Collector
+  - Parallel Garbage Collector
+  - CMS Garbage Collector
+  - G1 Garbage Collector
+** *_Serial Garbage Collector_*
+- This is the simplest GC implementation, as it basically works with a single thread. As a result, *this GC implementation freezes all application threads* when it runs. Hence, it is not a good idea to use it in multi-threaded applications like server environments.
+- The /Serial GC/ is the garbage collector of choice for most applications that do not have small pause time requirements and run on client-style machines. To enable /Serial Garbage Collector/, we can use the following argument:
+  - ~java -XX:+UseSerialGC -jar Application.java~
+** *_Parallel Garbage Collector_*
+- It’s the default GC of the JVM and sometimes called /Throughput Collector/. Unlike /Serial Garbage Collector/, this *uses multiple threads for managing heap space*. But it also *freezes other application threads* while performing GC.
+
+- The numbers of garbage collector threads can be controlled with the command-line option ~-XX:ParallelGCThreads=<N>~.
+
+- The maximum pause time goal (gap [in milliseconds] between two GC)is specified with the command-line option ~-XX:MaxGCPauseMillis=<N>~.
+
+** *_Parallel Garbage Collector_*
+- The maximum throughput target (measured regarding the time spent doing garbage collection versus the time spent outside of garbage collection) is specified by the command-line option ~-XX:GCTimeRatio=<N>~.
+
+- Maximum heap footprint (the amount of heap memory that a program requires while running) is specified using the option ~-Xmx<N>~.
+
+- To enable Parallel Garbage Collector, we can use the following argument:
+  - ~java -XX:+UseParallelGC -jar Application.java~
+** *_Concurrent Mark Sweep (CMS) Garbage Collector_*
+- The /Concurrent Mark Sweep (CMS)/ implementation *uses multiple garbage collector threads* for garbage collection. It’s designed for applications that prefer shorter garbage collection pauses, and that can afford *to share processor resources with the garbage collector while the application is running*.
+
+- Applications using this type of GC respond slower on average but do not stop responding to perform garbage collection.
+
+- If more than 98% of the total time is spent in CMS garbage collection and less than 2% of the heap is recovered, then an ~OutOfMemoryError~ is thrown by the /CMS collector/. If necessary, this feature can be disabled by adding the option ~-XX:-UseGCOverheadLimit~ to the command line.
+
+- To enable the /CMS Garbage Collector/, we can use the following flag:
+
+  - ~java -XX:+USeParNewGC -jar Application.java~
+** *_Garbage First (G1) Garbage Collector_*
+- /G1 (Garbage First) Garbage Collector/ is designed *for applications running on multi-processor machines with large memory space*. It’s available since JDK7 Update 4 and in later releases.
+
+- /G1 collector/ will replace the CMS collector since it’s more performance efficient.
+
+- Unlike other collectors, /G1 collector/ partitions the heap into a set of equal-sized heap regions, each a contiguous range of virtual memory. When performing garbage collections, G1 shows a concurrent global marking phase (i.e. phase 1 known as Marking) to determine the liveness of objects throughout the heap.
+
+- After the mark phase is completed, G1 knows which regions are mostly empty. It collects in these areas first, which usually yields a significant amount of free space (i.e. phase 2 known as Sweeping). It is why this method of garbage collection is called /Garbage-First/.
+
+- To enable /G1 Garbage Collector/, we can use the following argument:
+
+  - ~java -XX:+UseG1GC -jar Application.java~
