@@ -30,6 +30,7 @@
   - *Memory Management*
   - *Garbage Collection Algorithms*
   - *Garbage Collectors in Oracle HotSpot JVM_*
+  - *Garbage Collector in .NET*
 * *_Garbage Collector Basics_*
 ** *_What Is It?_*
 - Find data objects in the program, that cannot be accessed in the future
@@ -502,3 +503,22 @@
 - To enable /G1 Garbage Collector/, we can use the following argument:
 
   - ~java -XX:+UseG1GC -jar Application.java~
+* *_Garbage Collector in .NET_*
+** *_Roots in .NET_*
+- Stack references
+- Global/static object references
+- CPU registers
+- Object finalization references
+- Interop(ability) (unmanaged) references (.NET object passed to COM/API calls)
+** *_Managed Objects by Size_*
+- *Small Object Heap (SOH)* - objects smaller than 85 Kb
+- *Large Object Heap (LOH)*
+#+BEGIN_SRC c#
+class MyClass
+{
+  string Test = "Hello world!";
+  byte[] data = new byte[86000];
+}
+#+END_SRC
+#+ATTR_HTML: :width 750px
+[[./images/NETHeapAlloc.png]]
