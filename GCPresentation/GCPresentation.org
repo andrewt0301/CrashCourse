@@ -504,6 +504,11 @@
 
   - ~java -XX:+UseG1GC -jar Application.java~
 * *_Garbage Collector in .NET_*
+   - .NET and CLR are making use of *tracing garbage collector*. That means that on every collection the collector figures out whether the object is used by tracing every object from stack roots, GC handles and static data.
+** *_Garbage Collector in .NET_*
+ - Every object that could be traced is marked as live and at the end of tracing the ones without the mark are removed (swept) from the memory and it gets compacted. This is called a simple *mark and sweep algorithm*.
+ #+ATTR_HTML: :width 600px
+ [[./images/Animation_of_the_Naive_Mark_and_Sweep_Garbage_Collector_Algorithm.gif]]
 ** *_Roots in .NET_*
 - Stack references
 - Global/static object references
@@ -511,8 +516,8 @@
 - Object finalization references
 - Interop(ability) (unmanaged) references (.NET object passed to COM/API calls)
 ** *_Managed Objects by Size_*
-- *Small Object Heap (SOH)* - objects smaller than 85 Kb
-- *Large Object Heap (LOH)*
+   - *Small Object Heap (SOH)* - objects smaller than 85 Kb
+   - *Large Object Heap (LOH)*
 #+BEGIN_SRC c#
 class MyClass
 {
@@ -522,3 +527,23 @@ class MyClass
 #+END_SRC
 #+ATTR_HTML: :width 750px
 [[./images/NETHeapAlloc.png]]
+** *_Large Objects Heap (LOH) GC_*
+   - The primary difference is that the garbage collector *never compacts* this heap. This increases performance, but there may not be enough room for a new object even with enough available memory. This causes the Common Language Runtime (CLR) to throw ~OutOfMemoryException~
+#+ATTR_HTML: :width 750px
+[[./images/LOHGC.png]]
+** *_Small Objects Heap (SOH) GC_*
+   - The GC uses three segments, called *generations*, for small objects:
+     - Generation 0 "short-live generation" New objects are placed here
+     - Generation 1 "generation in between"
+     - Generation 2 "long-live generation" it gets collected less often. Collection over it is called /full garbage collection/
+#+ATTR_HTML: :width 1200px
+[[./images/SOHGC.png]]
+** *_Small Objects Heap (SOH) GC_*
+   - The CLR allocates memory for new objects in Generation 0. When this heap is full, the garbage collector discards objects no longer in use and promotes surviving objects (referred to as live objects) to Generation 1. The Generation 0 heap is then available to hold more newly created objects.
+   - When insufficient, the garbage collector repeats this process for Generation 1, and if still insufficient, continues with Generation 2. The garbage collector removes non-referenced objects and promotes surviving objects for Generation 1. This behavior differs in Generation 2 as it contains the longest surviving objects. After garbage collection completes, the garbage collector *compacts the heaps*.
+** *_GC Phases in .NET GC_*
+   - *Mark* The goal of the mark phase is to find all live objects.
+   - *Plan* simulates a compaction to determine the effective result. If compaction is productive the GC starts an actual compaction; otherwise it sweeps.
+   - *Relocate* If the GC decides to compact, which will result in moving objects, then references to these objects must be updated. The relocate phase needs to find all references that point to objects that are in the generations being collected.
+   - *Compact* This phase is very straight forward since the plan phase already calculated the new addresses the objects should move to. The compact phase will copy the objects there.
+   - *Sweep* looks for the dead space in between live objects. It creates free objects in place of these dead spaces. Adjacent dead objects are made into one free object. It places all of these free objects onto the freelist.
