@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Virtual Memory</title>
+<meta name="author" content="(Sergey V. Ignatov)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/theme/sky.css" id="theme"/>
+
+<link rel="stylesheet" href="./presentation.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/css/zenburn.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Virtual Memory</h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-11-30 Fri 19:07</p>
+</section>
+
+<section>
+<section id="slide-orgd08ca86">
+<h2 id="orgd08ca86"><b><span class="underline">Agenda</span></b></h2>
+<ul>
+<li><b>Virtual Memory</b> Terminology</li>
+<li>What is <b>Virtual Memory</b></li>
+<li>History of <b>Virtual Memory</b></li>
+<li>Why <b>Virtual Memory</b> is needed</li>
+<li>Goals of <b>Virtual Memory</b></li>
+<li>How does <b>Virtual Memory</b> work</li>
+<li>Memory Manage Unit (MMU)</li>
+<li>Segmentation</li>
+<li>Paging</li>
+<li>Page Fault</li>
+<li>Paging replacement algorithms</li>
+<li>Summary</li>
+
+</ul>
+
+
+
+</section>
+<section id="slide-orgdb4cb81">
+<h3 id="orgdb4cb81"><b><span class="underline">Virtual Memory Terminology</span></b></h3>
+<ul>
+<li><b>Virtual Memory</b>: A storage allocation scheme in which secondary memory can be addressed as though it were part of main memory. The addresses a program may use to reference memory are distinguished from the addresses the memory system uses to identify physical storage sites, and program-generated addresses are translated automatically to the corresponding machine addresses.</li>
+<li><b>Virtual Address</b>: The address assigned to a location in <b>Virtual Memory</b> to allow that location to be accessed as though it were part of main memory.</li>
+<li><b>Virtual Address Space</b>: The virtual storage assigned to a process.</li>
+<li><b>Address Space</b>: The range of memory addresses avaliable to a process</li>
+<li><b>Real (Physical) Address</b>: The address of a storage location in main memory</li>
+<li><b>Page</b>: is a contiguous block of virtual addresses</li>
+<li><b>Frame</b>: is a contiguous block of physical addresses</li>
+
+</ul>
+
+</section>
+<section id="slide-orge64e931">
+<h3 id="orge64e931"><b><span class="underline">Computer System Memory Hierarchy</span></b></h3>
+
+<div class="figure">
+<p><img src="./images/memory-hierarchy.jpg" alt="memory-hierarchy.jpg" width="1000px" />
+</p>
+</div>
+
+</section>
+<section id="slide-org0a99ce2">
+<h3 id="org0a99ce2"><b><span class="underline">Memory Management</span></b></h3>
+<ul>
+<li><b>Goals</b>:
+<ul>
+<li>Provide a convenient programming model</li>
+<li>Efficiently allocate a scarce resource</li>
+<li>Protect programs from each other</li>
+<li>Protect the OS from programs</li>
+
+</ul></li>
+<li><b>Mechanisms</b>:
+<ul>
+<li>Physical and virtual addressing</li>
+<li>Paging and segmentation</li>
+<li>Page table management</li>
+
+</ul></li>
+<li><b>Policies</b>:
+<ul>
+<li>Page replacement algorithms</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org0331c60">
+<h3 id="org0331c60"><b><span class="underline">Physical &amp; Virtual Addresses</span></b></h3>
+<ul>
+<li><b>Physical Address</b> is one that can be directly used by the memory subsystem</li>
+<li>Processes see only <b>Virtual Addresses</b>
+<ul>
+<li>OS provides each process with a <b>virtual address space</b></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgd035675">
+<h3 id="orgd035675"><b><span class="underline">Mapping Virtual to Physical Addresses</span></b></h3>
+<ul>
+<li>OS must provide a mapping from <b>virtual addresses</b> to <b>physical addresses</b>
+<ul>
+<li>The same <b>virtual address</b> in two different processes does not map to the same <b>physical address</b></li>
+<li>Some <b>virtual addresses</b> do not map to any <b>physical address</b></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf60ccac">
+<h3 id="orgf60ccac"><b><span class="underline">Where Do Addresses Come From?</span></b></h3>
+<ul>
+<li><b>Compile Time</b>: The compiler generates the exact physical location in memory starting from some fixed position. The OS do nothing</li>
+<li><b>Load Time</b>: Compiler generates an address, but at load time the OS determines the process starting</li>
+
+</ul>
+</section>
+<section id="slide-orga309929">
+<h3 id="orga309929"><b><span class="underline">What is Virtual Memory</span></b></h3>
+<ul>
+<li><b>Virtual Memory</b> as an alternate set of memory addresses.</li>
+<li>Programs use these virtual addresses rather than real addresses to store instructions and data.</li>
+<li>When the program is actually executed, the virtual addresses are converted into real memory addresses.</li>
+
+</ul>
+</section>
+<section id="slide-org6158384">
+<h3 id="org6158384"><b><span class="underline">History</span></b></h3>
+<ul>
+<li><b>Virtual Memory</b> was developed in approximately 1959 - 1962, at the University of Manchester for the Atlas Computer, completed in 1962.</li>
+<li>in 1961, Burroughs released the B5000, the first commercial computer with <b>Virtual Memory</b>.</li>
+
+</ul>
+</section>
+<section id="slide-orgaaa5516">
+<h3 id="orgaaa5516"><b><span class="underline">Why is It Needed&#x2026;</span></b></h3>
+<ul>
+<li>Before the development of the <b>Virtual Memory</b> technique, programmers in the 1940s and 1950s had to manage directly two-level storage such as main memory or RAM and secondary memory in the form of hard disks or earlier, magnetic drums.</li>
+<li>Enlarge the address space, the set of addresses a program can utilize.</li>
+<li><b>Virtual Memory</b> might contain twice as many addresses as main memory.</li>
+
+</ul>
+</section>
+<section id="slide-org0e0376f">
+<h3 id="org0e0376f"><b><span class="underline">Goals&#x2026;</span></b></h3>
+<ul>
+<li>When a computer is executing many programs at the same time, <b>Virtual Memory</b> make the computer to share memory efficiently.</li>
+<li>Eliminate a restriction that a computer works in memory which is small and be limited.</li>
+<li>When many programs is running at the same time, by distributing each suitable memory area to each program, VM protect programs to interfere each other in each memory area.</li>
+
+</ul>
+</section>
+<section id="slide-orgcf4cce1">
+<h3 id="orgcf4cce1"><b><span class="underline">How Does It Work&#x2026;</span></b></h3>
+<ul>
+<li>To facilitate copying <b>Virtual Memory</b> into real memory, the operating system divides <b>Virtual Memory</b> into pages, each of which contains a fixed number of addresses.</li>
+<li>Each page is stored on a disk until it is needed.</li>
+<li>When the page is needed, the operating system copies it from disk to main memory, translating the virtual addresses into real addresses.</li>
+
+</ul>
+</section>
+<section id="slide-orgc75e1d9">
+<h3 id="orgc75e1d9"><b><span class="underline">Memory Management Unit (MMU)</span></b></h3>
+<ul>
+<li>The hardware base that makes a <b>Virtual Memory</b> system possible.</li>
+<li>Allows software to reference physical memory by virtual addresses, quite often more than one.</li>
+<li>It accomplishes this through the use of page and page tables.</li>
+<li>Use a section of memory to translate virtual addresses into physical addresses via a series of table lookups.</li>
+<li>The software that handles the page fault is generally part of an operating system and the hardware that detects this situation.</li>
+
+</ul>
+</section>
+<section id="slide-orgd0684e6">
+<h3 id="orgd0684e6"><b><span class="underline">Segmentation&#x2026;</span></b></h3>
+<ul>
+<li>Segmentation involves the relocation of variable sized segments into the physical address space.</li>
+<li>Generally these segments are contiguous units, and are referred to in programs by their segment number and an offset to the requested data.</li>
+<li>Efficient segmentation relies on programs that are very thoughtfully written for their target system.</li>
+<li>Since segmentation relies on memory that is located in single large blocks, it is very possible that enough free space is available to load a new module, but can not be utilized.</li>
+<li>Segmentation may also suffer from internal fragmentation if segments are not variable-sized, where memory above the segment is not used by the program but is still “reserved” for it.</li>
+
+</ul>
+</section>
+<section id="slide-orgb6e6b9c">
+<h3 id="orgb6e6b9c"><b><span class="underline">Paging&#x2026;</span></b></h3>
+<ul>
+<li>Paging provides a somewhat easier interface for programs, in that its operation tends to be more automatic and thus transparent.</li>
+<li>Each unit of transfer, referred to as a page, is of a fixed size and swapped by the virtual memory manager outside of the program’s control.</li>
+<li>Instead of utilizing a segment/offset addressing approach, as seen in segmentation, paging uses a linear sequence of virtual addresses which are mapped to physical memory as necessary.</li>
+<li>Due to this addressing approach, a single program may refer to series of many non-contiguous segments.</li>
+<li>Although some internal fragmentation may still exist due to the fixed size of the pages, the approach virtually eliminates external fragmentation.</li>
+
+</ul>
+</section>
+<section id="slide-orgd19ab9b">
+<h3 id="orgd19ab9b"><b><span class="underline">Paging&#x2026;</span></b></h3>
+<ul>
+<li>A technique used by <b>Virtual Memory</b> operating systems to help ensure that the data you need is available as quickly as possible.</li>
+<li>The operating system copies a certain number of pages from your storage device to main memory.</li>
+<li>When a program needs a page that is not in maim memory, the operating system copies the required page into memory and copies another page back to the disk.</li>
+
+</ul>
+</section>
+<section id="slide-org4ec8be1">
+<h3 id="org4ec8be1"><b><span class="underline">Virtual Memory (Paging)</span></b></h3>
+
+</section>
+<section id="slide-orgcbdc8aa">
+<h3 id="orgcbdc8aa"><b><span class="underline">Page Fault</span></b></h3>
+<ul>
+<li>An interrupt to the software raised by the hardware when a program accesses a page that is not mapped in physical memory.</li>
+<li>When a program accesses a memory location in its memory and the page corresponding to that memory is not loaded</li>
+<li>When a program accesses a memory location in its memory and the program does not have privileges to access the page corresponding to that memory.</li>
+
+</ul>
+</section>
+<section id="slide-orgf5533bf">
+<h3 id="orgf5533bf"><b><span class="underline">Paging Replacement Algorithms</span></b></h3>
+<ul>
+<li><b>OPT(MIN)</b> : eliminate the page that be not expected to be used.</li>
+<li><b>FIFO(First Input/First Output)</b> : rather than choosing the victim page at random, the oldest page is the first to be removed.</li>
+<li><b>LRU(Least Recently Used)</b> : move out the page that is the least rarely used.</li>
+<li><b>LFU(Least Frequently Used)</b> : move out the page that is not used often in the past.</li>
+
+</ul>
+</section>
+<section id="slide-org904fefc">
+<h3 id="org904fefc"><b><span class="underline">Summary&#x2026;</span></b></h3>
+<ul>
+<li><b>Virtual Memory</b> is a common part of most operating systems on computers.</li>
+<li>It has become so common because it provides a big benefit for users at a very low cost.</li>
+<li>Benefits of executing a program that is only partially in memory.</li>
+<li>Program is no longer constrained by the amount of physical memory.
+<ul>
+<li>user would be able to write programs for an extremely large virtual address space.</li>
+
+</ul></li>
+<li>More programs could be run at the same time
+<ul>
+<li>increase CPU utilization and throughput.</li>
+
+</ul></li>
+<li>Less I/O would be needed to load or swap each user program
+<ul>
+<li>run faster</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org1fae4f4">
+<h3 id="org1fae4f4"><b><span class="underline">Memory Layout of Computer Program</span></b></h3>
+<ul>
+<li>A typical memory representation of a computer program consists of following sections:
+<ul>
+<li><b>Text Segment</b></li>
+<li><b>Initialized Data Segment (Data</b>)</li>
+<li><b>Uninitialized Data Segment (BSS)</b></li>
+<li><b>Memory Mapping Segment</b></li>
+<li><b>Stack</b></li>
+<li><b>Heap</b></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org46a5dd3">
+<h3 id="org46a5dd3"><b><span class="underline">Memory Layout of Computer Program</span></b></h3>
+
+<div class="figure">
+<p><img src="./images/StandardMemoryLayout.jpg" alt="StandardMemoryLayout.jpg" width="1200px" />
+</p>
+</div>
+</section>
+<section id="slide-org9a3699b">
+<h3 id="org9a3699b"><b><span class="underline">Text Segment</span></b></h3>
+<ul>
+<li>A <b>Text Segment, (*Code Segment</b>) is one of the sections of a program in an object file or in memory, which contains <b>executable instructions</b>.</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/js/head.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1200,
+height: 800,
+margin: 0.20,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'none', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>

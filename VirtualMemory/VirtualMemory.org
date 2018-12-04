@@ -1,0 +1,66 @@
+# # c39eab0e6d4c9845d70cbc0322825e79d7361436
+#+REVEAL_ROOT: https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:t reveal_control:t
+#+OPTIONS: reveal_mathjax:t reveal_rolling_links:t reveal_keyboard:t
+#+OPTIONS: reveal_overview:t num:nil reveal_toc:nil
+#+OPTIONS: reveal_width:1200 reveal_height:800
+#+REVEAL_MARGIN: 0.2
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_TRANS: none
+#+REVEAL_THEME: sky
+#+OPTIONS: text
+#+OPTIONS: toc:nil num:nil
+#+REVEAL_HLEVEL: 1
+# #+REVEAL_HLEVEL: 999
+#+REVEAL_EXTRA_CSS: ./presentation.css
+#+REVEAL_PLUGINS: (highlight)
+#+STARTUP: latexpreview
+#+MACRO: color @@html:<font color="$1">$2</font>@@
+
+#+TITLE: Virtual Memory
+#+AUTHOR: Sergey V. Ignatov
+#+EMAIL: s.ignatov@samsung.com
+# #+DATE: 18-09-2018
+
+* *_Agenda_*
+  - *Memory Layout of Process*
+* *_Memory Layout of Process_*
+  - A typical memory representation of a computer program consists of following sections:
+    - *Text Segment*
+    - *Initialized Data Segment (Data*)
+    - *Uninitialized Data Segment (BSS)*
+    - *Memory Mapping Segment*
+    - *Stack*
+    - *Heap*
+** *_Memory Layout of Process_*
+ #+ATTR_HTML: :width 1200px
+[[./images/StandardMemoryLayout.jpg]]
+** *_Memory Layout of Process_*
+   - Each distinct type of content typically occupies one or several continuous blocks of memory within the virtual address space. The initial placement of these blocks is managed by the loader of the operating system, the content of these blocks is managed by the process owning them.
+   - Layout of the blocks that contain executable code and static data is determined by the compiler and does not change during process execution. The blocks that contain stack and heap change during process execution.
+   - The blocks containing the heap and the stack may need to grow as the process owning them executes. The need for growth is difficult to predict during the initial placement of the blocks. To avoid restricting the growth by placing either heap or stack too close to other blocks, they are typically placed near the opposite ends of the process virtual address space with an empty space between them. The heap block is then grown upwards and the stack block downwards as necessary.
+** *_Text Segment_*
+   - A *Text Segment* (*Code Segment*) is one of the sections of a program in an object file or in memory, which contains *executable instructions*.
+   - As a memory region, a *text segment* may be placed below the *heap* or *stack* in order to prevent heaps and stack overflows from overwriting it.
+   - Usually, the *text segment* is sharable so that only a *single copy* needs to be in memory for frequently executed programs, such as text editors, the C compiler, the shells, and so on. Also, the *text segment* is often *read-only*, to prevent a program from accidentally modifying its instructions
+** *_Initialized Data Segment (Data)_*
+   - *Initialized Data Segment*, usually called simply the *Data Segment*. A *Data Segment* is a portion of virtual address space of a program, which contains the *global variables* and *static variables* that are *initialized* by the programmer.
+   - *Data Segment* is *not read-only*, since the values of the variables can be altered at run time.
+   - This segment can be further classified into *initialized read-only* area and *initialized read-write* area.
+   - Examples: ~static int i = 10;~ will be stored in data segment and global ~int i = 10;~ will also be stored in *Data Segment*.
+** *_Uninitialized Data Segment (BSS)_*
+   - *Uninitialized Data Segment*, often called the *"bss"* segment, named after an ancient assembler operator that stood for *"block started by symbol"*. Data in this segment is initialized by the kernel to arithmetic 0 before the program starts executing
+   - *Uninitialized Data* starts at the end of the data segment and contains all global variables and static variables that are initialized to zero or do not have explicit initialization in source code.
+   - The *BSS Segment* is *read-write* area.
+   - Examples: a variable declared as ~static int i;~ and a global variable declared as ~int j;~ would be contained in the *BSS Segment*.
+** *_Memory Mapping Segment_*
+   - In the middle of the process's address space, a large region is reserved for *shared objects*. *Shared libraries* are located at the top of the address space and grow downwards.
+   - When a new process is created, the process manager first maps the two segments from the executable into memory. It then decodes the program's header. If the program header indicates that the executable was linked against a *shared library*, the process manager will extract the name of the dynamic interpreter from the program header. The dynamic interpreter points to a *shared library* that contains the runtime linker code. The process manager will load this shared library in memory and will then pass control to the runtime linker code in this library.
+** *_Stack_*
+   - The *Stack* area contains the *program stack*, i.e., a *LIFO* structure typically located in the higher memory addresses right below the *OS kernel space*. Usually it grows *downwards to lower addresses*.
+   - This area is devoted to store all the data needed by a function call in a program. Specifically, the set of values pushed for one function call is named a *stack frame*, and consists of all the automatic variables (i.e., local to the scope of the function’s body and including any actual parameters passed as input to the function) and the caller’s return address. This is exactly how recursive functions are implemented in C: each time a recursive function calls itself, a new stack frame is allocated on top of the stack, thus the set of variables within one call are completely independent from those of another function call.
+   - A *stack pointer register* tracks the *top of the stack* (i.e., how much of the stack area the process is currently using), and it is adjusted each time a value is “pushed” onto the *stack*. If the *stack pointer* meets the heap pointer (or if it eventually reaches the limit posed by ~RLIMIT_STACK~), the available free memory is exhausted.
+** *_Heap_*
+   - *Heap* is the segment where dynamic memory allocation usually takes place, i.e., to allocate memory requested by the programmer for variables whose size can be only known at run-time and cannot be statically determined by the compiler before program execution. The *heap* area begins at the end of the *BSS segment* and grows *upwards* to higher memory addresses. It is managed by ~malloc/new~, ~free/delete~, which may use the ~brk~ and ~sbrk~ system calls to adjust its size.
+   - This area is shared by all shared libraries and dynamically loaded modules in a process.
