@@ -25,6 +25,7 @@
 
 * *_Agenda_*
   - *Memory Layout of Process*
+  - *Virtual Method Table*
 * *_Memory Layout of Process_*
   - A typical memory representation of a computer program consists of following sections:
     - *Text Segment*
@@ -61,6 +62,289 @@
    - The *Stack* area contains the *program stack*, i.e., a *LIFO* structure typically located in the higher memory addresses right below the *OS kernel space*. Usually it grows *downwards to lower addresses*.
    - This area is devoted to store all the data needed by a function call in a program. Specifically, the set of values pushed for one function call is named a *stack frame*, and consists of all the automatic variables (i.e., local to the scope of the function’s body and including any actual parameters passed as input to the function) and the caller’s return address. This is exactly how recursive functions are implemented in C: each time a recursive function calls itself, a new stack frame is allocated on top of the stack, thus the set of variables within one call are completely independent from those of another function call.
    - A *stack pointer register* tracks the *top of the stack* (i.e., how much of the stack area the process is currently using), and it is adjusted each time a value is “pushed” onto the *stack*. If the *stack pointer* meets the heap pointer (or if it eventually reaches the limit posed by ~RLIMIT_STACK~), the available free memory is exhausted.
+** *_Stack Frame_*
+#+ATTR_HTML: :width 600px
+[[./images/StackFrame.png]]
 ** *_Heap_*
    - *Heap* is the segment where dynamic memory allocation usually takes place, i.e., to allocate memory requested by the programmer for variables whose size can be only known at run-time and cannot be statically determined by the compiler before program execution. The *heap* area begins at the end of the *BSS segment* and grows *upwards* to higher memory addresses. It is managed by ~malloc/new~, ~free/delete~, which may use the ~brk~ and ~sbrk~ system calls to adjust its size.
    - This area is shared by all shared libraries and dynamically loaded modules in a process.
+** *_Producing an Object Module_*
+   - Assembler (or compiler) translates program into machine instructions
+   - Provides information for building a complete program from the pieces
+     - *Header*: described contents of object module
+     - *Text segment*: translated instructions
+     - *Static date segment*: data allocate for the life of the program
+     - *Relocation info*: for contents the depend on absolute location of loaded program
+     - *Symbol table*: global definitions and external references
+     - *Debug info*: for associating with source code
+** *_Linking Object Modules_*
+   - Produces an executable image
+     - Merges segments
+     - Resolve labels (determine their addresses)
+     - Patch location-dependent and external references
+   - Could leave location dependencies for fixing by a relocating loader
+     - But with virtual memory, no need to do this
+     - Program can be loaded into absolute location in virtual memory space
+** *_Loading a Program_*
+   - Load from image file on disk into memory
+     - Read header to determine segment sizes
+     - Create virtual address space
+     - Copy text and initialized data into memory
+     - Set up arguments on stack
+     - Initialize registers (including *stack pointer*, *frame pointer*)
+     - Jump to startup routine
+       - Copies arguments and calls ~main~
+       - When ~main~ returns, do ~exit~ syscall
+** *_Dynamic Linking_*
+   - Only link/load library procedure when it is called
+     - Requires procedure code to be relocatable
+     - Avoids image bloat caused by static linking of all (transitively) referenced libraries
+     - Automatically picks up new library versions
+   - Lazy Linkage
+     - Linkage performed only when function called
+     - Only functions actually used are linked
+* *_Virtual Method Table_*
+  - A *virtual method table* (VMT), *virtual function table*, *virtual call table*, *dispatch table*, *vtable*, or *vftable* is a mechanism used in a programming language to support dynamic dispatch (or run-time method binding).
+  - The *virual table* is a lookup table of functions, used to resolve function calls in a dynamic/late binding manner.
+** *_Polymorphism_*
+   - A Greek term which means "many forms"
+   - *Polymorphism* is classified into 2 branches
+     - Compile Time Polymorphism / {{{color(red, Early Binding)}}} / Static Binding
+     - Runtime Polymorphism / {{{color(red, Late Binding)}}} / Dynamic Binding
+** *_Binding_*
+   - For every function call; compiler binds or links the call to one function definition.
+   - This linking can happen at 2 different time
+     - At the time of compiling program
+     - At runtime
+** *_Compile Time Polymorphism_*
+   - *Function Overloading* it an example of *Compile Time Polymorphism*
+   - The decision of binding among several functions is taken by considering formal arguments of the functions, their data type and their sequence.
+** *_Example of Compile Time Polymorphism_*
+#+BEGIN_SRC c++
+void MyFunction(int i)
+{
+  cout << "an int is passed" << endl;
+}
+void MyFunction(char c)
+{
+  cout << "a char is passed" << endl;
+}
+
+int main()
+{
+  MyFunction(10);
+  MyFunction('x');
+  return 0;
+}
+#+END_SRC
+#+BEGIN_SRC c++
+an int is passed
+a char is passed
+#+END_SRC
+** *_Runtime Polymorphism_*
+   - In *late binding*; call to a function is resolved at *Runtime*, the compiler determines the type fo object at *execution time* and then binds the function call to a function definition.
+   - *Late Binding* is also called as *Dynamic Binding* or *Runtime Binding*.
+   - *Virtual Functions* are example of *Late Binding* in C++
+   - *Runtime polymorphism* is achieved using pointers.
+     - a base class pointer variable can hold address of derived class object, but it can access only members of base class.
+** *_Example of Runtime Polymorphism_*
+#+BEGIN_SRC c++
+class base
+{
+public:
+  void show() {
+    cout << "Show from base" << endl;
+  }
+};
+class derived : public base
+{
+public:
+  void show() {
+    cout << "Show from derived" << endl;
+  }
+};
+
+int main()
+{
+  base *ptr;
+  derived obj;
+
+  ptr = &obj;
+  ptr->show();
+  return 0;
+}
+#+END_SRC
+#+BEGIN_SRC c++
+Show from base
+#+END_SRC
+** *_Using ~virtual~ Keyword_*
+#+BEGIN_SRC c++
+class base
+{
+public:
+  virtual void show() {
+    cout << "Show from base" << endl;
+  }
+};
+class derived : public base
+{
+public:
+  void show() {
+    cout << "Show from derived" << endl;
+  }
+};
+
+int main()
+{
+  base *ptr;
+  derived obj;
+
+  ptr = &obj;
+  ptr->show();
+  return 0;
+}
+#+END_SRC
+#+BEGIN_SRC c++
+Show from derived
+#+END_SRC
+
+
+** *_Using ~virtual~ Keyword_*
+   - With *virtual* keyword *late binding* takes and derived version of the function will be called, because base ponter points to an derived type of object.
+   - {{{color(red, In runtime polymorphism the call to a function is resolved at runtime depending upon the type of object.)}}}
+** *_Virtual Functions_*
+   - A virtual function is a member function that is declared as ~virtual~ within a base class and redefined by a derived class.
+   - To create *virtual function*, precede the base version of function's declaration with the keyword ~virtual~.
+   - When a class containing *virtual function* is inherited, the {{{color(blue, derived class can redefine-override the virtual function to suit its own unique needs.)}}}
+   - The method name and type signature should be same for both base and derived version of function.
+** *_Overriding vs Overloading_*
+   - *Overloading* requires *unique signatures* whereas *overriding* requires *the same signature and return type*.
+   - *Overloading* requires that each *overloaded* version of the function be specified within the same scope whereas *overriding* requires each *overriden* version be specified within the scompe of each derived class.
+   - Call to an *Overloaded* method is resolved at *compile time*, while call to an *Overriden* method is resolved at runtime depending upon the type of object.
+** *_Late Resolving in Compilers_*
+   - Compiler maintains two things for *Late Resolving*:
+     - {{{color(red,vtable)}}}: a table of function pointers. It is maintained per class. So when the compiler encounters a class definition that contains a *virtual* method, it builds a ~vtable~ for that class. The ~vtable~ contains the addresses of all of the *virtual* methods for the class.
+     - All objects of the same class will share the same ~vtable~
+     - When the compiler encounters a derived class definition that inherits from this base class, it *makes a copy* of the ~vtable~ from the base class for the derived class.
+     - Now, for any method in the derived class that *over-rides* a virtual method in the base class, the compiler sets the address for that method to the derived class method's address.
+     - All the virtual function tables are in the *read-only memory* associated with your process, which protects them from unintentional overwrites.
+     - The function themselves (their assembly instructions) are stored in the ~.text~ section.
+     - {{{color(green,vptr)}}}: a pointer to ~vtable~. It is maintained per object (see {{{color(green,this)}}} fo an example). When the object of the derivdd class is created a pointer to the class's ~vtable~ is added to the object.
+** *_Example for Late Binding_*
+#+BEGIN_SRC c++
+class Employee
+{
+public:
+	virtual void raiseSalary()
+	{ /* common raise salary code */ }
+
+	virtual void promote()
+	{ /* common promote code */ }
+};
+
+class Manager: public Employee {
+	virtual void raiseSalary()
+	{ /* Manager specific raise salary code, may contain
+		increment of manager specific incentives*/ }
+
+	virtual void promote()
+	{ /* Manager specific promote */ }
+};
+
+// Similarly, there may be other types of employees
+
+// We need a very simple function to increment salary of all employees
+// Note that emp[] is an array of pointers and actual pointed objects can
+// be any type of employees. This function should ideally be in a class
+// like Organization, we have made it global to keep things simple
+void globalRaiseSalary(Employee *emp[], int n)
+{
+	for (int i = 0; i < n; i++)
+		emp[i]->raiseSalary(); // Polymorphic Call: Calls raiseSalary()
+							// according to the actual object, not
+							// according to the type of pointer
+}
+#+END_SRC
+** *_Late Resolving in Compilers_*
+   - Compilers adds additional code at two places to maintain and use ~vptr~:
+     + Code in every constructor. This code sets ~vptr~ of the object being created. This code sets ~vptr~ to point to ~vtable~ of the class.
+     + Code with polymorphic function call. Wherever a polymorphic call is made, compiler inserts a code to first look for ~vptr~ using base class pointer or reference (In the above example, since pointed or referred object is of derived type, ~vptr~ of derived class is accessed). Once ~vptr~ is fetched, ~vtable~ of derived class can be accessed. Using ~vtable~, address of derived class function ~show()~ is accessed and called.
+** *_Late Resolving in Compilers_*
+#+ATTR_HTML: :width 1200px
+[[./images/VirtualFunction.png]]
+** *_Structure of Virtual Table_*
+#+BEGIN_SRC c++
+class Base {
+    public:
+        virtual ~Base() { }
+        virtual void method() = 0;
+};
+
+class Derived: public Base{
+    public:
+        virtual ~Derived() {}
+        void method() {}
+};
+
+int main() {
+    Base* m = new Derived();
+    delete m;
+}
+#+END_SRC
+#+BEGIN_SRC c++
+(gdb) info vtbl m
+vtable for 'Base' @ 0x400af0 (subobject @ 0x603010):
+[0]: 0x400986 [Derived::~Derived()]
+[1]: 0x4009c0 [Derived::~Derived()]
+[2]: 0x4009e6 [Derived::method()]
+#+END_SRC
+** *_Location in Memory_*
+#+BEGIN_SRC c++
+readelf --sections a.out
+There are 36 section headers, starting at offset 0x6420:
+
+Section Headers:
+  [Nr] Name              Type             Address           Offset
+       Size              EntSize          Flags  Link  Info  Align
+  [ 0]                   NULL             0000000000000000  00000000
+       0000000000000000  0000000000000000           0     0     0
+  [13] .text             PROGBITS         00000000004007a0  000007a0
+       0000000000000302  0000000000000000  AX       0     0     16
+  [14] .fini             PROGBITS         0000000000400aa4  00000aa4
+       0000000000000009  0000000000000000  AX       0     0     4
+  [15] .rodata           PROGBITS         0000000000400ac0  00000ac0
+       00000000000000d0  0000000000000000   A       0     0     32
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), l (large)
+  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)
+  O (extra OS processing required) o (OS specific), p (processor specific)
+#+END_SRC
+   - ~[0x04007a0-0x0400aa4]~ – is the text section containing disassembly of functions (0x400986)
+   - ~[0x0400ac0-0x0400b90]~ – is the read only section containing the vtables (0x400af0)
+** *_Read Only Memory_*
+#+BEGIN_SRC c++
+objdump -s -j .rodata ./a.out
+
+./a.out:     file format elf64-x86-64
+
+Contents of section .rodata:
+ 400ac0 01000200 00000000 00000000 00000000  ................
+ 400ad0 00000000 00000000 00000000 00000000  ................
+ 400ae0 00000000 00000000 600b4000 00000000  ........`.@.....
+ 400af0 86094000 00000000 c0094000 00000000  ..@.......@.....
+ 400b00 e6094000 00000000 00000000 00000000  ..@.............
+ 400b10 00000000 00000000 00000000 00000000  ................
+ 400b20 00000000 00000000 800b4000 00000000  ..........@.....
+ 400b30 32094000 00000000 60094000 00000000  2.@.....`.@.....
+ 400b40 80074000 00000000 37446572 69766564  ..@.....7Derived
+ 400b50 00000000 00000000 00000000 00000000  ................
+ 400b60 f0206000 00000000 480b4000 00000000  . `.....H.@.....
+ 400b70 800b4000 00000000 34426173 65000000  ..@.....4Base...
+ 400b80 90206000 00000000 780b4000 00000000  . `.....x.@.....
+#+END_SRC
+   - When looking at the line 0x400af0 we notice that the values are not what we expect. The byte order is reversed in objdump compared to the disassembly. The raw bytes are ~[0x86, 0x9, 0x40, 0x0]~ with *big endian byte order* this results in 0x400986 and in *little endian byte order* this results in 0x860940.
+#+BEGIN_SRC c++
+(gdb) x/6x 0x400af0
+0x400af0 [_ZTV7Derived+16]:     0x00400986      0x00000000      0x004009c0      0x00000000
+0x400b00 [_ZTV7Derived+32]:     0x004009e6      0x00000000
+#+END_SRC

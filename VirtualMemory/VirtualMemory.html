@@ -27,250 +27,22 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Virtual Memory</h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-11-30 Fri 19:07</p>
+<section id="sec-title-slide"><h1 class="title">Virtual Memory</h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-12-05 Wed 14:53</p>
 </section>
 
 <section>
-<section id="slide-orgd08ca86">
-<h2 id="orgd08ca86"><b><span class="underline">Agenda</span></b></h2>
+<section id="slide-orgce4cd92">
+<h2 id="orgce4cd92"><b><span class="underline">Agenda</span></b></h2>
 <ul>
-<li><b>Virtual Memory</b> Terminology</li>
-<li>What is <b>Virtual Memory</b></li>
-<li>History of <b>Virtual Memory</b></li>
-<li>Why <b>Virtual Memory</b> is needed</li>
-<li>Goals of <b>Virtual Memory</b></li>
-<li>How does <b>Virtual Memory</b> work</li>
-<li>Memory Manage Unit (MMU)</li>
-<li>Segmentation</li>
-<li>Paging</li>
-<li>Page Fault</li>
-<li>Paging replacement algorithms</li>
-<li>Summary</li>
-
-</ul>
-
-
-
-</section>
-<section id="slide-orgdb4cb81">
-<h3 id="orgdb4cb81"><b><span class="underline">Virtual Memory Terminology</span></b></h3>
-<ul>
-<li><b>Virtual Memory</b>: A storage allocation scheme in which secondary memory can be addressed as though it were part of main memory. The addresses a program may use to reference memory are distinguished from the addresses the memory system uses to identify physical storage sites, and program-generated addresses are translated automatically to the corresponding machine addresses.</li>
-<li><b>Virtual Address</b>: The address assigned to a location in <b>Virtual Memory</b> to allow that location to be accessed as though it were part of main memory.</li>
-<li><b>Virtual Address Space</b>: The virtual storage assigned to a process.</li>
-<li><b>Address Space</b>: The range of memory addresses avaliable to a process</li>
-<li><b>Real (Physical) Address</b>: The address of a storage location in main memory</li>
-<li><b>Page</b>: is a contiguous block of virtual addresses</li>
-<li><b>Frame</b>: is a contiguous block of physical addresses</li>
-
-</ul>
-
-</section>
-<section id="slide-orge64e931">
-<h3 id="orge64e931"><b><span class="underline">Computer System Memory Hierarchy</span></b></h3>
-
-<div class="figure">
-<p><img src="./images/memory-hierarchy.jpg" alt="memory-hierarchy.jpg" width="1000px" />
-</p>
-</div>
-
-</section>
-<section id="slide-org0a99ce2">
-<h3 id="org0a99ce2"><b><span class="underline">Memory Management</span></b></h3>
-<ul>
-<li><b>Goals</b>:
-<ul>
-<li>Provide a convenient programming model</li>
-<li>Efficiently allocate a scarce resource</li>
-<li>Protect programs from each other</li>
-<li>Protect the OS from programs</li>
-
-</ul></li>
-<li><b>Mechanisms</b>:
-<ul>
-<li>Physical and virtual addressing</li>
-<li>Paging and segmentation</li>
-<li>Page table management</li>
-
-</ul></li>
-<li><b>Policies</b>:
-<ul>
-<li>Page replacement algorithms</li>
-
-</ul></li>
-
-</ul>
-
-</section>
-<section id="slide-org0331c60">
-<h3 id="org0331c60"><b><span class="underline">Physical &amp; Virtual Addresses</span></b></h3>
-<ul>
-<li><b>Physical Address</b> is one that can be directly used by the memory subsystem</li>
-<li>Processes see only <b>Virtual Addresses</b>
-<ul>
-<li>OS provides each process with a <b>virtual address space</b></li>
-
-</ul></li>
-
-</ul>
-
-</section>
-<section id="slide-orgd035675">
-<h3 id="orgd035675"><b><span class="underline">Mapping Virtual to Physical Addresses</span></b></h3>
-<ul>
-<li>OS must provide a mapping from <b>virtual addresses</b> to <b>physical addresses</b>
-<ul>
-<li>The same <b>virtual address</b> in two different processes does not map to the same <b>physical address</b></li>
-<li>Some <b>virtual addresses</b> do not map to any <b>physical address</b></li>
-
-</ul></li>
-
-</ul>
-
-</section>
-<section id="slide-orgf60ccac">
-<h3 id="orgf60ccac"><b><span class="underline">Where Do Addresses Come From?</span></b></h3>
-<ul>
-<li><b>Compile Time</b>: The compiler generates the exact physical location in memory starting from some fixed position. The OS do nothing</li>
-<li><b>Load Time</b>: Compiler generates an address, but at load time the OS determines the process starting</li>
+<li><b>Memory Layout of Process</b></li>
+<li><b>Virtual Method Table</b></li>
 
 </ul>
 </section>
-<section id="slide-orga309929">
-<h3 id="orga309929"><b><span class="underline">What is Virtual Memory</span></b></h3>
-<ul>
-<li><b>Virtual Memory</b> as an alternate set of memory addresses.</li>
-<li>Programs use these virtual addresses rather than real addresses to store instructions and data.</li>
-<li>When the program is actually executed, the virtual addresses are converted into real memory addresses.</li>
-
-</ul>
 </section>
-<section id="slide-org6158384">
-<h3 id="org6158384"><b><span class="underline">History</span></b></h3>
-<ul>
-<li><b>Virtual Memory</b> was developed in approximately 1959 - 1962, at the University of Manchester for the Atlas Computer, completed in 1962.</li>
-<li>in 1961, Burroughs released the B5000, the first commercial computer with <b>Virtual Memory</b>.</li>
-
-</ul>
-</section>
-<section id="slide-orgaaa5516">
-<h3 id="orgaaa5516"><b><span class="underline">Why is It Needed&#x2026;</span></b></h3>
-<ul>
-<li>Before the development of the <b>Virtual Memory</b> technique, programmers in the 1940s and 1950s had to manage directly two-level storage such as main memory or RAM and secondary memory in the form of hard disks or earlier, magnetic drums.</li>
-<li>Enlarge the address space, the set of addresses a program can utilize.</li>
-<li><b>Virtual Memory</b> might contain twice as many addresses as main memory.</li>
-
-</ul>
-</section>
-<section id="slide-org0e0376f">
-<h3 id="org0e0376f"><b><span class="underline">Goals&#x2026;</span></b></h3>
-<ul>
-<li>When a computer is executing many programs at the same time, <b>Virtual Memory</b> make the computer to share memory efficiently.</li>
-<li>Eliminate a restriction that a computer works in memory which is small and be limited.</li>
-<li>When many programs is running at the same time, by distributing each suitable memory area to each program, VM protect programs to interfere each other in each memory area.</li>
-
-</ul>
-</section>
-<section id="slide-orgcf4cce1">
-<h3 id="orgcf4cce1"><b><span class="underline">How Does It Work&#x2026;</span></b></h3>
-<ul>
-<li>To facilitate copying <b>Virtual Memory</b> into real memory, the operating system divides <b>Virtual Memory</b> into pages, each of which contains a fixed number of addresses.</li>
-<li>Each page is stored on a disk until it is needed.</li>
-<li>When the page is needed, the operating system copies it from disk to main memory, translating the virtual addresses into real addresses.</li>
-
-</ul>
-</section>
-<section id="slide-orgc75e1d9">
-<h3 id="orgc75e1d9"><b><span class="underline">Memory Management Unit (MMU)</span></b></h3>
-<ul>
-<li>The hardware base that makes a <b>Virtual Memory</b> system possible.</li>
-<li>Allows software to reference physical memory by virtual addresses, quite often more than one.</li>
-<li>It accomplishes this through the use of page and page tables.</li>
-<li>Use a section of memory to translate virtual addresses into physical addresses via a series of table lookups.</li>
-<li>The software that handles the page fault is generally part of an operating system and the hardware that detects this situation.</li>
-
-</ul>
-</section>
-<section id="slide-orgd0684e6">
-<h3 id="orgd0684e6"><b><span class="underline">Segmentation&#x2026;</span></b></h3>
-<ul>
-<li>Segmentation involves the relocation of variable sized segments into the physical address space.</li>
-<li>Generally these segments are contiguous units, and are referred to in programs by their segment number and an offset to the requested data.</li>
-<li>Efficient segmentation relies on programs that are very thoughtfully written for their target system.</li>
-<li>Since segmentation relies on memory that is located in single large blocks, it is very possible that enough free space is available to load a new module, but can not be utilized.</li>
-<li>Segmentation may also suffer from internal fragmentation if segments are not variable-sized, where memory above the segment is not used by the program but is still “reserved” for it.</li>
-
-</ul>
-</section>
-<section id="slide-orgb6e6b9c">
-<h3 id="orgb6e6b9c"><b><span class="underline">Paging&#x2026;</span></b></h3>
-<ul>
-<li>Paging provides a somewhat easier interface for programs, in that its operation tends to be more automatic and thus transparent.</li>
-<li>Each unit of transfer, referred to as a page, is of a fixed size and swapped by the virtual memory manager outside of the program’s control.</li>
-<li>Instead of utilizing a segment/offset addressing approach, as seen in segmentation, paging uses a linear sequence of virtual addresses which are mapped to physical memory as necessary.</li>
-<li>Due to this addressing approach, a single program may refer to series of many non-contiguous segments.</li>
-<li>Although some internal fragmentation may still exist due to the fixed size of the pages, the approach virtually eliminates external fragmentation.</li>
-
-</ul>
-</section>
-<section id="slide-orgd19ab9b">
-<h3 id="orgd19ab9b"><b><span class="underline">Paging&#x2026;</span></b></h3>
-<ul>
-<li>A technique used by <b>Virtual Memory</b> operating systems to help ensure that the data you need is available as quickly as possible.</li>
-<li>The operating system copies a certain number of pages from your storage device to main memory.</li>
-<li>When a program needs a page that is not in maim memory, the operating system copies the required page into memory and copies another page back to the disk.</li>
-
-</ul>
-</section>
-<section id="slide-org4ec8be1">
-<h3 id="org4ec8be1"><b><span class="underline">Virtual Memory (Paging)</span></b></h3>
-
-</section>
-<section id="slide-orgcbdc8aa">
-<h3 id="orgcbdc8aa"><b><span class="underline">Page Fault</span></b></h3>
-<ul>
-<li>An interrupt to the software raised by the hardware when a program accesses a page that is not mapped in physical memory.</li>
-<li>When a program accesses a memory location in its memory and the page corresponding to that memory is not loaded</li>
-<li>When a program accesses a memory location in its memory and the program does not have privileges to access the page corresponding to that memory.</li>
-
-</ul>
-</section>
-<section id="slide-orgf5533bf">
-<h3 id="orgf5533bf"><b><span class="underline">Paging Replacement Algorithms</span></b></h3>
-<ul>
-<li><b>OPT(MIN)</b> : eliminate the page that be not expected to be used.</li>
-<li><b>FIFO(First Input/First Output)</b> : rather than choosing the victim page at random, the oldest page is the first to be removed.</li>
-<li><b>LRU(Least Recently Used)</b> : move out the page that is the least rarely used.</li>
-<li><b>LFU(Least Frequently Used)</b> : move out the page that is not used often in the past.</li>
-
-</ul>
-</section>
-<section id="slide-org904fefc">
-<h3 id="org904fefc"><b><span class="underline">Summary&#x2026;</span></b></h3>
-<ul>
-<li><b>Virtual Memory</b> is a common part of most operating systems on computers.</li>
-<li>It has become so common because it provides a big benefit for users at a very low cost.</li>
-<li>Benefits of executing a program that is only partially in memory.</li>
-<li>Program is no longer constrained by the amount of physical memory.
-<ul>
-<li>user would be able to write programs for an extremely large virtual address space.</li>
-
-</ul></li>
-<li>More programs could be run at the same time
-<ul>
-<li>increase CPU utilization and throughput.</li>
-
-</ul></li>
-<li>Less I/O would be needed to load or swap each user program
-<ul>
-<li>run faster</li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-org1fae4f4">
-<h3 id="org1fae4f4"><b><span class="underline">Memory Layout of Computer Program</span></b></h3>
+<section>
+<section id="slide-org5d87c93">
+<h2 id="org5d87c93"><b><span class="underline">Memory Layout of Process</span></b></h2>
 <ul>
 <li>A typical memory representation of a computer program consists of following sections:
 <ul>
@@ -285,20 +57,521 @@
 
 </ul>
 </section>
-<section id="slide-org46a5dd3">
-<h3 id="org46a5dd3"><b><span class="underline">Memory Layout of Computer Program</span></b></h3>
+<section id="slide-orgdf3e541">
+<h3 id="orgdf3e541"><b><span class="underline">Memory Layout of Process</span></b></h3>
 
 <div class="figure">
 <p><img src="./images/StandardMemoryLayout.jpg" alt="StandardMemoryLayout.jpg" width="1200px" />
 </p>
 </div>
 </section>
-<section id="slide-org9a3699b">
-<h3 id="org9a3699b"><b><span class="underline">Text Segment</span></b></h3>
+<section id="slide-org55c72f8">
+<h3 id="org55c72f8"><b><span class="underline">Memory Layout of Process</span></b></h3>
 <ul>
-<li>A <b>Text Segment, (*Code Segment</b>) is one of the sections of a program in an object file or in memory, which contains <b>executable instructions</b>.</li>
+<li>Each distinct type of content typically occupies one or several continuous blocks of memory within the virtual address space. The initial placement of these blocks is managed by the loader of the operating system, the content of these blocks is managed by the process owning them.</li>
+<li>Layout of the blocks that contain executable code and static data is determined by the compiler and does not change during process execution. The blocks that contain stack and heap change during process execution.</li>
+<li>The blocks containing the heap and the stack may need to grow as the process owning them executes. The need for growth is difficult to predict during the initial placement of the blocks. To avoid restricting the growth by placing either heap or stack too close to other blocks, they are typically placed near the opposite ends of the process virtual address space with an empty space between them. The heap block is then grown upwards and the stack block downwards as necessary.</li>
 
 </ul>
+</section>
+<section id="slide-org0fcceda">
+<h3 id="org0fcceda"><b><span class="underline">Text Segment</span></b></h3>
+<ul>
+<li>A <b>Text Segment</b> (<b>Code Segment</b>) is one of the sections of a program in an object file or in memory, which contains <b>executable instructions</b>.</li>
+<li>As a memory region, a <b>text segment</b> may be placed below the <b>heap</b> or <b>stack</b> in order to prevent heaps and stack overflows from overwriting it.</li>
+<li>Usually, the <b>text segment</b> is sharable so that only a <b>single copy</b> needs to be in memory for frequently executed programs, such as text editors, the C compiler, the shells, and so on. Also, the <b>text segment</b> is often <b>read-only</b>, to prevent a program from accidentally modifying its instructions</li>
+
+</ul>
+</section>
+<section id="slide-orgf8ad529">
+<h3 id="orgf8ad529"><b><span class="underline">Initialized Data Segment (Data)</span></b></h3>
+<ul>
+<li><b>Initialized Data Segment</b>, usually called simply the <b>Data Segment</b>. A <b>Data Segment</b> is a portion of virtual address space of a program, which contains the <b>global variables</b> and <b>static variables</b> that are <b>initialized</b> by the programmer.</li>
+<li><b>Data Segment</b> is <b>not read-only</b>, since the values of the variables can be altered at run time.</li>
+<li>This segment can be further classified into <b>initialized read-only</b> area and <b>initialized read-write</b> area.</li>
+<li>Examples: <code>static int i = 10;</code> will be stored in data segment and global <code>int i = 10;</code> will also be stored in <b>Data Segment</b>.</li>
+
+</ul>
+</section>
+<section id="slide-orgef8990a">
+<h3 id="orgef8990a"><b><span class="underline">Uninitialized Data Segment (BSS)</span></b></h3>
+<ul>
+<li><b>Uninitialized Data Segment</b>, often called the <b>"bss"</b> segment, named after an ancient assembler operator that stood for <b>"block started by symbol"</b>. Data in this segment is initialized by the kernel to arithmetic 0 before the program starts executing</li>
+<li><b>Uninitialized Data</b> starts at the end of the data segment and contains all global variables and static variables that are initialized to zero or do not have explicit initialization in source code.</li>
+<li>The <b>BSS Segment</b> is <b>read-write</b> area.</li>
+<li>Examples: a variable declared as <code>static int i;</code> and a global variable declared as <code>int j;</code> would be contained in the <b>BSS Segment</b>.</li>
+
+</ul>
+</section>
+<section id="slide-org880f73e">
+<h3 id="org880f73e"><b><span class="underline">Memory Mapping Segment</span></b></h3>
+<ul>
+<li>In the middle of the process's address space, a large region is reserved for <b>shared objects</b>. <b>Shared libraries</b> are located at the top of the address space and grow downwards.</li>
+<li>When a new process is created, the process manager first maps the two segments from the executable into memory. It then decodes the program's header. If the program header indicates that the executable was linked against a <b>shared library</b>, the process manager will extract the name of the dynamic interpreter from the program header. The dynamic interpreter points to a <b>shared library</b> that contains the runtime linker code. The process manager will load this shared library in memory and will then pass control to the runtime linker code in this library.</li>
+
+</ul>
+</section>
+<section id="slide-orgea4d46d">
+<h3 id="orgea4d46d"><b><span class="underline">Stack</span></b></h3>
+<ul>
+<li>The <b>Stack</b> area contains the <b>program stack</b>, i.e., a <b>LIFO</b> structure typically located in the higher memory addresses right below the <b>OS kernel space</b>. Usually it grows <b>downwards to lower addresses</b>.</li>
+<li>This area is devoted to store all the data needed by a function call in a program. Specifically, the set of values pushed for one function call is named a <b>stack frame</b>, and consists of all the automatic variables (i.e., local to the scope of the function’s body and including any actual parameters passed as input to the function) and the caller’s return address. This is exactly how recursive functions are implemented in C: each time a recursive function calls itself, a new stack frame is allocated on top of the stack, thus the set of variables within one call are completely independent from those of another function call.</li>
+<li>A <b>stack pointer register</b> tracks the <b>top of the stack</b> (i.e., how much of the stack area the process is currently using), and it is adjusted each time a value is “pushed” onto the <b>stack</b>. If the <b>stack pointer</b> meets the heap pointer (or if it eventually reaches the limit posed by <code>RLIMIT_STACK</code>), the available free memory is exhausted.</li>
+
+</ul>
+</section>
+<section id="slide-org06f44ea">
+<h3 id="org06f44ea"><b><span class="underline">Stack Frame</span></b></h3>
+
+<div class="figure">
+<p><img src="./images/StackFrame.png" alt="StackFrame.png" width="600px" />
+</p>
+</div>
+</section>
+<section id="slide-org565841a">
+<h3 id="org565841a"><b><span class="underline">Heap</span></b></h3>
+<ul>
+<li><b>Heap</b> is the segment where dynamic memory allocation usually takes place, i.e., to allocate memory requested by the programmer for variables whose size can be only known at run-time and cannot be statically determined by the compiler before program execution. The <b>heap</b> area begins at the end of the <b>BSS segment</b> and grows <b>upwards</b> to higher memory addresses. It is managed by <code>malloc/new</code>, <code>free/delete</code>, which may use the <code>brk</code> and <code>sbrk</code> system calls to adjust its size.</li>
+<li>This area is shared by all shared libraries and dynamically loaded modules in a process.</li>
+
+</ul>
+</section>
+<section id="slide-orgc170111">
+<h3 id="orgc170111"><b><span class="underline">Producing an Object Module</span></b></h3>
+<ul>
+<li>Assembler (or compiler) translates program into machine instructions</li>
+<li>Provides information for building a complete program from the pieces
+<ul>
+<li><b>Header</b>: described contents of object module</li>
+<li><b>Text segment</b>: translated instructions</li>
+<li><b>Static date segment</b>: data allocate for the life of the program</li>
+<li><b>Relocation info</b>: for contents the depend on absolute location of loaded program</li>
+<li><b>Symbol table</b>: global definitions and external references</li>
+<li><b>Debug info</b>: for associating with source code</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgba67b92">
+<h3 id="orgba67b92"><b><span class="underline">Linking Object Modules</span></b></h3>
+<ul>
+<li>Produces an executable image
+<ul>
+<li>Merges segments</li>
+<li>Resolve labels (determine their addresses)</li>
+<li>Patch location-dependent and external references</li>
+
+</ul></li>
+<li>Could leave location dependencies for fixing by a relocating loader
+<ul>
+<li>But with virtual memory, no need to do this</li>
+<li>Program can be loaded into absolute location in virtual memory space</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org0607992">
+<h3 id="org0607992"><b><span class="underline">Loading a Program</span></b></h3>
+<ul>
+<li>Load from image file on disk into memory
+<ul>
+<li>Read header to determine segment sizes</li>
+<li>Create virtual address space</li>
+<li>Copy text and initialized data into memory</li>
+<li>Set up arguments on stack</li>
+<li>Initialize registers (including <b>stack pointer</b>, <b>frame pointer</b>)</li>
+<li>Jump to startup routine
+<ul>
+<li>Copies arguments and calls <code>main</code></li>
+<li>When <code>main</code> returns, do <code>exit</code> syscall</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org54c028f">
+<h3 id="org54c028f"><b><span class="underline">Dynamic Linking</span></b></h3>
+<ul>
+<li>Only link/load library procedure when it is called
+<ul>
+<li>Requires procedure code to be relocatable</li>
+<li>Avoids image bloat caused by static linking of all (transitively) referenced libraries</li>
+<li>Automatically picks up new library versions</li>
+
+</ul></li>
+<li>Lazy Linkage
+<ul>
+<li>Linkage performed only when function called</li>
+<li>Only functions actually used are linked</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org9a17c05">
+<h2 id="org9a17c05"><b><span class="underline">Virtual Method Table</span></b></h2>
+<ul>
+<li>A <b>virtual method table</b> (VMT), <b>virtual function table</b>, <b>virtual call table</b>, <b>dispatch table</b>, <b>vtable</b>, or <b>vftable</b> is a mechanism used in a programming language to support dynamic dispatch (or run-time method binding).</li>
+<li>The <b>virual table</b> is a lookup table of functions, used to resolve function calls in a dynamic/late binding manner.</li>
+
+</ul>
+</section>
+<section id="slide-orgc0b4c1a">
+<h3 id="orgc0b4c1a"><b><span class="underline">Polymorphism</span></b></h3>
+<ul>
+<li>A Greek term which means "many forms"</li>
+<li><b>Polymorphism</b> is classified into 2 branches
+<ul>
+<li>Compile Time Polymorphism / <font color="red"> Early Binding</font> / Static Binding</li>
+<li>Runtime Polymorphism / <font color="red"> Late Binding</font> / Dynamic Binding</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgbdd528b">
+<h3 id="orgbdd528b"><b><span class="underline">Binding</span></b></h3>
+<ul>
+<li>For every function call; compiler binds or links the call to one function definition.</li>
+<li>This linking can happen at 2 different time
+<ul>
+<li>At the time of compiling program</li>
+<li>At runtime</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgf440841">
+<h3 id="orgf440841"><b><span class="underline">Compile Time Polymorphism</span></b></h3>
+<ul>
+<li><b>Function Overloading</b> it an example of <b>Compile Time Polymorphism</b></li>
+<li>The decision of binding among several functions is taken by considering formal arguments of the functions, their data type and their sequence.</li>
+
+</ul>
+</section>
+<section id="slide-org795b510">
+<h3 id="org795b510"><b><span class="underline">Example of Compile Time Polymorphism</span></b></h3>
+<div class="org-src-container">
+
+<pre><code class="c++" >void MyFunction(int i)
+{
+  cout < "an int is passed" < endl;
+}
+void MyFunction(char c)
+{
+  cout < "a char is passed" < endl;
+}
+
+int main()
+{
+  MyFunction(10);
+  MyFunction('x');
+  return 0;
+}
+</code></pre>
+</div>
+<div class="org-src-container">
+
+<pre><code class="c++" >an int is passed
+a char is passed
+</code></pre>
+</div>
+</section>
+<section id="slide-org992fa9c">
+<h3 id="org992fa9c"><b><span class="underline">Runtime Polymorphism</span></b></h3>
+<ul>
+<li>In <b>late binding</b>; call to a function is resolved at <b>Runtime</b>, the compiler determines the type fo object at <b>execution time</b> and then binds the function call to a function definition.</li>
+<li><b>Late Binding</b> is also called as <b>Dynamic Binding</b> or <b>Runtime Binding</b>.</li>
+<li><b>Virtual Functions</b> are example of <b>Late Binding</b> in C++</li>
+<li><b>Runtime polymorphism</b> is achieved using pointers.
+<ul>
+<li>a base class pointer variable can hold address of derived class object, but it can access only members of base class.</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org6d1f4e5">
+<h3 id="org6d1f4e5"><b><span class="underline">Example of Runtime Polymorphism</span></b></h3>
+<div class="org-src-container">
+
+<pre><code class="c++" >class base
+{
+public:
+  void show() {
+    cout < "Show from base" < endl;
+  }
+};
+class derived : public base
+{
+public:
+  void show() {
+    cout < "Show from derived" < endl;
+  }
+};
+
+int main()
+{
+  base *ptr;
+  derived obj;
+
+  ptr = &obj;
+  ptr->show();
+  return 0;
+}
+</code></pre>
+</div>
+<div class="org-src-container">
+
+<pre><code class="c++" >Show from base
+</code></pre>
+</div>
+</section>
+<section id="slide-orgbd6a2c7">
+<h3 id="orgbd6a2c7"><b><span class="underline">Using <code>virtual</code> Keyword</span></b></h3>
+<div class="org-src-container">
+
+<pre><code class="c++" >class base
+{
+public:
+  virtual void show() {
+    cout < "Show from base" < endl;
+  }
+};
+class derived : public base
+{
+public:
+  void show() {
+    cout < "Show from derived" < endl;
+  }
+};
+
+int main()
+{
+  base *ptr;
+  derived obj;
+
+  ptr = &obj;
+  ptr->show();
+  return 0;
+}
+</code></pre>
+</div>
+<div class="org-src-container">
+
+<pre><code class="c++" >Show from derived
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-org55833f9">
+<h3 id="org55833f9"><b><span class="underline">Using <code>virtual</code> Keyword</span></b></h3>
+<ul>
+<li>With <b>virtual</b> keyword <b>late binding</b> takes and derived version of the function will be called, because base ponter points to an derived type of object.</li>
+<li><font color="red"> In runtime polymorphism the call to a function is resolved at runtime depending upon the type of object.</font></li>
+
+</ul>
+</section>
+<section id="slide-org923813f">
+<h3 id="org923813f"><b><span class="underline">Virtual Functions</span></b></h3>
+<ul>
+<li>A virtual function is a member function that is declared as <code>virtual</code> within a base class and redefined by a derived class.</li>
+<li>To create <b>virtual function</b>, precede the base version of function's declaration with the keyword <code>virtual</code>.</li>
+<li>When a class containing <b>virtual function</b> is inherited, the <font color="blue"> derived class can redefine-override the virtual function to suit its own unique needs.</font></li>
+<li>The method name and type signature should be same for both base and derived version of function.</li>
+
+</ul>
+</section>
+<section id="slide-orgc302f01">
+<h3 id="orgc302f01"><b><span class="underline">Overriding vs Overloading</span></b></h3>
+<ul>
+<li><b>Overloading</b> requires <b>unique signatures</b> whereas <b>overriding</b> requires <b>the same signature and return type</b>.</li>
+<li><b>Overloading</b> requires that each <b>overloaded</b> version of the function be specified within the same scope whereas <b>overriding</b> requires each <b>overriden</b> version be specified within the scompe of each derived class.</li>
+<li>Call to an <b>Overloaded</b> method is resolved at <b>compile time</b>, while call to an <b>Overriden</b> method is resolved at runtime depending upon the type of object.</li>
+
+</ul>
+</section>
+<section id="slide-orgea493b5">
+<h3 id="orgea493b5"><b><span class="underline">Late Resolving in Compilers</span></b></h3>
+<ul>
+<li>Compiler maintains two things for <b>Late Resolving</b>:
+<ul>
+<li><font color="red">vtable</font>: a table of function pointers. It is maintained per class. So when the compiler encounters a class definition that contains a <b>virtual</b> method, it builds a <code>vtable</code> for that class. The <code>vtable</code> contains the addresses of all of the <b>virtual</b> methods for the class.</li>
+<li>All objects of the same class will share the same <code>vtable</code></li>
+<li>When the compiler encounters a derived class definition that inherits from this base class, it <b>makes a copy</b> of the <code>vtable</code> from the base class for the derived class.</li>
+<li>Now, for any method in the derived class that <b>over-rides</b> a virtual method in the base class, the compiler sets the address for that method to the derived class method's address.</li>
+<li>All the virtual function tables are in the <b>read-only memory</b> associated with your process, which protects them from unintentional overwrites.</li>
+<li>The function themselves (their assembly instructions) are stored in the <code>.text</code> section.</li>
+<li><font color="green">vptr</font>: a pointer to <code>vtable</code>. It is maintained per object (see <font color="green">this</font> fo an example). When the object of the derivdd class is created a pointer to the class's <code>vtable</code> is added to the object.</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org60df895">
+<h3 id="org60df895"><b><span class="underline">Example for Late Binding</span></b></h3>
+<div class="org-src-container">
+
+<pre><code class="c++" >class Employee
+{
+public:
+  virtual void raiseSalary()
+  { /* common raise salary code */ }
+
+  virtual void promote()
+  { /* common promote code */ }
+};
+
+class Manager: public Employee {
+  virtual void raiseSalary()
+  { /* Manager specific raise salary code, may contain
+    increment of manager specific incentives*/ }
+
+  virtual void promote()
+  { /* Manager specific promote */ }
+};
+
+// Similarly, there may be other types of employees
+
+// We need a very simple function to increment salary of all employees
+// Note that emp[] is an array of pointers and actual pointed objects can
+// be any type of employees. This function should ideally be in a class
+// like Organization, we have made it global to keep things simple
+void globalRaiseSalary(Employee *emp[], int n)
+{
+  for (int i = 0; i < n; i++)
+    emp[i]->raiseSalary(); // Polymorphic Call: Calls raiseSalary()
+              // according to the actual object, not
+              // according to the type of pointer
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-org4d8e5e9">
+<h3 id="org4d8e5e9"><b><span class="underline">Late Resolving in Compilers</span></b></h3>
+<ul>
+<li>Compilers adds additional code at two places to maintain and use <code>vptr</code>:
+<ul>
+<li>Code in every constructor. This code sets <code>vptr</code> of the object being created. This code sets <code>vptr</code> to point to <code>vtable</code> of the class.</li>
+<li>Code with polymorphic function call. Wherever a polymorphic call is made, compiler inserts a code to first look for <code>vptr</code> using base class pointer or reference (In the above example, since pointed or referred object is of derived type, <code>vptr</code> of derived class is accessed). Once <code>vptr</code> is fetched, <code>vtable</code> of derived class can be accessed. Using <code>vtable</code>, address of derived class function <code>show()</code> is accessed and called.</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org8d306f7">
+<h3 id="org8d306f7"><b><span class="underline">Late Resolving in Compilers</span></b></h3>
+
+<div class="figure">
+<p><img src="./images/VirtualFunction.png" alt="VirtualFunction.png" width="1200px" />
+</p>
+</div>
+</section>
+<section id="slide-orga50db51">
+<h3 id="orga50db51"><b><span class="underline">Structure of Virtual Table</span></b></h3>
+<div class="org-src-container">
+
+<pre><code class="c++" >class Base {
+    public:
+        virtual ~Base() { }
+        virtual void method() = 0;
+};
+
+class Derived: public Base{
+    public:
+        virtual ~Derived() {}
+        void method() {}
+};
+
+int main() {
+    Base* m = new Derived();
+    delete m;
+}
+</code></pre>
+</div>
+<div class="org-src-container">
+
+<pre><code class="c++" >(gdb) info vtbl m
+vtable for 'Base' @ 0x400af0 (subobject @ 0x603010):
+[0]: 0x400986 [Derived::~Derived()]
+[1]: 0x4009c0 [Derived::~Derived()]
+[2]: 0x4009e6 [Derived::method()]
+</code></pre>
+</div>
+</section>
+<section id="slide-org24a53db">
+<h3 id="org24a53db"><b><span class="underline">Location in Memory</span></b></h3>
+<div class="org-src-container">
+
+<pre><code class="c++" >readelf --sections a.out
+There are 36 section headers, starting at offset 0x6420:
+
+Section Headers:
+  [Nr] Name              Type             Address           Offset
+       Size              EntSize          Flags  Link  Info  Align
+  [ 0]                   NULL             0000000000000000  00000000
+       0000000000000000  0000000000000000           0     0     0
+  [13] .text             PROGBITS         00000000004007a0  000007a0
+       0000000000000302  0000000000000000  AX       0     0     16
+  [14] .fini             PROGBITS         0000000000400aa4  00000aa4
+       0000000000000009  0000000000000000  AX       0     0     4
+  [15] .rodata           PROGBITS         0000000000400ac0  00000ac0
+       00000000000000d0  0000000000000000   A       0     0     32
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), l (large)
+  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)
+  O (extra OS processing required) o (OS specific), p (processor specific)
+</code></pre>
+</div>
+<ul>
+<li><code>[0x04007a0-0x0400aa4]</code> – is the text section containing disassembly of functions (0x400986)</li>
+<li><code>[0x0400ac0-0x0400b90]</code> – is the read only section containing the vtables (0x400af0)</li>
+
+</ul>
+</section>
+<section id="slide-org0a536bb">
+<h3 id="org0a536bb"><b><span class="underline">Read Only Memory</span></b></h3>
+<div class="org-src-container">
+
+<pre><code class="c++" >objdump -s -j .rodata ./a.out
+
+./a.out:     file format elf64-x86-64
+
+Contents of section .rodata:
+ 400ac0 01000200 00000000 00000000 00000000  ................
+ 400ad0 00000000 00000000 00000000 00000000  ................
+ 400ae0 00000000 00000000 600b4000 00000000  ........`.@.....
+ 400af0 86094000 00000000 c0094000 00000000  ..@.......@.....
+ 400b00 e6094000 00000000 00000000 00000000  ..@.............
+ 400b10 00000000 00000000 00000000 00000000  ................
+ 400b20 00000000 00000000 800b4000 00000000  ..........@.....
+ 400b30 32094000 00000000 60094000 00000000  2.@.....`.@.....
+ 400b40 80074000 00000000 37446572 69766564  ..@.....7Derived
+ 400b50 00000000 00000000 00000000 00000000  ................
+ 400b60 f0206000 00000000 480b4000 00000000  . `.....H.@.....
+ 400b70 800b4000 00000000 34426173 65000000  ..@.....4Base...
+ 400b80 90206000 00000000 780b4000 00000000  . `.....x.@.....
+</code></pre>
+</div>
+<ul>
+<li>When looking at the line 0x400af0 we notice that the values are not what we expect. The byte order is reversed in objdump compared to the disassembly. The raw bytes are <code>[0x86, 0x9, 0x40, 0x0]</code> with <b>big endian byte order</b> this results in 0x400986 and in <b>little endian byte order</b> this results in 0x860940.</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="c++" >(gdb) x/6x 0x400af0
+0x400af0 [_ZTV7Derived+16]:     0x00400986      0x00000000      0x004009c0      0x00000000
+0x400b00 [_ZTV7Derived+32]:     0x004009e6      0x00000000
+</code></pre>
+</div>
 </section>
 </section>
 </div>
