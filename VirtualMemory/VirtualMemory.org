@@ -24,8 +24,153 @@
 # #+DATE: 18-09-2018
 
 * *_Agenda_*
+  - *Virtual Memory*
   - *Memory Layout of Process*
   - *Virtual Method Table*
+* *_Virtual Memory_*
+  - Basic memory management
+  - Swapping
+  - Virtual Memory
+  - Page replacement algorithms
+  - Modeling page replacement algorithms
+  - Design issues for paging systems
+  - Implementation issues
+  - Segmentation
+
+** *_History_*
+   - *Virtual Memory* was developed in approximately 1959 - 1962, at the University of Manchester for the Atlas Computer, completed in 1962.
+   - in 1961, Burroughs released the B5000, the first commercial computer with *Virtual Memory*.
+
+** *_Virtual Memory Terminology_*
+    - *Virtual Memory*: A storage allocation scheme in which secondary memory can be addressed as though it were part of main memory. The addresses a program may use to reference memory are distinguished from the addresses the memory system uses to identify physical storage sites, and program-generated addresses are translated automatically to the corresponding machine addresses.
+    - *Virtual Address*: The address assigned to a location in *Virtual Memory* to allow that location to be accessed as though it were part of main memory.
+    - *Virtual Address Space*: The virtual storage assigned to a process.
+    - *Address Space*: The range of memory addresses avaliable to a process
+    - *Real (Physical) Address*: The address of a storage location in main memory
+    - *Page*: is a contiguous block of virtual addresses
+    - *Frame*: is a contiguous block of physical addresses
+
+** *_Memory Management_*
+   - Fundamental characteristics to memory management:
+     - All memory references are logical addresses that are dynamically translated into physical addresses at run time
+     - A process may be broken up into a number of pieces that don't need to be contiguously located in main memory during execution
+   - If these two characteristics are present, it is not necessary that all of the pages of segments of a process be in main memory during execution
+
+** *_Memory Management_*
+   - *Goals*:
+     - Provide a convenient programming model
+     - Efficiently allocate a scarce resource
+     - Protect programs from each other
+     - Protect the OS from programs
+   - *Mechanisms*:
+     - Physical and virtual addressing
+     - Paging and segmentation
+     - Page table management
+   - *Policies*:
+     - Page replacement algorithms
+
+** *_Virtual Memory_*
+   - {{{color(blue, Virtual Memory)}}} - separation of user logical memory from physical memory
+     - Only part of the program needs to be in memory for execution
+     - Logical address space can therefore be much larger than physical address space
+     - Allows address spaces to be shared by several processes
+     - Allows for more efficient process creation
+     - Programs use virtual addresses rather than real addresses to store instructions and data
+     - When the program is actually executed, the virtual addresses are converted into real memory addresses
+   - {{{color(blue, Virtual Memory)}}} can be implemented via:
+     - Demand paging
+     - Demand segmentation
+
+** *_Mapping Virtual to Physical Addresses_*
+   - OS must provide a mapping virtual addresses to physical addresses:
+     - The same virtual addresses in two different processes does not map to the same phusical address
+     - Some virtual addresses do not map to any physical address
+
+** *_Virtual Memory Implementation_*
+#+ATTR_HTML: :width 800px
+[[./images/VirtualMemoryScheme.jpg]]
+
+** *_Virtual Memory Implementation_*
+   - To facilitate copying virtual memory into physical memory, the Operating System divides virtual memory into pages, each of which contains a fixed number of addresses.
+   - Each page is stored on a disk until it is needed.
+   - When the page is needed, the Operating System copies it from disk to main memory, translating the virtual addresses into physical addresses
+
+** *_Process Virtual Address Space_*
+#+ATTR_HTML: :width 340px
+[[./images/ProcessVirtualSpace.png]]
+
+** *_Process Address With Shared Library_*
+#+ATTR_HTML: :width 1000px
+[[./images/WithSharedLibraries.png]]
+
+** *_Computer System Memory Hierarchy_*
+#+ATTR_HTML: :width 1000px
+[[./images/memory-hierarchy.jpg]]
+** *_Computer System Memory Hierarchy_*
+   - *Levels* of Memory Hierarchy
+     - Cache: small amount of fast, expensive memory
+       - L1 (Level 1) cache: usually on the CPU chip
+       - L2 & L3 cache: off-chip, made of SRAM (Static Random Access Memory)
+     - Main Memory: medium-speed, medium price memory (DRAM Dynamic Random Access Memory)
+     - Disk: many amount of slow, cheap, non-volatile storage
+   - Memory manager handles the memory hierarchy
+
+** *_Where Do Addresses Come From?_*
+   - *Compile Time*: The compiler generates the exact physical location in memory starting from some fixed starting position. The OS does nothing.
+   - *Load Time*: Compiler generates an address, but at load time the OS determines the process' starting position. Once the process loads, it does not move in memory.
+   - *Execution Time*: Compiler generates an address, and OS can move it around in memory as needed.
+
+** *_Memory Management Unit (MMU)_*
+   - MMU is the hardware base that makes a virtual memory system possible.
+   - MMU allows software to reference physical memory by virtual addresses, quite often more than one.
+   - MMU accomplishes this through the use of page and page tables.
+   - MMU uses a section of memory to translate virtual addresses into physical addresses via a series of table lookups.
+   - The software that handles the page fault is generally part of an operating system and the hardware that detects this situation.
+
+** *_Page Faults_*
+   - *Page Fault* is an interrupt to the software raised by the hardware
+     - when a program accesses a page that is not mapped in physical memory.
+     - when a program accesses a memory location in its memory and the page corresponding to that memory is not loaded.
+     - when a program accesses a memory location in its memory and the program does not have privileges to access the page corresponding to that memory.
+   - When a page being referred to by the virtual address is not loaded as a page frame in to the memory, a page fault is occured which causes the CPU to trap the Operating System.
+   - The Operating System removes a page frame from the memory and loads the new page in to the freed location at the same time making appropriate changes to the page table.
+   - There are a page replacement algorithms available as *The Optimal Page Replacement*, *The Not Recently Used Page Replacement*, *FIFO* etc.
+
+** *_Segmentation_*
+   - *Segmentation* involves the relocation of variable sized segments sized segments into the physical address space.
+   - Generally these segments are continuous units, and are referred to in programms by their segment number and an offset to the requested data.
+   - Efficient *segmentation* relies on programs that are very thoughtfully written for their target system.
+   - Since *segmentation* relies on memory that is located in single large blocks, it is very possible that enough free space is available to load a new module, but can not be utilized.
+   - *Segmentation* may also suffer from internal fragmentation if segments are not variable-sized, where memory above the segment is not used by the program but is still "reserved" for it.
+
+** *_Paging_*
+   - *Paging* provides a somewhat easier interface for programs, in that its operation tends to be more automatic and thus transparent.
+   - Each unit of transfer, referred to as a page, is of a fixed size and swapped by the virtual memory manager outside of the program's control.
+   - Instead of utilizing a segment/offset addressing approach, as seen in *segmentation*, *paging* uses a linear sequence of virtual addresses which are mapped to physical memory as necessary.
+   - Due to this addressing approach, a single program may refer to series of many non-continuous segments.
+   - Although some internal fragmentation may still exist due to the fixed size of the pages, the approach virtually eliminates external fragmentation.
+
+** *_Paging_*
+   - A technique used virtual memory operating systems to help ensure that the data you need is available as quickly as possible.
+   - The operating system copies a certain number of pages from your storage device to main memory.
+   - When a program needs a page that is not in main memory, the operating system copies the required page into memory and copies another page back to the disk.
+
+** *_Paging Replacement Algorithms_*
+   - *OPT(MIN)*: eliminate the page that be not expected to be used.
+   - *FIFO(First Input / First Output)*: rather than choosing the victim page at random, the oldest page is the first to be removed.
+   - *LRU(Least Recently Used)*: move out the page that is the least rarely used.
+   - *LFU(Least Frequently Used)*: move out the page that is not used often in the past.
+
+** *_Summary_*
+   - *Virtual Memory* is a common part of most operating systems on computers.
+   - It has become so common because it provides a big benefit for users at a very low cost.
+   - Benefits of executing a program that is only partially in memory.
+   - Program is _no longer constrained_ by the amount of physical memory
+     - user would be able to write programs for an extremely large virtual address space.
+   - _more programs_ could be run at the same time
+     - increase CPU utilization and throughput.
+   - _less I/O_ would be needed _to load or swap_ each user program
+     - run faster.
 * *_Memory Layout of Process_*
   - A typical memory representation of a computer program consists of following sections:
     - *Text Segment*
