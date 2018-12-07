@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Java Virtual Machine</title>
+<meta name="author" content="(Sergey V. Ignatov)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/theme/sky.css" id="theme"/>
+
+<link rel="stylesheet" href="./presentation.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/css/zenburn.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Java Virtual Machine</h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-12-07 Fri 13:22</p>
+</section>
+
+<section>
+<section id="slide-orgf1f53f2">
+<h2 id="orgf1f53f2"><b><span class="underline">Virtual Machine</span></b></h2>
+<ul>
+<li>A <b>Virtual Machine</b> (VM) is <b>software implementation</b> of a machine (for example, a computer) that executes programs like a physical machine</li>
+<li><b>Virtual Machines</b> are separated into to major classification:
+<ul>
+<li><font color="red"> System Virtual Machine</font></li>
+<li><font color="red"> Process</font></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org2c5087d">
+<h2 id="org2c5087d"><b><span class="underline">Java Virtual Machine (JVM)</span></b></h2>
+<ul>
+<li>a <b>Java Virtual Machine (JVM)</b> is a <span class="underline">Process Virtual Machine</span> that can execute <b>Java Byte Code</b></li>
+<li><b>JVM</b> converts <b>Java Byte Code</b> into <b>Machine Language</b> and executes it.</li>
+<li><b>JVM</b> is platform independent: JVMs are avaliable for many hardware and software platforms.</li>
+<li><b>JVM</b> gives the flexibility of platform independence.</li>
+<li><b>JVM</b> enables a set of computer software programs and data structures to use a virtual machine model for the execution of other computer programs and scripts
+<ul>
+<li>Not just Java and Java-clone languages now supports many languages: Ada, C, Lisp, Python</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org9a2f1e7">
+<h2 id="org9a2f1e7"><b><span class="underline">Why Java Virtual Machine?</span></b></h2>
+<ul>
+<li>The Java platform was initially developed to address the problems of building software for networked consumer devices</li>
+<li>It was designed to support multiple host architectures and to allow secure delivery of software components</li>
+<li>To meet these requirements, compiled code had to survive transport across networks, operate on any client, and assure the client that if was safe to run</li>
+<li>"Write Once, Run Anywhere"</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org44dc198">
+<h2 id="org44dc198"><b><span class="underline">Java Principles</span></b></h2>
+<ul>
+<li>Sun Microsystems set five primary goals in the creation of the Java language:
+<ul>
+<li>It should be "simple, object oriented, and familiar"</li>
+<li>It should be "robust and secure"</li>
+<li>It should be "architecture neutral and portable"</li>
+<li>It should execute with "high performance"</li>
+<li>It should be "interpreted, threaded, and dynamic"</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org25ed5d0">
+<h2 id="org25ed5d0"><b><span class="underline">Java Run-Time System</span></b></h2>
+
+<div class="figure">
+<p><img src="./images/JVM-Architecture.png" alt="JVM-Architecture.png" width="800px" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org3924bed">
+<h2 id="org3924bed"><b><span class="underline">Java Class File</span></b></h2>
+<ul>
+<li>Java compilers generate class file:
+<ul>
+<li>magic number (<code>0xCAFEBABE</code>)</li>
+<li>minor version/major version</li>
+<li>constant pool</li>
+<li>access flags</li>
+<li>this class</li>
+<li>super class</li>
+<li>interfaces</li>
+<li>fields</li>
+<li>methods</li>
+<li>attributes (extra hints for the JVM or other applications)</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org777dffc">
+<h2 id="org777dffc"><b><span class="underline">Class Loading</span></b></h2>
+<ul>
+<li>Classes are loaded lazily when first accessed</li>
+<li>Class name must match file name</li>
+<li>Super classes are loaded first (transitively)</li>
+<li>The bytecode is verified</li>
+<li>Static fields are allocated and given default values</li>
+<li>Static initializers are executed</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org19741ee">
+<h2 id="org19741ee"><b><span class="underline">Java Virtual Machine</span></b></h2>
+<ul>
+<li>Target Hardware - all CISC and RISC</li>
+<li>Machine type - Stack Machine</li>
+<li>"Big Endian" encoding - large order bits in the lower address</li>
+<li>Instructions are byte aligned for memory efficiency</li>
+<li>Instructions are closely aligned to Java source</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org5f93ec5">
+<h2 id="org5f93ec5"><b><span class="underline">Java Virtual Machine Registers</span></b></h2>
+<ul>
+<li><code>pc</code> - Program Counter</li>
+<li><code>optop</code> - Pointer to the top of the operand stack</li>
+<li><code>frame</code> - Pointer to the current execution environment</li>
+<li><code>vars</code> - Pointer to the first (0th) local variable in the current execution environment</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org5b5885b">
+<h2 id="org5b5885b"><b><span class="underline">JVM Instructions Set Architecture</span></b></h2>
+<ul>
+<li>JVM instruction consists of a one-byte opcode specifying the operation to be performed, followed by zero or more operands supplying arguments or data that are used by the operation</li>
+<li>Operands are not required, thera are many instructions that consist of only the opcode</li>
+<li>On-byte instructions allow for up to 256 instructions</li>
+<li>Each instruction has a mnemonic name which is mapped to the binary one-byt opcode</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org7c68af8">
+<h2 id="org7c68af8"><b><span class="underline">Java Bytecode Instructions</span></b></h2>
+<ul>
+<li>The JVM ISA (Instruction Set Architecture) is a CISC architecture</li>
+<li>The JVM has 256 instructions for:
+<ul>
+<li>arithmetic and logic operations</li>
+<li>type conversion</li>
+<li>branch operations (control transfer)</li>
+<li>constant loading operations</li>
+<li>locals operations (load and store)</li>
+<li>stack operations (stack operand management)</li>
+<li>class and object operations (creation and manipulation)</li>
+<li>method operations (invocation and return)</li>
+
+</ul></li>
+<li>See the JVM specification for the full list</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgde21efb">
+<h2 id="orgde21efb"><b><span class="underline">JVM Data Types</span></b></h2>
+<ul>
+<li>JVM operates on two kinds of types: <b>primitive</b> types and <b>reference</b> types</li>
+<li><b>Integral</b> Types:
+<ul>
+<li><b>Byte</b> - 8bit signed integers</li>
+<li><b>Short</b> - 16bit signed integers</li>
+<li><b>Int</b> - 32bit signed integers</li>
+<li><b>Long</b> - 64bit signed integers</li>
+<li><b>Char</b> - 16bit unsigned integers representing Unicode characters</li>
+
+</ul></li>
+<li><b>Floating Point</b> Types:
+<ul>
+<li><b>Float</b> - 32bit single-precision float</li>
+<li><b>Double</b> - 64bit double-precision float</li>
+
+</ul></li>
+<li><b>Boolean</b> - values <code>true</code> and <code>false</code></li>
+<li><b>returnAddress</b> - pointers to the opcodes of JVM instructions</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org2198565">
+<h2 id="org2198565"><b><span class="underline">JVM Reference Data Types</span></b></h2>
+<ul>
+<li>Three kinds of <b>reference</b> types
+<ul>
+<li><b>Class</b> types</li>
+<li><b>Array</b> types</li>
+<li><b>Interface</b> types</li>
+
+</ul></li>
+<li>These <b>reference</b> dynamically created classes, arrays, or interface implementations</li>
+<li>Can be set to <b>null</b> when not referencing anything and then cast to any type</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orge34eb11">
+<h2 id="orge34eb11"><b><span class="underline">JVM Data Types</span></b></h2>
+
+<div class="figure">
+<p><img src="./images/JVM_Data_Types.png" alt="JVM_Data_Types.png" width="700px" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org45f3474">
+<h2 id="org45f3474"><b><span class="underline">The JVM Stack</span></b></h2>
+<ul>
+<li>As threads are created each thread get a Java Stack and <code>pc</code> register</li>
+<li>JVM creates a stack frame for each method of a class
+<ul>
+<li>Local Variables</li>
+<li>Execution Environment</li>
+<li>Operand Stack</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org20546f6">
+<h2 id="org20546f6"><b><span class="underline">JVM Local Variables</span></b></h2>
+<ul>
+<li>Array of 32-bit variables
+<ul>
+<li>types longer than 32-bit (double) use consecutive cells</li>
+<li>pointed at by <code>vars</code> register</li>
+<li>loaded onto and stored from operand stack</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgfd76f32">
+<h2 id="orgfd76f32"><b><span class="underline">JVM Execution Environment</span></b></h2>
+<ul>
+<li>Info about the current state of the JVM Stack
+<ul>
+<li>pointer to previous method invoked</li>
+<li>pointer to local variables</li>
+<li>pointers to top and bottom of operand stack</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org70f76ee">
+<h2 id="org70f76ee"><b><span class="underline">JVM Operand Stack</span></b></h2>
+<ul>
+<li>32-bit <b>FIFO</b></li>
+<li>holds the arguments for opcodes</li>
+<li>a subsection of the JVM Stack
+<ul>
+<li>primary area for the current status of bytecode execution</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org5bc22f8">
+<h2 id="org5bc22f8"><b><span class="underline">JVM Garbage Collected Heap</span></b></h2>
+<ul>
+<li>Memory from which class instances are allocated</li>
+<li>Interpreter monitors memory usage and reclaims memory when no longer in use</li>
+<li>Garbage collection is automatic</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org99a5df9">
+<h2 id="org99a5df9"><b><span class="underline">JVM Memory Area</span></b></h2>
+<ul>
+<li><b>Method Area</b> - bytecodes for all Java Methods</li>
+<li><b>Constant Pool</b> - class names, method and field names, string constants</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org271ef17">
+<h2 id="org271ef17"><b><span class="underline">JVM Limitations</span></b></h2>
+<ul>
+<li>4GB internal addressing due to 32bit wide stack implementation</li>
+<li>Methods are limited to 32Kb due to 16bit offset addressing used for branching</li>
+<li>256 local variables/stack (8bit field)</li>
+<li>32Kb constant pool entries per method</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/js/head.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1200,
+height: 800,
+margin: 0.20,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'none', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>

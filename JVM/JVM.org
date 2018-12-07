@@ -1,0 +1,240 @@
+# # 0b3db8ad4b6446d7defe32cf7e0b8625cfa489ec
+#+REVEAL_ROOT: https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:t reveal_control:t
+#+OPTIONS: reveal_mathjax:t reveal_rolling_links:t reveal_keyboard:t
+#+OPTIONS: reveal_overview:t num:nil reveal_toc:nil
+#+OPTIONS: reveal_width:1200 reveal_height:800
+#+REVEAL_MARGIN: 0.2
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_TRANS: none
+#+REVEAL_THEME: sky
+#+OPTIONS: text
+#+OPTIONS: toc:nil num:nil
+#+REVEAL_HLEVEL: 1
+# #+REVEAL_HLEVEL: 999
+#+REVEAL_EXTRA_CSS: ./presentation.css
+#+REVEAL_PLUGINS: (highlight)
+#+STARTUP: latexpreview
+#+MACRO: color @@html:<font color="$1">$2</font>@@
+
+#+TITLE: Java Virtual Machine
+#+AUTHOR: Sergey V. Ignatov
+#+EMAIL: s.ignatov@samsung.com
+# #+DATE: 18-09-2018
+
+* *_Virtual Machine_*
+  - A *Virtual Machine* (VM) is *software implementation* of a machine (for example, a computer) that executes programs like a physical machine
+  - *Virtual Machines* are separated into to major classification:
+    - {{{color(red, System Virtual Machine)}}}
+    - {{{color(red, Process, Virtual Machine)}}}
+
+* *_Java Virtual Machine (JVM)_*
+  - a *Java Virtual Machine (JVM)* is a _Process Virtual Machine_ that can execute *Java Byte Code*
+  - *JVM* converts *Java Byte Code* into *Machine Language* and executes it.
+  - *JVM* is platform independent: JVMs are avaliable for many hardware and software platforms.
+  - *JVM* gives the flexibility of platform independence.
+  - *JVM* enables a set of computer software programs and data structures to use a virtual machine model for the execution of other computer programs and scripts
+    - Not just Java and Java-clone languages now supports many languages: Ada, C, Lisp, Python
+
+* *_Why Java Virtual Machine?_*
+  - The Java platform was initially developed to address the problems of building software for networked consumer devices
+  - It was designed to support multiple host architectures and to allow secure delivery of software components
+  - To meet these requirements, compiled code had to survive transport across networks, operate on any client, and assure the client that if was safe to run
+  - "Write Once, Run Anywhere"
+
+* *_Java Principles_*
+  - Sun Microsystems set five primary goals in the creation of the Java language:
+    - It should be "simple, object oriented, and familiar"
+    - It should be "robust and secure"
+    - It should be "architecture neutral and portable"
+    - It should execute with "high performance"
+    - It should be "interpreted, threaded, and dynamic"
+
+* *_Java Run-Time System_*
+# #+BEGIN_SRC dot :file ./images/JVM_Runtime_System.png :cmdline -Kdot -Tpng
+# graph {
+#   rankdir=LR
+#   verifier [label="Byte\nCode\nVerifier", shape=rectangle]
+#   loader [label="Class\nLoader", shape=rectangle]
+#   compiler [label="Just-In-Time", shape=rectangle]
+#   interpreter [label="Interpreter", shape=rectangle]
+#   runtime [label="Jave\nRuntime", shape=rectangle]
+#   hardware [label="Hardware", shape=rectangle]
+#   verifier -- loader
+#   loader -- interpreter
+#   interpreter -- runtime
+#   loader -- compiler
+#   runtime -- hardware
+#   compiler -- hardware
+# }
+# #+END_SRC
+
+# #+RESULTS:
+#+ATTR_HTML: :width 800px
+[[./images/JVM-Architecture.png]]
+
+* *_Java Class File_*
+  - Java compilers generate class file:
+    - magic number (~0xCAFEBABE~)
+    - minor version/major version
+    - constant pool
+    - access flags
+    - this class
+    - super class
+    - interfaces
+    - fields
+    - methods
+    - attributes (extra hints for the JVM or other applications)
+
+* *_Class Loading_*
+  - Classes are loaded lazily when first accessed
+  - Class name must match file name
+  - Super classes are loaded first (transitively)
+  - The bytecode is verified
+  - Static fields are allocated and given default values
+  - Static initializers are executed
+
+* *_Java Virtual Machine_*
+  - Target Hardware - all CISC and RISC
+  - Machine type - Stack Machine
+  - "Big Endian" encoding - large order bits in the lower address
+  - Instructions are byte aligned for memory efficiency
+  - Instructions are closely aligned to Java source
+
+* *_Java Virtual Machine Registers_*
+  - ~pc~ - Program Counter
+  - ~optop~ - Pointer to the top of the operand stack
+  - ~frame~ - Pointer to the current execution environment
+  - ~vars~ - Pointer to the first (0th) local variable in the current execution environment
+
+* *_JVM Instructions Set Architecture_*
+  - JVM instruction consists of a one-byte opcode specifying the operation to be performed, followed by zero or more operands supplying arguments or data that are used by the operation
+  - Operands are not required, thera are many instructions that consist of only the opcode
+  - On-byte instructions allow for up to 256 instructions
+  - Each instruction has a mnemonic name which is mapped to the binary one-byt opcode
+
+* *_Java Bytecode Instructions_*
+  - The JVM ISA (Instruction Set Architecture) is a CISC architecture
+  - The JVM has 256 instructions for:
+    - arithmetic and logic operations
+    - type conversion
+    - branch operations (control transfer)
+    - constant loading operations
+    - locals operations (load and store)
+    - stack operations (stack operand management)
+    - class and object operations (creation and manipulation)
+    - method operations (invocation and return)
+  - See the JVM specification for the full list
+
+* *_JVM Data Types_*
+  - JVM operates on two kinds of types: *primitive* types and *reference* types
+  - *Integral* Types:
+    - *Byte* - 8bit signed integers
+    - *Short* - 16bit signed integers
+    - *Int* - 32bit signed integers
+    - *Long* - 64bit signed integers
+    - *Char* - 16bit unsigned integers representing Unicode characters
+  - *Floating Point* Types:
+    - *Float* - 32bit single-precision float
+    - *Double* - 64bit double-precision float
+  - *Boolean* - values ~true~ and ~false~
+  - *returnAddress* - pointers to the opcodes of JVM instructions
+
+* *_JVM Reference Data Types_*
+  - Three kinds of *reference* types
+    - *Class* types
+    - *Array* types
+    - *Interface* types
+  - These *reference* dynamically created classes, arrays, or interface implementations
+  - Can be set to *null* when not referencing anything and then cast to any type
+
+* *_JVM Data Types_*
+# #+BEGIN_SRC dot :file ./images/JVM_Data_Types.png :cmdline -Kdot -Tpng
+# graph {
+#   rankdir=LR
+#   primitive [label="Primitive\nTypes", shape=oval, fillcolor=blue]
+#   numeric [label="Numeric\nTypes", shape=oval, fillcolor=blue]
+#   fp [label="Floating-Point\nTypes", shape=oval, fillcolor=blue]
+#   float [shape=rectangle]
+#   double [shape=rectangle]
+#   integral [label="Integral\nTypes", shape=oval, fillcolor=blue]
+#   byte [shape=rectangle]
+#   short [shape=rectangle]
+#   int [shape=rectangle]
+#   long [shape=rectangle]
+#   char [shape=rectangle]
+#   bool [label="boolean", shape=rectangle]
+#   return [label="returnAddress", shape=rectangle]
+#   reftype [label="Reference\nTypes", shape=oval, fillcolor=blue]
+#   reference [label="reference", shape=rectangle]
+#   classt [label="class types", shape=rectangle]
+#   interfacet [label="interface types", shape=rectangle]
+#   arrayt [label="array types", shape=rectangle]
+
+#   primitive -- numeric
+#   primitive -- bool
+#   primitive -- return
+#   numeric -- fp
+#   numeric -- integral
+#   fp -- float
+#   fp -- double
+
+#   reftype -- reference
+#   reference -- classt
+#   reference -- interfacet
+#   reference -- arrayt
+
+#   integral -- byte
+#   integral -- short
+#   integral -- int
+#   integral -- long
+#   integral -- char
+# }
+# #+END_SRC
+
+# #+RESULTS:
+# [[file:./images/JVM_Data_Types.png]]
+
+#+ATTR_HTML: :width 700px
+[[file:./images/JVM_Data_Types.png]]
+
+* *_The JVM Stack_*
+  - As threads are created each thread get a Java Stack and ~pc~ register
+  - JVM creates a stack frame for each method of a class
+    - Local Variables
+    - Execution Environment
+    - Operand Stack
+
+* *_JVM Local Variables_*
+  - Array of 32-bit variables
+    - types longer than 32-bit (double) use consecutive cells
+    - pointed at by ~vars~ register
+    - loaded onto and stored from operand stack
+
+* *_JVM Execution Environment_*
+  - Info about the current state of the JVM Stack
+    - pointer to previous method invoked
+    - pointer to local variables
+    - pointers to top and bottom of operand stack
+
+* *_JVM Operand Stack_*
+  - 32-bit *FIFO*
+  - holds the arguments for opcodes
+  - a subsection of the JVM Stack
+    - primary area for the current status of bytecode execution
+
+* *_JVM Garbage Collected Heap_*
+  - Memory from which class instances are allocated
+  - Interpreter monitors memory usage and reclaims memory when no longer in use
+  - Garbage collection is automatic
+
+* *_JVM Memory Area_*
+  - *Method Area* - bytecodes for all Java Methods
+  - *Constant Pool* - class names, method and field names, string constants
+
+* *_JVM Limitations_*
+  - 4GB internal addressing due to 32bit wide stack implementation
+  - Methods are limited to 32Kb due to 16bit offset addressing used for branching
+  - 256 local variables/stack (8bit field)
+  - 32Kb constant pool entries per method
