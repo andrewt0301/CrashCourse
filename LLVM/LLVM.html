@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>LLVM Framework</title>
+<meta name="author" content="(Sergey V. Ignatov)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/theme/sky.css" id="theme"/>
+
+<link rel="stylesheet" href="./presentation.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/css/zenburn.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">LLVM Framework</h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-12-11 Tue 12:47</p>
+</section>
+
+<section>
+<section id="slide-org5337a88">
+<h2 id="org5337a88"><b><span class="underline">LLVM</span></b></h2>
+<ul>
+<li>LLVM is a compiler infrastructure designed as a set of reusable libraries with well-defined interfaces
+<ul>
+<li>Implemented in C++</li>
+<li>Several front-ends (C, C++, ADA, Java, Fortran, &#x2026;)</li>
+<li>Several back-ends (SPARC, PowerPC, ARM, x86, MIPS, &#x2026;)</li>
+<li>First release: 2003</li>
+<li>Open source</li>
+<li><a href="http://llvm.org">http://llvm.org</a></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org6ecfd24">
+<h3 id="org6ecfd24"><b><span class="underline">Three Primary LLVM Components</span></b></h3>
+<ul>
+<li><b>The LLVM Virtual Instruction Set</b>
+<ul>
+<li>The common language- and target- independent IR</li>
+<li>Internal (IR) and external (persistance) representation</li>
+
+</ul></li>
+<li><b>A collection of well-integrated libraries</b>
+<ul>
+<li>Analysis, optimizations, code generators, JIT compiler, garbage collection support, profiling, &#x2026;</li>
+
+</ul></li>
+<li><b>A collection of tools built from the libraries</b>
+<ul>
+<li>Assemblers, automatic debugger, linker, code generator, compiler driver, modular optimizer, &#x2026;</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org654236a">
+<h3 id="org654236a"><b><span class="underline">Goals of Compiler Design</span></b></h3>
+<ul>
+<li><b>Analyze and optimize as early as possible</b>:
+<ul>
+<li>Compile-time optimizations reduce modify-rebuild-execute cycle</li>
+<li>Compile-time optimizations reduce work at link-time (by shrinking the program)</li>
+
+</ul></li>
+<li><b>One IR (without lowering) for analysis and optimizations</b>
+<ul>
+<li>Compile-time optimizations can be rn at link-time too</li>
+<li>The same IR is used as input to the JIT
+<ul>
+<li><font color="green"> IR design is the ke to these goals!</font></li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org9885972">
+<h3 id="org9885972"><b><span class="underline">LLVM Tools</span></b></h3>
+<ul>
+<li><b>"Primitive" tools: do a single job</b>
+<ul>
+<li>llvm-as: convert from .ll (text) to .bc (binary)</li>
+<li>llvm-dis: convert from .bc (binary) to .ll (text)</li>
+<li>llvm-link: link multiple .bc files together</li>
+<li>llvm-prof: print profile output to human readers</li>
+<li>llvmc: configurable compiler driver</li>
+
+</ul></li>
+<li><b>Aggregate tools: pull in multiple features</b>
+<ul>
+<li>gccas/gccld: Compile/link-time optimizers for C/C++ front-ends</li>
+<li>bugpoint: automatic compiler debugger</li>
+<li>llvm-gcc/llvm-g++: C/C++ compilers</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org9d068b6">
+<h3 id="org9d068b6"><b><span class="underline">LLVM Tools: Analyze Tool</span></b></h3>
+<ul>
+<li><b>Analyze tool</b> Visualize analysis results</li>
+<li><b>Print most LLVM data structure</b>
+<ul>
+<li>Dominators, loops, alias sets, CFG, call graph, etc</li>
+<li>Converts mostl LLVM Data structures to 'dot' graphs</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org8699f10">
+<h3 id="org8699f10"><b><span class="underline">LLVM Tools: LLC</span></b></h3>
+<ul>
+<li><b>LLC Tool</b>: Static code generator
+<ul>
+<li><b>Compiles LLVM to native assembly language</b>
+<ul>
+<li><code>llc file.bc -o file.s -march=x86</code></li>
+<li><code>as file.s -o file.o</code></li>
+
+</ul></li>
+<li><b>Compiles LLVM to portable C code</b>
+<ul>
+<li><code>llc file.bc -o file.c -march=c</code></li>
+<li><code>gcc -c file.c -o file.o</code></li>
+
+</ul></li>
+<li><b>Targets are modular &amp; dynamically loadable</b>
+<ul>
+<li><code>llc -load libarm.so file.bc -march=arm</code></li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orge40f3b2">
+<h3 id="orge40f3b2"><b><span class="underline">LLVM Tools: LLI</span></b></h3>
+<ul>
+<li><b>LLI Tool</b>: LLVM Execution Engine</li>
+<li><b>LLI allows direct execution of .bc files</b>
+<ul>
+<li>~lli grep.bc -i foo *.c</li>
+
+</ul></li>
+<li><b>LLI uses a Just-In-Time compiler if avaiable</b>:
+<ul>
+<li>Uses same code generator as LLC</li>
+<li>Emits machine code to memory instead of ".s" file</li>
+<li>JIT is a library that can be embedded in other tools</li>
+
+</ul></li>
+<li><b>Otherwise, it uses LLVM interprer</b>:
+<ul>
+<li>Interpreter is extremely simple and very slow</li>
+<li>Interpreter is portable</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orga8d72c7">
+<h3 id="orga8d72c7"><b><span class="underline">LLVM Tools: Integrated Debugging Tools</span></b></h3>
+<ul>
+<li><b>Extensive assertions throughout code</b>
+<ul>
+<li>Find problems as early as possible (close to source)</li>
+
+</ul></li>
+<li><b>LLVM IR Verifier</b>: checks modules for validity
+<ul>
+<li>Checks type properties, dominance properties, etc</li>
+<li>Automatically run by opt</li>
+<li>Prints an error message and abort</li>
+
+</ul></li>
+<li><b>LLVM IR Leak Detector</b>
+<ul>
+<li>Efficient and simple "garbage collector" for IR objects</li>
+<li>Ensure IR objects are deallocated appropriately</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf9bf839">
+<h3 id="orgf9bf839"><b><span class="underline">LLVM Tools: Bugpoint</span></b></h3>
+<ul>
+<li><b>The Bugpoint automated bug finder</b></li>
+<li><b>Simple idea: automate ‘binary’ search for bug</b>
+<ul>
+<li>Bug isolation: which passes interact to produce bug</li>
+<li><i>Test case reduction</i>: reduce input program</li>
+
+</ul></li>
+<li><b>Optimizer/Codegen crashes:</b>
+<ul>
+<li>Throw portion of test case away, check for crash
+<ul>
+<li>If so, keep going</li>
+<li>Otherwise, revert and try something else</li>
+
+</ul></li>
+<li>Extremely effective in practice</li>
+
+</ul></li>
+<li><b>Simple greedy algorithms for test reduction</b></li>
+<li><b>Completely black-box approach</b></li>
+
+</ul>
+</section>
+<section id="slide-org3b43f3a">
+<h3 id="org3b43f3a"><b><span class="underline">LLVM Tools: Bugpoint</span></b></h3>
+<ul>
+<li><b>Debugging Miscompilations</b>
+<ul>
+<li><b>Optimizer miscompilation:</b>
+<ul>
+<li>Split testcase in two, optimize one. Still broken?</li>
+<li>Keep shrinking the portion being optimized</li>
+
+</ul></li>
+<li><b>Codegen miscompilation:</b>
+<ul>
+<li>Split testcase in two, compile one with CBE (C BackEnd), broken?</li>
+<li>Shrink portion being compiled with non CBE codegen</li>
+
+</ul></li>
+<li><b>Code splitting granularities:</b>
+<ul>
+<li>Take out whole functions</li>
+<li>Take out loop nests</li>
+<li>Take out individual basic blocks</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org90e91f2">
+<h3 id="org90e91f2"><b>Five Point of LLVM</b></h3>
+<ul>
+<li><b>Extremely simple IR to learn and use</b>
+<ul>
+<li>1-to-1 correspondence between .ll, .bc, and C++ IR</li>
+
+</ul></li>
+<li><b>Powerful and modular optimizer</b>
+<ul>
+<li>Easy to extend, or just use what is already there</li>
+
+</ul></li>
+<li><b>Clean and modular code generator</b>
+<ul>
+<li>Easy to retarget, easy to replace/tweak components</li>
+
+</ul></li>
+<li><b>Many “productivity tools” (bugpoint, verifier)</b></li>
+<li><b>Active development community, good documentation</b></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org3489740">
+<h2 id="org3489740"><b><span class="underline">LLVM IR</span></b></h2>
+<div class="outline-text-2" id="text-org3489740">
+</div>
+</section>
+<section id="slide-org79d6ed2">
+<h3 id="org79d6ed2"><b><span class="underline">Goals of LLVM IR</span></b></h3>
+<ul>
+<li><b>Easy to produce, understand, and define</b></li>
+<li><b>Language- and Target-Independent</b>
+<ul>
+<li>AST-level IR is not very feasible
+<ul>
+<li>Every analysis/xform must know about 'all' languages</li>
+
+</ul></li>
+
+</ul></li>
+<li><b>One IR for analysis and optimization</b>
+<ul>
+<li>IR must be able to support aggressive IPO, loop opts, scalar opts, &#x2026; high- and low-level optimization</li>
+
+</ul></li>
+<li><b>Optimize as much as early as possible</b>
+<ul>
+<li>Can't postpone everything until link or runtime</li>
+<li>No lowering in the IR</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org66986a7">
+<h3 id="org66986a7"><b><span class="underline">LLVM Program Structure</span></b></h3>
+<ul>
+<li><b>Module contains Functions/GlobalVariables</b>
+<ul>
+<li>Module is unit of compilation/analysis/optimization</li>
+
+</ul></li>
+<li><b>Function contains BasicBlocks/Arguments</b>
+<ul>
+<li>Functions roughly correspond to functions in C</li>
+
+</ul></li>
+<li><b>BasicBlock contains list of instructions</b>
+<ul>
+<li>Each block ends in a control flow instruction</li>
+
+</ul></li>
+<li><b>Instruction is opcode + vector of operans</b>
+<ul>
+<li>All operands have types</li>
+<li>Instruction result is typed</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org21849fc">
+<h3 id="org21849fc"><b><span class="underline">LLVM Coding Basics</span></b></h3>
+<ul>
+<li><b>LLVM IR is almost all double-linked lists</b>:
+<ul>
+<li>Module contains lists of Functions and GlobalVariables</li>
+<li>Function contains list of BasicBlocks and Arguments</li>
+<li>BasicBlock contains list of Instructions</li>
+
+</ul></li>
+<li><b>Linked lists are traversed with iterators</b>:</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="c++" >Function *M = ...;
+for (Function::iterator I = M->begin(); I != M->end(); ++I) {
+  BasicBlock &BB = *I;
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-org47dd2b7">
+<h3 id="org47dd2b7"><b><span class="underline">LLVM Instruction Set Overview</span></b></h3>
+<ul>
+<li><b>Low-level and target-independent semantics</b>
+<ul>
+<li>RISC-like 3-address code (add, mul, shift, branch, load, store, etc)</li>
+<li>Only 31 op-codes (types of instructions) exist</li>
+<li>Infinite virtual register set in SSA form</li>
+<li>Simple, low-level control flow constructs</li>
+<li>Load/store instructions with typed-pointers</li>
+<li>Variables: local, global, heap</li>
+
+</ul></li>
+<li><b>IR has text, binary, and in-memory forms</b>
+<ul>
+<li>Human-readable LLVM assembly (.ll files)</li>
+<li>Dense 'bitcode' binary representation (.bc files)</li>
+<li>C++ classes</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgff44ecc">
+<h3 id="orgff44ecc"><b><span class="underline">LLVM IR is SSA form</span></b></h3>
+<ul>
+<li>Each variable is assigned exactly once</li>
+<li>Def-use chains are explicit and each contains a single elements</li>
+<li>All objects have user/use info, even function</li>
+<li><b>Control Flow Graph is always avaiable</b>
+<ul>
+<li>Exposed as BasicBlock predecessor/successor lists</li>
+<li>Many generic graph algorithms usable with the CFG</li>
+
+</ul></li>
+<li><b>Higher-level info implemented as passes</b>
+<ul>
+<li>Dominators, CallGraph, induction vars, aliasing, Global Value Numbering (GVN), etc</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org4e947b4">
+<h3 id="org4e947b4"><b><span class="underline">LLVM Instruction Set Overview</span></b></h3>
+<ul>
+<li><b>High-level information exposed in the code</b>
+<ul>
+<li>Explicit dataflow through SSA form</li>
+<li>Explicit control-flow graph (even for exceptions)</li>
+<li>Explicit language-independent type-information</li>
+<li>Explicit typed pointer arithmetic
+<ul>
+<li>Preserve array subscript and structure indexing</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org6a924b7">
+<h3 id="org6a924b7"><b><span class="underline">LLVM Type System Details</span></b></h3>
+<ul>
+<li><b>The entire type system consists of</b>:
+<ul>
+<li>Primitives: label, void, float, integer, &#x2026;
+<ul>
+<li>Arbitrary bit-width intergers (\(i1\), \(i32\), \(i64\))</li>
+<li>Derived: pointer, array, structure, function</li>
+<li>No high-level types: type-system is language neutral</li>
+
+</ul></li>
+<li><b>Type system allows arbitrary casts</b>:
+<ul>
+<li>Allows expressing weakly-typed languages, like C</li>
+<li><i>Front-ends</i> can <i><font color="green"> implement</font></i> safe languages</li>
+<li>Also easy to define a type-safe subset of LLVM</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org87ab54e">
+<h3 id="org87ab54e"><b><span class="underline">Lowering Source-Level Types to LLVM IR</span></b></h3>
+<ul>
+<li><b>Source language types are lowered</b>:
+<ul>
+<li>Rich type systems expanded to simple type system</li>
+<li>Implicit &amp; abstract types are made explicit &amp; concrete</li>
+
+</ul></li>
+<li><b>Examples of lowering</b>:
+<ul>
+<li>References turn into pointers: \(T&\) \(\rightarrow\) \(T*\)</li>
+<li>Complex numbers: \(complex\) \(float\) \(\rightarrow\) \(\{float, float\}\)</li>
+<li>Bitfields: \(struct\) \(X\) \(\{int:4, int:2\}\) \(\rightarrow\) \(\{i32\}\)</li>
+<li>Inheritance: \(class\) \(T:S\{int\) \(X;\}\) \(\rightarrow\) \(\{S, i32\}\)</li>
+<li>Methods: \(class\) \(T\{void\) \(foo();\}\) \(\rightarrow\) \(void\) \(foo(T*);\)</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org9fe1df7">
+<h3 id="org9fe1df7"><b><span class="underline">LLVM IR Operations</span></b></h3>
+<ul>
+<li><b>Arithmetic</b>: \(add\), \(sub\), \(mul\), \(udiv\), \(sdiv\), &#x2026;
+<ul>
+<li><i>%tmp = add i32 %indvar, -512</i></li>
+
+</ul></li>
+<li><b>Logical operations</b>: \(shl\), \(lshr\), \(ashr\), \(and\), or \(xor\)
+<ul>
+<li><i>%shr21 = ashr i32 %mul20, 8</i></li>
+
+</ul></li>
+<li><b>Memory access</b>: \(load\), \(store\), \(alloca\), \(getelemntptr\)
+<ul>
+<li><i>%tmp3 = load i64 * %tmp2</i></li>
+
+</ul></li>
+<li><b>Comparison</b>: \(icmp\), \(select\)
+<ul>
+<li><i>%cmp12 = icmp slt i32 %add, 1024</i></li>
+
+</ul></li>
+<li><b>Control flow</b>: \(call\), \(ret\), \(br\), \(witch\), &#x2026;
+<ul>
+<li><i>call void @foo(i32 %phitmp)</i></li>
+
+</ul></li>
+<li><b>Function</b>
+<ul>
+<li><i>&lt;return type&gt; (a list of parameter types)</i></li>
+
+</ul></li>
+<li><b>Ф-instruction</b>
+<ul>
+<li><i>&lt;res&gt; = phi &lt;type&gt; [&lt;val-0&gt;,&lt;label-0],[&lt;val-1&gt;,&lt;label-1],&#x2026;</i></li>
+<li>return value <i>val-i</i> of type <i>type</i> such that the basic block executed right before the current one is of <i>label-i</i></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orga1848cb">
+<h3 id="orga1848cb"><b><span class="underline">LLVM IR Primitive Types</span></b></h3>
+<ul>
+<li>void: \(void\)</li>
+<li>bool: \(i1\)</li>
+<li>integers: \(i[N]\) where \(N\) is \(1\) to \(2^{23}-1\)</li>
+<li>floating-points:
+<ul>
+<li>\(half\) (16-bit floating point value)</li>
+<li>\(float\) (32-bit floating point value)</li>
+<li>\(double\) (64-bit floating point value)</li>
+
+</ul></li>
+<li>pointer types: <i>&lt;type&gt;*</i></li>
+
+</ul>
+</section>
+<section id="slide-orgb3a55b8">
+<h3 id="orgb3a55b8"><b><span class="underline">LLVM IR Registers</span></b></h3>
+<ul>
+<li>Identifier syntax
+<ul>
+<li>Named registers: <i><code>[0%]</code>[a-zA-Z$._][a-zA-Z$.0-9_]*</i></li>
+<li>Unnamed registers: <i><code>[0%]</code>[0-9][0-9]*</i></li>
+
+</ul></li>
+<li>A register has a function-level scope
+<ul>
+<li>Two registers in different functions may have the same identifier</li>
+
+</ul></li>
+<li>A register is assigned for a particular type and a value at its first (and the only) definition</li>
+
+</ul>
+</section>
+<section id="slide-org80e92a5">
+<h3 id="org80e92a5"><b><span class="underline">LLVM IR Variables</span></b></h3>
+<ul>
+<li>In LLVM all addressable objects ("lvalues") are explicitly allocated</li>
+<li><b>Global variables</b>
+<ul>
+<li>Each variable has a global scope symbol that points to the memory address of the object</li>
+<li>Variable identifier: <i>[@][a-zA-Z$.-][a-zA-Z$.0-9_]*</i></li>
+
+</ul></li>
+<li><b>Local variables</b>
+<ul>
+<li>The \(alloca\) instruction allocates memory in the stack frame.</li>
+<li>Deallocated automatically if the function returns.</li>
+
+</ul></li>
+<li><b>Heap variables</b>
+<ul>
+<li>The \(malloc\) function call allocates memory on the heap</li>
+<li>The \(free\) function call frees the memory allocated by \(malloc\)</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgfb786fc">
+<h3 id="orgfb786fc"><b><span class="underline">LLVM IR Aggregate &amp; Function Types</span></b></h3>
+<ul>
+<li><b>Array</b>
+<ul>
+<li><i>[&lt;# of elements&gt; x &lt;type&gt;]</i></li>
+<li>Single dimension array example: <i>[40 x i32], [4 x i8]</i></li>
+<li>Multi-dimensional array example: <i>[3 x[4 x i8]],[i2 x [10 x float]]</i></li>
+
+</ul></li>
+<li><b>Structure</b>
+<ul>
+<li><i>type {&lt;a list of types&gt;}</i></li>
+<li>examples: <i>type{ i32, i32, i32}</i>, <i>type{ i8, i32 }</i></li>
+
+</ul></li>
+<li><b>Function</b></li>
+
+</ul>
+
+</section>
+<section id="slide-orgc3fa040">
+<h3 id="orgc3fa040"><b><span class="underline">LLVM IR Example</span></b></h3>
+<div class="org-src-container">
+
+<pre><code class="c++" >unsigned add1(unsigned a, unsigned b) {
+  return a+b;
+}
+
+// Perhaps not the most efficient way to add two numbers.
+unsigned add2(unsigned a, unsigned b) {
+  if (a == 0) return b;
+  return add2(a-1, b+1);
+}
+</code></pre>
+</div>
+<div class="org-src-container">
+
+<pre><code class="c++" >define i32 @add1(i32 %a, i32 %b) {
+entry:
+  %tmp1 = add i32 %a, %b
+  ret i32 %tmp1
+}
+
+define i32 @add2(i32 %a, i32 %b) {
+entry:
+  %tmp1 = icmp eq i32 %a, 0
+  br i1 %tmp1, label %done, label %recurse
+
+recurse:
+  %tmp2 = sub i32 %a, 1
+  %tmp3 = add i32 %b, 1
+  %tmp4 = call i32 @add2(i32 %tmp2, i32 %tmp3)
+  ret i32 %tmp4
+
+done:
+  ret i32 %b
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-orge0c2db3">
+<h3 id="orge0c2db3"><b><span class="underline">LLVM IR Generating Commands</span></b></h3>
+<ul>
+<li><b>Generate the *.bc</b>
+<ul>
+<li><code>$ clang -c -emit-llmv program.c -o program.bc</code></li>
+
+</ul></li>
+<li><b>Generate the *.ll (human-readable form)</b>
+<ul>
+<li><code>$ clang -S -emit-llvm program.c -o program.ll</code></li>
+
+</ul></li>
+<li><b>Using interpreter to run bitcode</b>
+<ul>
+<li><code>$lli program.bc</code></li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/js/head.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1200,
+height: 800,
+margin: 0.20,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'none', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>
