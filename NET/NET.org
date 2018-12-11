@@ -1,0 +1,206 @@
+# #
+#+REVEAL_ROOT: https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:t reveal_control:t
+#+OPTIONS: reveal_mathjax:t reveal_rolling_links:t reveal_keyboard:t
+#+OPTIONS: reveal_overview:t num:nil reveal_toc:nil
+#+OPTIONS: reveal_width:1200 reveal_height:800
+#+REVEAL_MARGIN: 0.2
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_TRANS: none
+#+REVEAL_THEME: sky
+#+OPTIONS: text
+#+OPTIONS: toc:nil num:nil
+#+REVEAL_HLEVEL: 1
+# #+REVEAL_HLEVEL: 999
+#+REVEAL_EXTRA_CSS: ./presentation.css
+#+REVEAL_PLUGINS: (highlight)
+#+STARTUP: latexpreview
+#+MACRO: color @@html:<font color="$1">$2</font>@@
+
+#+TITLE: .NET Framework
+#+AUTHOR: Sergey V. Ignatov
+#+EMAIL: s.ignatov@samsung.com
+# #+DATE: 18-09-2018
+
+* *What is the .NET Framework*
+  - *The infrastructure for the overall .NET Platform*
+  - A computing platform designed to simpify application development
+  - A consistent object-oriented programming environment
+  - A code-execution environment that minimizes software deployment and versioning conficts
+
+** *_Major Components of .NET Framework_*
+     - Common Language Runtime (CLR)
+       - Manages code execution at runtime
+       - Manages memory, threads etc
+       - Code designed for the CLR is referred to as {{{color(red, Managed Code)}}}
+         - Object oriented
+         - Cross-language integration
+         - Cross-language {{{color(red, exception handling)}}}
+         - Multiple version support
+     - Base Class Library (Framework Class Library - FCL)
+       - Object-oriented collection of reusable types
+       - Sits on-top of the Common Language Runtime (CLR)
+     - Commont Type System (CTS)
+     - Common Language Specification (CLS)
+
+** *_.NET Framework Structure_*
+#+ATTR_HTML: :width 1000px
+[[./images/introduction-to-dotnet-10-728.jpg]]
+
+* *_Common Language Runtime (CLR)_*
+  - *CLR* works like a *virtual machine* in executing all languages
+  - Checking and enforcing security restrictions on the running code
+  - Manages memory through an extremely efficient garbage collectory
+  - Common Type System (CTS)
+  - Conversion from IL into code native to the platform being executed on
+
+** *_Common Language Runtime (CLR)_*
+   - *All .NET languages must obey the rules and standard imposed by CLR.* Examples:
+     - Object declaration, creation and use
+     - Data types, language libraries
+     - Error and exception handling
+     - Interactive Development Environment (IDE)
+
+** *_Common Language Runtime (CLR)_*
+   - *CLR* manages object layout and references to objects
+   - Objects whose lifetimes are managed by the *CLR* are referred to as *Managed Data*
+   - Automatic memory management reduces memory leaks
+   - In *Managed Code* you can use:
+     - *Managed Data*
+     - *Unmanaged Data*
+     - Both
+
+** *_Common Language Runtime (CLR)_*
+   - All *CLR*_compliant compilers use a common type system
+     - Allows for cross-language inheritance
+     - Passing object instances across language barriers
+     - Invoking methods across language barriers
+   - Managed components exposes metadata
+   - Metadata includes
+     - Resources component was compiled against
+     - Information about types and dependencies
+     - Signatures of each type's method
+     - Members that your code references
+     - Other runtime data for CLR
+
+** *_One Runtime For Many Languages_*
+   - CLR is on open standard
+   - Any language can make use of CLR services
+   - Any language can use classes written in any other language
+   - Any language can inherit classes written in any other language
+
+** *_Common Type System (CTS)_*
+   - *CTS is a rich type system built into the CLR*
+     - Implements various types (int, double, etc)
+   - *Strictly enforces type safety*
+   - *Ensures that classes are compatible with each other by describing them in a common way*
+   - *Enables types in one language to interoperate with types in another language*
+
+** *_Common Type System (CTS)_*
+#+ATTR_HTML: :width 1000px
+[[./images/introduction-to-net-framework-35-728.jpg]]
+
+** *_Common Language Specification (CLS)_*
+   - *CLS is a set of specifications that language and library designers need to follow*
+     - This will ensure interoperability between languages
+   - *Specification that a language must conform to, to be accepted into the .NET framework*
+   - *The specification are detailed at* [[https://www.ecma-international.org/publications/standards/Ecma-335.htm]]
+
+** *_Intermediate Language (IL)_*
+   - *.NET languages are not compiled to machine code.* They are compiled to an *Intermedaite Language (IL)*
+   - *CLR accepts the IL code and recompiles it to machine code.* The recompilation is *Just-In-Time* (JIT) meaning it is done as soon as a function or subroutine is called.
+   - *The JIT code stays in memory for subsequent calls.* In cases where there is not enough memory it is discarded thus making JIT process interpretive.
+
+** *_.NET Framework Class Libraries_*
+   - Sit on top of the CLR
+   - Reusable types that tightly intergrate with the CLR
+   - Object oriented - inheritance, polymorphism, etc
+   - Provide functionality for ASP.NET, XML Web Services, ADO.NET, Windows Forms, basic system functionality (IO, XML, etc)
+
+* *_.NET Assemblies_*
+  - Assemblies are the smallest unit of code distribution, deployment and versioning
+  - Individual components are packaged into unit called {{{color(red, assemblies)}}}
+  - Can be {{{color(red, dynamically loaded into the execution engine on demand)}}}
+  - Contains *Control Intermedaite Language (CIL)* code to be executed
+  - Security boundary - permissions are granted at the assembly level
+  - Type boundary - all types include the assembly name they are a part of
+** *_Single File & Multi File Assemblies_*
+#+ATTR_HTML: :width 1200px
+[[./images/SingleMulti.png]]
+** *_Assembly Characteristics_*
+   - *Self-describing*
+     - To enable data-driven execution
+   - *Platform-independent*
+   - *Bounded by name*
+     - Locate assemblies by querying four-part tuple that consist of a human-friendly name, an international culture, a multipart version number, an a public key token
+   - *Assembly loading is sensitive to version and policy*
+     - Assemblies are loaded using tunable biding rules, which allow programmers and administrators to contribute policy to assembly-loading behaviour
+   - *Validated*
+     - Each time an assembly is loaded, it is subjected to a series of checks to ensure the assembly's integrity
+** *_Self-describing of Assemblies_*
+   - *Modules*
+     - Blueprint for types in the form of metadata and CIL
+     - Single file containing the structure and behaviour for some or all the types and/or resources found in the assembly
+   - *An assembly always contains at least one module but has the capacity to include more*
+   - *Assemblies themselves have metadata that describe their structure:* {{{color(red, manifest)}}}
+** *_Manifest*
+   - *Compounds name for the assembly*
+   - *Describes the public types that the assembly exports*
+   - *Describes types that the assembly will import from other assemblies*
+** *_Reflection_*
+   - Programmatically gain access to *Metadata* at *runtime*
+   - Used to make *ultra-flexible* code
+   - Components often perform *reflection* to find about derivations
+     - Custom attributes
+   - Late and loose binding are possible with *reflection*
+     - Instantiate objects, call methods, etc
+   - *Reflection Emit*
+     - Possible to emit IL at *runtime*, JIT compile & execute
+* *_Microsoft Intermedaite Language (CIL)_*
+  - *Managed Code* is compiled into *Common Intermediate Language(CIL)*
+  - CPU-independent set of instructions
+    - Loading, storing, initializing and calling methods
+    - Arithmetic and logical operations, etc
+    - Control flow, exception handling, direct memory access
+  - Is {{{color(red, Object-Oriented)}}}
+  - Is {{{color(red, Stack-Based)}}}
+** *_Ececution Process in .NET_*
+   - Source code is converted in CIL wich is equivalent to assembly language for a CPU
+   - *CIL* is then assembled into a for of so-called bytecode and .NET assembly is created
+   - Upon execution of a .NET assembly, its code is passed through the runtime's JIT compiler to generate native code
+   - Ahead-of-time compilation may also be used, which eliminates the JIT step, but at hte cost of executable-file portability
+   - The computer's processor executes the native code
+
+** *_Object-Oriented Concepts_*
+   - CIL may create objects, call methods and use other types of class members such as fields
+   - CIL is designed to be *Object-Oriented* and every *method* (with some exception) needs to reside in a class
+   - *Instance classes*
+     - An *instance class contains at least one constructor and some instance members.
+   - *CIL* has instructions for *creating* objects
+   - *CIL* has instructions for *invoking* instance methods
+** *_CIL Instruction Groups_*
+   - *CIL* bytecode has *instructions* for the following groups of tasks:
+     - load and store
+     - arithmetic
+     - type conversion
+     - object creation and manipulation
+     - operand stack management (push, pop)
+     - control transfer (branching)
+     - method invocation and return
+     - throwing exceptions
+     - monitor-based concurrency
+     - data and function pointers manipulation needed for C++ and unsafe C# code
+
+* *_Just-In-Time (JIT) Compiling_*
+  - *Assemblies* are compiled to native code by a *JIT compiler* before executing
+  - Compiled assemblies include *metadata*
+  - No Type Libraries or Interface Definition Language (IDL))
+  - JIT compilers are built into the CLR for every supported CPU architecture
+  - JIT compilers convert *CIL* to native on demand
+  - Resulting native code is stored fro reuse
+  - JIT compiling occurs for each method after the application is restarted
+
+** *_Classic Compilation vs .NET Compilation_*
+#+ATTR_HTML: :width 1200px
+[[./images/overview-of-net-framework-45-15-638.jpg]]

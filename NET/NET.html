@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>.NET Framework</title>
+<meta name="author" content="(Sergey V. Ignatov)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/theme/sky.css" id="theme"/>
+
+<link rel="stylesheet" href="./presentation.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/css/zenburn.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">.NET Framework</h1><h2 class="author">Sergey V. Ignatov</h2><p class="date">Created: 2018-12-11 Tue 10:56</p>
+</section>
+
+<section>
+<section id="slide-org3be1193">
+<h2 id="org3be1193"><b>What is the .NET Framework</b></h2>
+<ul>
+<li><b>The infrastructure for the overall .NET Platform</b></li>
+<li>A computing platform designed to simpify application development</li>
+<li>A consistent object-oriented programming environment</li>
+<li>A code-execution environment that minimizes software deployment and versioning conficts</li>
+
+</ul>
+
+</section>
+<section id="slide-org6799a75">
+<h3 id="org6799a75"><b><span class="underline">Major Components of .NET Framework</span></b></h3>
+<ul>
+<li>Common Language Runtime (CLR)
+<ul>
+<li>Manages code execution at runtime</li>
+<li>Manages memory, threads etc</li>
+<li>Code designed for the CLR is referred to as <font color="red"> Managed Code</font>
+<ul>
+<li>Object oriented</li>
+<li>Cross-language integration</li>
+<li>Cross-language <font color="red"> exception handling</font></li>
+<li>Multiple version support</li>
+
+</ul></li>
+
+</ul></li>
+<li>Base Class Library (Framework Class Library - FCL)
+<ul>
+<li>Object-oriented collection of reusable types</li>
+<li>Sits on-top of the Common Language Runtime (CLR)</li>
+
+</ul></li>
+<li>Commont Type System (CTS)</li>
+<li>Common Language Specification (CLS)</li>
+
+</ul>
+
+</section>
+<section id="slide-org1e0ef81">
+<h3 id="org1e0ef81"><b><span class="underline">.NET Framework Structure</span></b></h3>
+
+<div class="figure">
+<p><img src="./images/introduction-to-dotnet-10-728.jpg" alt="introduction-to-dotnet-10-728.jpg" width="1000px" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org3257da1">
+<h2 id="org3257da1"><b><span class="underline">Common Language Runtime (CLR)</span></b></h2>
+<ul>
+<li><b>CLR</b> works like a <b>virtual machine</b> in executing all languages</li>
+<li>Checking and enforcing security restrictions on the running code</li>
+<li>Manages memory through an extremely efficient garbage collectory</li>
+<li>Common Type System (CTS)</li>
+<li>Conversion from IL into code native to the platform being executed on</li>
+
+</ul>
+
+</section>
+<section id="slide-org4055846">
+<h3 id="org4055846"><b><span class="underline">Common Language Runtime (CLR)</span></b></h3>
+<ul>
+<li><b>All .NET languages must obey the rules and standard imposed by CLR.</b> Examples:
+<ul>
+<li>Object declaration, creation and use</li>
+<li>Data types, language libraries</li>
+<li>Error and exception handling</li>
+<li>Interactive Development Environment (IDE)</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org270435d">
+<h3 id="org270435d"><b><span class="underline">Common Language Runtime (CLR)</span></b></h3>
+<ul>
+<li><b>CLR</b> manages object layout and references to objects</li>
+<li>Objects whose lifetimes are managed by the <b>CLR</b> are referred to as <b>Managed Data</b></li>
+<li>Automatic memory management reduces memory leaks</li>
+<li>In <b>Managed Code</b> you can use:
+<ul>
+<li><b>Managed Data</b></li>
+<li><b>Unmanaged Data</b></li>
+<li>Both</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org4a05631">
+<h3 id="org4a05631"><b><span class="underline">Common Language Runtime (CLR)</span></b></h3>
+<ul>
+<li>All *CLR*<sub>compliant</sub> compilers use a common type system
+<ul>
+<li>Allows for cross-language inheritance</li>
+<li>Passing object instances across language barriers</li>
+<li>Invoking methods across language barriers</li>
+
+</ul></li>
+<li>Managed components exposes metadata</li>
+<li>Metadata includes
+<ul>
+<li>Resources component was compiled against</li>
+<li>Information about types and dependencies</li>
+<li>Signatures of each type's method</li>
+<li>Members that your code references</li>
+<li>Other runtime data for CLR</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org0ee18ba">
+<h3 id="org0ee18ba"><b><span class="underline">One Runtime For Many Languages</span></b></h3>
+<ul>
+<li>CLR is on open standard</li>
+<li>Any language can make use of CLR services</li>
+<li>Any language can use classes written in any other language</li>
+<li>Any language can inherit classes written in any other language</li>
+
+</ul>
+
+</section>
+<section id="slide-org56cc86a">
+<h3 id="org56cc86a"><b><span class="underline">Common Type System (CTS)</span></b></h3>
+<ul>
+<li><b>CTS is a rich type system built into the CLR</b>
+<ul>
+<li>Implements various types (int, double, etc)</li>
+
+</ul></li>
+<li><b>Strictly enforces type safety</b></li>
+<li><b>Ensures that classes are compatible with each other by describing them in a common way</b></li>
+<li><b>Enables types in one language to interoperate with types in another language</b></li>
+
+</ul>
+
+</section>
+<section id="slide-orge6cce21">
+<h3 id="orge6cce21"><b><span class="underline">Common Type System (CTS)</span></b></h3>
+
+<div class="figure">
+<p><img src="./images/introduction-to-net-framework-35-728.jpg" alt="introduction-to-net-framework-35-728.jpg" width="1000px" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgbf9aab8">
+<h3 id="orgbf9aab8"><b><span class="underline">Common Language Specification (CLS)</span></b></h3>
+<ul>
+<li><b>CLS is a set of specifications that language and library designers need to follow</b>
+<ul>
+<li>This will ensure interoperability between languages</li>
+
+</ul></li>
+<li><b>Specification that a language must conform to, to be accepted into the .NET framework</b></li>
+<li><b>The specification are detailed at</b> <a href="https://www.ecma-international.org/publications/standards/Ecma-335.htm">https://www.ecma-international.org/publications/standards/Ecma-335.htm</a></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf5c0c4d">
+<h3 id="orgf5c0c4d"><b><span class="underline">Intermediate Language (IL)</span></b></h3>
+<ul>
+<li><b>.NET languages are not compiled to machine code.</b> They are compiled to an <b>Intermedaite Language (IL)</b></li>
+<li><b>CLR accepts the IL code and recompiles it to machine code.</b> The recompilation is <b>Just-In-Time</b> (JIT) meaning it is done as soon as a function or subroutine is called.</li>
+<li><b>The JIT code stays in memory for subsequent calls.</b> In cases where there is not enough memory it is discarded thus making JIT process interpretive.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgab79140">
+<h3 id="orgab79140"><b><span class="underline">.NET Framework Class Libraries</span></b></h3>
+<ul>
+<li>Sit on top of the CLR</li>
+<li>Reusable types that tightly intergrate with the CLR</li>
+<li>Object oriented - inheritance, polymorphism, etc</li>
+<li>Provide functionality for ASP.NET, XML Web Services, ADO.NET, Windows Forms, basic system functionality (IO, XML, etc)</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org20cff82">
+<h2 id="org20cff82"><b><span class="underline">.NET Assemblies</span></b></h2>
+<ul>
+<li>Assemblies are the smallest unit of code distribution, deployment and versioning</li>
+<li>Individual components are packaged into unit called <font color="red"> assemblies</font></li>
+<li>Can be <font color="red"> dynamically loaded into the execution engine on demand</font></li>
+<li>Contains <b>Control Intermedaite Language (CIL)</b> code to be executed</li>
+<li>Security boundary - permissions are granted at the assembly level</li>
+<li>Type boundary - all types include the assembly name they are a part of</li>
+
+</ul>
+</section>
+<section id="slide-org8c5b4aa">
+<h3 id="org8c5b4aa"><b><span class="underline">Single File &amp; Multi File Assemblies</span></b></h3>
+
+<div class="figure">
+<p><img src="./images/SingleMulti.png" alt="SingleMulti.png" width="1200px" />
+</p>
+</div>
+</section>
+<section id="slide-org13fbb67">
+<h3 id="org13fbb67"><b><span class="underline">Assembly Characteristics</span></b></h3>
+<ul>
+<li><b>Self-describing</b>
+<ul>
+<li>To enable data-driven execution</li>
+
+</ul></li>
+<li><b>Platform-independent</b></li>
+<li><b>Bounded by name</b>
+<ul>
+<li>Locate assemblies by querying four-part tuple that consist of a human-friendly name, an international culture, a multipart version number, an a public key token</li>
+
+</ul></li>
+<li><b>Assembly loading is sensitive to version and policy</b>
+<ul>
+<li>Assemblies are loaded using tunable biding rules, which allow programmers and administrators to contribute policy to assembly-loading behaviour</li>
+
+</ul></li>
+<li><b>Validated</b>
+<ul>
+<li>Each time an assembly is loaded, it is subjected to a series of checks to ensure the assembly's integrity</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgdf92bbd">
+<h3 id="orgdf92bbd"><b><span class="underline">Self-describing of Assemblies</span></b></h3>
+<ul>
+<li><b>Modules</b>
+<ul>
+<li>Blueprint for types in the form of metadata and CIL</li>
+<li>Single file containing the structure and behaviour for some or all the types and/or resources found in the assembly</li>
+
+</ul></li>
+<li><b>An assembly always contains at least one module but has the capacity to include more</b></li>
+<li><b>Assemblies themselves have metadata that describe their structure:</b> <font color="red"> manifest</font></li>
+
+</ul>
+</section>
+<section id="slide-orgc45569d">
+<h3 id="orgc45569d"><b>_Manifest</b></h3>
+<ul>
+<li><b>Compounds name for the assembly</b></li>
+<li><b>Describes the public types that the assembly exports</b></li>
+<li><b>Describes types that the assembly will import from other assemblies</b></li>
+
+</ul>
+</section>
+<section id="slide-orgdbdbbbd">
+<h3 id="orgdbdbbbd"><b><span class="underline">Reflection</span></b></h3>
+<ul>
+<li>Programmatically gain access to <b>Metadata</b> at <b>runtime</b></li>
+<li>Used to make <b>ultra-flexible</b> code</li>
+<li>Components often perform <b>reflection</b> to find about derivations
+<ul>
+<li>Custom attributes</li>
+
+</ul></li>
+<li>Late and loose binding are possible with <b>reflection</b>
+<ul>
+<li>Instantiate objects, call methods, etc</li>
+
+</ul></li>
+<li><b>Reflection Emit</b>
+<ul>
+<li>Possible to emit IL at <b>runtime</b>, JIT compile &amp; execute</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgeb8cc92">
+<h2 id="orgeb8cc92"><b><span class="underline">Microsoft Intermedaite Language (CIL)</span></b></h2>
+<ul>
+<li><b>Managed Code</b> is compiled into <b>Common Intermediate Language(CIL)</b></li>
+<li>CPU-independent set of instructions
+<ul>
+<li>Loading, storing, initializing and calling methods</li>
+<li>Arithmetic and logical operations, etc</li>
+<li>Control flow, exception handling, direct memory access</li>
+
+</ul></li>
+<li>Is <font color="red"> Object-Oriented</font></li>
+<li>Is <font color="red"> Stack-Based</font></li>
+
+</ul>
+</section>
+<section id="slide-org995753d">
+<h3 id="org995753d"><b><span class="underline">Ececution Process in .NET</span></b></h3>
+<ul>
+<li>Source code is converted in CIL wich is equivalent to assembly language for a CPU</li>
+<li><b>CIL</b> is then assembled into a for of so-called bytecode and .NET assembly is created</li>
+<li>Upon execution of a .NET assembly, its code is passed through the runtime's JIT compiler to generate native code</li>
+<li>Ahead-of-time compilation may also be used, which eliminates the JIT step, but at hte cost of executable-file portability</li>
+<li>The computer's processor executes the native code</li>
+
+</ul>
+
+</section>
+<section id="slide-org56a6ed2">
+<h3 id="org56a6ed2"><b><span class="underline">Object-Oriented Concepts</span></b></h3>
+<ul>
+<li>CIL may create objects, call methods and use other types of class members such as fields</li>
+<li>CIL is designed to be <b>Object-Oriented</b> and every <b>method</b> (with some exception) needs to reside in a class</li>
+<li><b>Instance classes</b>
+<ul>
+<li>An *instance class contains at least one constructor and some instance members.</li>
+
+</ul></li>
+<li><b>CIL</b> has instructions for <b>creating</b> objects</li>
+<li><b>CIL</b> has instructions for <b>invoking</b> instance methods</li>
+
+</ul>
+</section>
+<section id="slide-org43a3d83">
+<h3 id="org43a3d83"><b><span class="underline">CIL Instruction Groups</span></b></h3>
+<ul>
+<li><b>CIL</b> bytecode has <b>instructions</b> for the following groups of tasks:
+<ul>
+<li>load and store</li>
+<li>arithmetic</li>
+<li>type conversion</li>
+<li>object creation and manipulation</li>
+<li>operand stack management (push, pop)</li>
+<li>control transfer (branching)</li>
+<li>method invocation and return</li>
+<li>throwing exceptions</li>
+<li>monitor-based concurrency</li>
+<li>data and function pointers manipulation needed for C++ and unsafe C# code</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org0a15f04">
+<h2 id="org0a15f04"><b><span class="underline">Just-In-Time (JIT) Compiling</span></b></h2>
+<ul>
+<li><b>Assemblies</b> are compiled to native code by a <b>JIT compiler</b> before executing</li>
+<li>Compiled assemblies include <b>metadata</b></li>
+<li>No Type Libraries or Interface Definition Language (IDL))</li>
+<li>JIT compilers are built into the CLR for every supported CPU architecture</li>
+<li>JIT compilers convert <b>CIL</b> to native on demand</li>
+<li>Resulting native code is stored fro reuse</li>
+<li>JIT compiling occurs for each method after the application is restarted</li>
+
+</ul>
+
+</section>
+<section id="slide-org37e1d4d">
+<h3 id="org37e1d4d"><b><span class="underline">Classic Compilation vs .NET Compilation</span></b></h3>
+
+<div class="figure">
+<p><img src="./images/overview-of-net-framework-45-15-638.jpg" alt="overview-of-net-framework-45-15-638.jpg" width="1200px" />
+</p>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/lib/js/head.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1200,
+height: 800,
+margin: 0.20,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'none', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>
