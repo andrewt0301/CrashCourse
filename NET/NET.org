@@ -101,6 +101,10 @@
 #+ATTR_HTML: :width 1000px
 [[./images/introduction-to-net-framework-35-728.jpg]]
 
+** *_Common Data Types_*
+#+ATTR_HTML: :width 1000px
+[[./images/introduction-to-net-framework-37-728.jpg]]
+
 ** *_Common Language Specification (CLS)_*
    - *CLS is a set of specifications that language and library designers need to follow*
      - This will ensure interoperability between languages
@@ -191,6 +195,79 @@
      - throwing exceptions
      - monitor-based concurrency
      - data and function pointers manipulation needed for C++ and unsafe C# code
+** *_Minimal Hello Program in CIL_*
+#+BEGIN_SRC c++
+.assembly Hello {}
+.method public static void Main() cil managed
+{
+  .entrypoint
+  .maxstack 1
+  ldstr "Hello, world!"
+  call void [mscorlib]System.Console::WriteLine(string)
+  ret
+}
+#+END_SRC
+** *_Sample of CIL Bytecode_*
+#+BEGIN_SRC c++
+assembly              bytecode           purpose
+ldarga argNum            FE 0A           fetch the adress given as argument
+brtrue                   2D              branch when the previous result is true
+break                    01              exit a loop
+#+END_SRC
+** *_CIL Evaluation Stack_*
+   - Stack is the data structure that follows *Last In and First Out(LIFO)* kind of data storing method i.e the type present at the top are the first one to be removed from it. The below example makes it clear.
+#+ATTR_HTML: :width 900px
+[[./images/stack.jpg]]
+** *_CIL Evaluation Stack_*
+   - *Evaluation Stack* is used to hold the local variable or the method argument before they are evaluated. Before the start of every method the evaluation stack is empty and during the execution of the method the *CIL* instructions adds/removes the items from the *evaluation stack*, the end result of which is an empty evaluation stack at the end of that method execution.
+   - Instruction that copy values from memory to the *evaluation stack* are called *Load* and the instruction that copy values from the *evaluation stack* back to memory are called *Store*. All the Opcodes starting with *ld* are used for *loading* the item on the stack and the Opcodes starting with *st* are used for *storing* the item in the memory. The instruction used for *storing* the data in memory also result in *popping off* the item from the *evaluation stack*.
+** *_CIL Evaluation Stack_*
+   - At the beginning of the function it is required to provide the maximum items that would be present on that stack at any particular time, this is done using *.maxstack* directive. If this is not provided the *.maxstack*  value would be defaulted to *8*. We can easily provide the size of the stack by static analysis of the method, looking for the number of variables in the method. Also it should be noted that *maxstack* doesn't represent the size of the *stack frame*, it is just the number of items on the *evaluation stack*. The *maxstack* value can be easily determined by analyzing the method and seeing how many variables and parameters it has.
+** *_CIL Evaluation Stack Example_*
+   - C# code
+#+BEGIN_SRC c++
+static void add()
+{
+    int value1 = 10;
+    int value2 = 20;
+    int value3 = value1 + value2;
+}
+#+END_SRC
+** *_CIL Evaluation Stack Example_
+   - CIL code
+ #+BEGIN_SRC c++
+ 0.method private hidebysig static void  'add'() cil managed
+ {
+   // Code size       12 (0xc)
+   .maxstack  2
+   .locals init ([0] int32 value1,
+            [1] int32 value2,
+            [2] int32 value3) // three int32 local variables are declared
+
+   IL_0000:  nop  // no operation ( no push or pop on the stack)
+
+   IL_0001:  ldc.i4.s   10  //loads the int32 value(10) on the stack. Item on Stack=1
+
+   IL_0003:  stloc.0 // pops off the item from the stack and stores in first local variable.
+                     //Item on Stack=0
+
+   IL_0004:  ldc.i4.s   20 //loads the int32 value(20) on the stack.Item on the stack =1
+
+   IL_0006:  stloc.1 0 // pops off the item from the stack and stores in second local variable .
+                       //Item on Stack=0
+
+   IL_0007:  ldloc.0// Loads the value of first local variable on the stack. Item on Stack=1
+
+   IL_0008:  ldloc.1// Loads the value of second local variable on the stack. Item on Stack=2
+
+   IL_0009:  add //(Pops off first two numeric value from the stack and sends the result
+                 // back to the stack) //Item on stack=2-2+1=1
+   IL_000a:  stloc.2 //(Pop off the item from the stack and store it in local variable [3].
+                     //Item on the Stack=0
+
+   IL_000b:  ret
+ } // end of method Program::'add'
+ #+END_SRC
 
 * *_Just-In-Time (JIT) Compiling_*
   - *Assemblies* are compiled to native code by a *JIT compiler* before executing
