@@ -1,4 +1,4 @@
-#+REVEAL_ROOT: https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.7.0
+#+REVEAL_ROOT: https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/js/reveal.js
 #+OPTIONS: reveal_center:t reveal_progress:t reveal_history:t reveal_control:t
 #+OPTIONS: reveal_mathjax:t reveal_rolling_links:t reveal_keyboard:t
 #+OPTIONS: reveal_overview:t num:nil reveal_toc:nil
