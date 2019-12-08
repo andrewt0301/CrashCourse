@@ -1,4 +1,5 @@
 
+
 # **<span class="underline">Agenda</span>**
 
 -   What is **Compiler Optimization**
@@ -10,11 +11,13 @@
 -   Intermediate Representation
 -   LLVM IR
 
+
 # **<span class="underline">What Is Compiler Optimization</span>**
 
 -   What is **Compiler Optimization**
 -   History of **Compiler Optimization**
 -   Types of **Compiler Optimization**
+
 
 ## **<span class="underline">What Is Compiler Optimization</span>**
 
@@ -25,10 +28,12 @@
     -   minimizing memory use
     -   minimizing the power consumed by a program
 
+
 ## **<span class="underline">History of Compiler Optimization</span>**
 
--   One of the earliest notable optimizing compiler was that for BLISS (1970), which was described in The Design of an Optimizing Compiler (1975)
+-   One of the earliest notable optimizing compiler was that for BLISS (1970), which was described in The  Design of an Optimizing Compiler (1975)
 -   By the 1980s optimizing compilers were sufficiently effective that programming in assembly language declined, and by the late 1990s for even sensitive code, optimizing compilers exceeded the performance of human experts.
+
 
 ## **<span class="underline">Optimizations at Various Phases</span>**
 
@@ -44,6 +49,7 @@
     -   Peephole optimizations.
     -   Instruction scheduling.
 
+
 ## **<span class="underline">Types of Compiler Optimization</span>**
 
 -   Peephole optimizations
@@ -54,29 +60,36 @@
 -   Interprocedural, whole-program or link-time optimizations
 -   Machine code optimizations
 
+
 ### **<span class="underline">Peephole Optimizations</span>**
 
 -   Usually performed late in the compilation process after machine code has been generated. This form of optimization examines a few adjacent instructions to see whether they can be replaced by a single instruction or a shorter sequence of instructions.
+
 
 ### **<span class="underline">Local Optimizations</span>**
 
 -   These only consider information local to a basic block. Since basic blocks have no control flow, these optimizations need very little analysis (saving time and reducing storage requirements), but this also means that no information is preserved across jumps.
 
+
 ### **<span class="underline">Global Optimizations</span>**
 
 -   These are also called "intraprocedural methods" and act on whole function. This gives them more information to work with but often makes expensive computations necessary.
+
 
 ### **<span class="underline">Loop Optimizations</span>**
 
 -   These act on the statements which make up a loop. Loop optimizations can have a significant impact because many programs spend a large percentage of their time inside loops.
 
+
 ### **<span class="underline">Prescient Store Optimizations</span>**
 
 -   Allow store operations to occur earlier than would otherwise be permitted in the context of threads and locks. The process needs some way of knowing ahead of time what value will be stored by the assignment that it should have followed.
 
+
 ### **<span class="underline">Interprocedural, Whole-Program or Link-Time Optimizations</span>**
 
 -   These analyze all of a program's source code. The greater quantity of information extracted means that optimizations can be more effective compared to when they only have access to local information.
+
 
 ### **<span class="underline">Machine Code Optimizations</span>**
 
@@ -85,14 +98,17 @@
     -   Programming language-independent vs language-dependent
     -   Machine independent vs machine dependent
 
+
 ### **<span class="underline">Programming Language-Dependent VS Language-Independent</span>**
 
 -   Most high-level languages share common programming constructs and abstractions: decision (`if`, `switch`, `case`), looping (`for`, `while`, `repeat`&#x2026;~until~, `do`&#x2026;~while~), and encapsulation (structures, objects).
 -   However, certain language features make some kinds of optimizations difficult. For instance, the existence of pointers in `C` and `C++` makes it difficult to optimize array accesses.
 
+
 ### **<span class="underline">Machine Independent VS Machine Dependent</span>**
 
 -   Many optimizations that operate on abstract programming concepts (loops, objects, structures) are independent of the machine targeted by the compiler, but many of the most effective optimizations are those that best exploit special features of the target platform. E.g.: Instruction which do several things at once, such as decrement register and branch if not zero.
+
 
 ## **<span class="underline">Factors Affecting Compiler Optimization</span>**
 
@@ -101,10 +117,12 @@
 -   The architecture of the machine.
 -   Intended use of the generated code.
 
+
 ### **<span class="underline">The Machine Itself</span>**
 
 -   Many of the choices about which optimizations can and should be done depend on the characteristics of the target machine.
 -   It is sometimes possible to parameterize some of these machine dependent factors, so that a single piece of compiler code can be used to optimize different machines just by altering the machine description parameters.
+
 
 ### **<span class="underline">The Architecture of the Target CPU</span>**
 
@@ -112,11 +130,13 @@
 -   Pipelines
 -   Number of functional units
 
+
 ### **<span class="underline">The Architecture of the Machine</span>**
 
 -   Techniques such as inline expansion and loop unrolling may increase the size of the generated code and reduce code locality.
 -   Cache/Memory transfer rates: These give the compiler an indication of the penalty for cache misses.
 -   This is used mainly in specialized applications.
+
 
 ### **<span class="underline">Intended Use of the Generated Code</span>**
 
@@ -141,439 +161,379 @@
 
     -   Embedded software can be tightly tuned to an exact CPU and memory size. So, for example, compilers for embedded software usually offer options that reduce code size at the expense of speed, because memory is the main cost of an embedded computer.
 
+
 ## **<span class="underline">Future Scope</span>**
 
 -   Artifical intelligence will detect all the code which can be optimized.
+
 
 # **<span class="underline">Techniques of Compiler Optimizations</span>**
 
 -   [Compiler Optimizations](http://compileroptimizations.com/)
 
+
 ## **<span class="underline">Instruction Combining</span>**
 
-```c
-int i;
-void f()
-{
-  i++;
-  i++;
-}
-```
+    int i;
+    void f()
+    {
+      i++;
+      i++;
+    }
 
-```c
-int i;
-void f()
-{
-  i += 2;
-}
-```
+    int i;
+    void f()
+    {
+      i += 2;
+    }
+
 
 ## **<span class="underline">Constant Folding</span>**
 
-```c
-int f()
-{
-  return (3 + 5);
-}
-```
+    int f()
+    {
+      return (3 + 5);
+    }
 
-```c
-int f()
-{
-  return 8;
-}
-```
+    int f()
+    {
+      return 8;
+    }
+
 
 ## **<span class="underline">Constant Propagation</span>**
 
-```c
-void f()
-{
-  x = 3;
-  y = x + 4;
-}
-```
+    void f()
+    {
+      x = 3;
+      y = x + 4;
+    }
 
-```c
-void f()
-{
-  x = 3;
-  y = 7;
-}
-```
+    void f()
+    {
+      x = 3;
+      y = 7;
+    }
+
 
 ## **<span class="underline">Common SubExpression (CSE) Elimination</span>**
 
-```c
-void f()
-{
-  i = x + y + 1;
-  j = x + y;
-}
-```
+    void f()
+    {
+      i = x + y + 1;
+      j = x + y;
+    }
 
-```c
-void f()
-{
-  t1 = x + y;
-  i = t1 + 1;
-  j = t1;
-}
-```
+    void f()
+    {
+      t1 = x + y;
+      i = t1 + 1;
+      j = t1;
+    }
+
 
 ## **<span class="underline">Integer Multiply Optimization</span>**
 
-```c
-int f(int i)
-{
-  return i * 4;
-}
-```
+    int f(int i)
+    {
+      return i * 4;
+    }
 
-```c
-int f(int i)
-{
-  return i << 2;
-}
-```
+    int f(int i)
+    {
+      return i << 2;
+    }
+
 
 ## **<span class="underline">Integer Divide Optimization</span>**
 
-```c
-int f(int i)
-{
-  return i / 2;
-}
-```
+    int f(int i)
+    {
+      return i / 2;
+    }
 
-```c
-int f(int i)
-{
-  return i >> 1;
-}
-```
+    int f(int i)
+    {
+      return i >> 1;
+    }
+
 
 ## **<span class="underline">Loop Fusion</span>**
 
-```c
-void f()
-{
-  int i;
-  for (int i = 0; i < 100; i++)
-    a[i] += 10;
-  for (int i = 0; i < 100; i++)
-    b[i] += 10;
-}
-```
+    void f()
+    {
+      int i;
+      for (int i = 0; i < 100; i++)
+        a[i] += 10;
+      for (int i = 0; i < 100; i++)
+        b[i] += 10;
+    }
 
-```c
-void f()
-{
-  int i;
-  for (int i = 0; i < 100; i++) {
-    a[i] += 10;
-    b[i] += 10;
-  }
-}
-```
+    void f()
+    {
+      int i;
+      for (int i = 0; i < 100; i++) {
+        a[i] += 10;
+        b[i] += 10;
+      }
+    }
+
 
 ## **<span class="underline">Dead Code Elimination</span>**
 
-```c
-int global;
-void f()
-{
-  int i;
-  i = 1;      // dead store
-  global = 1; // dead store
-  global = 2;
-  return;
-  global = 3; // unreachable
-}
-```
+    int global;
+    void f()
+    {
+      int i;
+      i = 1;      // dead store
+      global = 1; // dead store
+      global = 2;
+      return;
+      global = 3; // unreachable
+    }
 
-```c
-void f()
-{
-  global = 2;
-  return;
-}
-```
+    void f()
+    {
+      global = 2;
+      return;
+    }
+
 
 ## **<span class="underline">Redundant Code Elimination</span>**
 
-```c
-{
-  if (1 < 2) {
-    printf("i is smaller than 2");
-  } else {
-    printf("math is broken");
-  }
-}
-```
+    {
+      if (1 < 2) {
+        printf("i is smaller than 2");
+      } else {
+        printf("math is broken");
+      }
+    }
 
-```c
-{
-  printf("i is smaller than 2");
-}
-```
+    {
+      printf("i is smaller than 2");
+    }
+
 
 ## **<span class="underline">Expression Simplification</span>**
 
-```c
-void f(int i)
-{
-  a[0] = i + 0;
-  a[1] = i * 0;
-  a[2] = i - i;
-  a[3] = 1 + i + 1;
-}
-```
+    void f(int i)
+    {
+      a[0] = i + 0;
+      a[1] = i * 0;
+      a[2] = i - i;
+      a[3] = 1 + i + 1;
+    }
 
-```c
-void f(int i)
-{
-  a[0] = i;
-  a[1] = 0;
-  a[2] = 0;
-  a[3] = 2 + i;
-}
-```
+    void f(int i)
+    {
+      a[0] = i;
+      a[1] = 0;
+      a[2] = 0;
+      a[3] = 2 + i;
+    }
+
 
 ## **<span class="underline">Forward Store</span>**
 
-```c
-int sum;
-void f()
-{
-  sum = 0;
-  for (int i = 0; i < 100; i++) {
-    sum += a[i];
-  }
-}
-```
+    int sum;
+    void f()
+    {
+      sum = 0;
+      for (int i = 0; i < 100; i++) {
+        sum += a[i];
+      }
+    }
 
-```c
-int sum;
-void f()
-{
-  register int t = 0;
-  for (int i = 0; i < 100; i++) {
-    t += a[i];
-  }
-  sum = t;
-}
-```
+    int sum;
+    void f()
+    {
+      register int t = 0;
+      for (int i = 0; i < 100; i++) {
+        t += a[i];
+      }
+      sum = t;
+    }
+
 
 ## **<span class="underline">Loop Invariant Code Motion</span>**
 
-```c
-#define BLACK 1
-struct Triangle {...};
-struct Triangle *triangle[];
-{
-  int color;
-  for (int i = 0; i < 100; i++) {
-    color = BLACK;
-    Draw(t, color);
-  }
-}
-```
+    #define BLACK 1
+    struct Triangle {...};
+    struct Triangle *triangle[];
+    {
+      int color;
+      for (int i = 0; i < 100; i++) {
+        color = BLACK;
+        Draw(t, color);
+      }
+    }
 
-```c
-#define BLACK 1
-struct Triangle {...};
-struct Triangle *triangle[];
-{
-  int color = BLACK;
-  for (int i = 0; i < 100; i++) {
-    Draw(t, color);
-  }
-}
-```
+    #define BLACK 1
+    struct Triangle {...};
+    struct Triangle *triangle[];
+    {
+      int color = BLACK;
+      for (int i = 0; i < 100; i++) {
+        Draw(t, color);
+      }
+    }
+
 
 ## **<span class="underline">If Optimization</span>**
 
-```c
-void f(int *p)
-{
-  if (p)
-    g(1);
-  if (p)
-    g(2);
-}
-```
+    void f(int *p)
+    {
+      if (p)
+        g(1);
+      if (p)
+        g(2);
+    }
 
-```c
-void f(int *p)
-{
-  if (p) {
-    g(1);
-    g(2);
-  }
-}
-```
+    void f(int *p)
+    {
+      if (p) {
+        g(1);
+        g(2);
+      }
+    }
+
 
 ## **<span class="underline">If Optimization</span>**
 
-```c
-void f(int *p)
-{
-  if (p) {
-    g(1);
-    if (p)
-      g(2);
-}
-```
+    void f(int *p)
+    {
+      if (p) {
+        g(1);
+        if (p)
+          g(2);
+    }
 
-```c
-void f(int *p)
-{
-  if (p) {
-    g(1);
-    g(2);
-  }
-}
-```
+    void f(int *p)
+    {
+      if (p) {
+        g(1);
+        g(2);
+      }
+    }
+
 
 ## **<span class="underline">`new` Expression Optimization</span>**
 
-```c++
-{
-  int a[];
-  a = new int[100];
-}
-```
+    {
+      int a[];
+      a = new int[100];
+    }
 
-```c++
-{
-  // a not used, so not allocated
-}
-```
+    {
+      // a not used, so not allocated
+    }
+
 
 ## **<span class="underline">`try...catch` Block Optimization</span>**
 
-```c++
-try
-{
-  a = (int)5;
-}
-catch (Exception e)
-{
-  //
-}
-```
+    try
+    {
+      a = (int)5;
+    }
+    catch (Exception e)
+    {
+      //
+    }
 
-```c++
-a = 5;
-```
+    a = 5;
+
 
 ## **<span class="underline">Loop Unrolling</span>**
 
-```c
-for (int i = 0; i < 100; i++) {
-  g();
-}
-```
+    for (int i = 0; i < 100; i++) {
+      g();
+    }
 
-```c
-for (int i = 0; i < 100; i += 2) {
-  g();
-  g();
-}
-```
+    for (int i = 0; i < 100; i += 2) {
+      g();
+      g();
+    }
+
 
 ## **<span class="underline">Unswitching</span>**
 
-```c
-for (int i = 0; i < 100; i++) {
-  if (x)
-    a[i] = i;
-  else
-    b[i] = i;
-}
-```
+    for (int i = 0; i < 100; i++) {
+      if (x)
+        a[i] = i;
+      else
+        b[i] = i;
+    }
 
-```c
-if (x) {
-  for (int i = 0; i < 100; i++) {
-    a[i] = i;
-  }
-} else {
-  for (int i = 0; i < 100; i++) {
-    b[i] = i;
-  }
-}
-```
+    if (x) {
+      for (int i = 0; i < 100; i++) {
+        a[i] = i;
+      }
+    } else {
+      for (int i = 0; i < 100; i++) {
+        b[i] = i;
+      }
+    }
+
 
 ## **<span class="underline">Induction Variable Elimination</span>**
 
-```c
-int a[SIZE];
-int b[SIZE];
+    int a[SIZE];
+    int b[SIZE];
+    
+    void f (void)
+    {
+      int i1, i2, i3;
+    
+      for (i1 = 0, i2 = 0, i3 = 0; i1 < SIZE; i1++)
+        a[i2++] = b[i3++];
+      return;
+    }
 
-void f (void)
-{
-  int i1, i2, i3;
+    int a[SIZE];
+    int b[SIZE];
+    
+    void f (void)
+    {
+      int i1;
+    
+      for (i1 = 0; i1 < SIZE; i1++)
+        a[i1] = b[i1];
+      return;
+    }
 
-  for (i1 = 0, i2 = 0, i3 = 0; i1 < SIZE; i1++)
-    a[i2++] = b[i3++];
-  return;
-}
-```
-
-```c
-int a[SIZE];
-int b[SIZE];
-
-void f (void)
-{
-  int i1;
-
-  for (i1 = 0; i1 < SIZE; i1++)
-    a[i1] = b[i1];
-  return;
-}
-```
 
 ## **<span class="underline">Strength Reduction</span>**
 
-```c
-int s = 0, v = 0;
-for (int i = 0; i < n; i++) {
-  v = 4 * i;
-  s = s + v;
-}
-```
+    int s = 0, v = 0;
+    for (int i = 0; i < n; i++) {
+      v = 4 * i;
+      s = s + v;
+    }
 
-```c
-int s = 0, v = 0;
-for (int i = 0; i < n; i++) {
-  v = v + 4;
-  s = s + v;
-}
-```
+    int s = 0, v = 0;
+    for (int i = 0; i < n; i++) {
+      v = v + 4;
+      s = s + v;
+    }
+
 
 ## **<span class="underline">Function Inlining</span>**
 
-```c
-int add (int x, int y)
-{
-  return x + y;
-}
+    int add (int x, int y)
+    {
+      return x + y;
+    }
+    
+    int sub (int x, int y)
+    {
+      return add (x, -y);
+    }
 
-int sub (int x, int y)
-{
-  return add (x, -y);
-}
-```
+    int sub (int x, int y)
+    {
+      return x - y;
+    }
 
-```c
-int sub (int x, int y)
-{
-  return x - y;
-}
-```
 
 # **<span class="underline">Intermediate Representation</span>**
 
@@ -584,11 +544,13 @@ int sub (int x, int y)
 
 ![img](./images/IR1.png)
 
+
 ## **<span class="underline">Why Use an IR?</span>**
 
 -   If a compiler translates the source language to its target machine language without having the option for generating intermediate code, then for each new machine, a full native compiler is required.
 -   Because translation appears to *inherently* require analysis and synthesis. Intermediate code eliminates the need of a new full compiler for every unique machine by keeping the analysis portion same for all the compilers.
 -   To break the difficult problem of translation into simpler, more manageable pieces.
+
 
 ## **<span class="underline">Why Use an IR?</span>**
 
@@ -598,15 +560,18 @@ int sub (int x, int y)
     -   We only have to write *2n* half-compilers instead of *n(n-1)* full compilers.
 -   To perform *machine independent* optimizations. It becomes easier to apply the source code modifications to improve code performance by applying code optimization techniques on the intermediate code.
 
+
 ## **<span class="underline">Why Use an IR?</span>**
 
 ![img](./images/IR2.png)
+
 
 ## **<span class="underline">Why Use an IR?</span>**
 
 -   Ideally, details of the source language are confined to the front end, and details of the target machine to the back end.
 
 ![img](./images/IR3.png)
+
 
 ## **<span class="underline">Intermediate Representations</span>**
 
@@ -620,6 +585,7 @@ int sub (int x, int y)
 -   The importance of different properties varies between compilers
     -   Selecting anappropriate *IR* for a compiler is critical
 
+
 ## **<span class="underline">Level of Abstraction: High</span>**
 
 -   Operands look a lot like the source language, with structured objects like arrays and structs.
@@ -630,6 +596,7 @@ int sub (int x, int y)
 -   No thought of registers
 -   No concern for runtime systems
 
+
 ## **<span class="underline">Level of Abstraction: Medium</span>**
 
 -   There are no structured objects, but still target language independent
@@ -638,6 +605,7 @@ int sub (int x, int y)
 -   Break down data structure references to deal only with simple integers and floats
 -   Great for architecture-independent optimizations
 
+
 ## **<span class="underline">Level of Abstraction: Low</span>**
 
 -   Operands are extremely close to target machine
@@ -645,6 +613,7 @@ int sub (int x, int y)
 -   Deviates from target language only in its inclusion of pseudo-operations and symbolic (virtual) registers
 -   Inimately concerned with run-time storage management issues like stake frames and parameter passing
 -   Used for architecture dependent optimizations
+
 
 ## **<span class="underline">Memory Models</span>**
 
@@ -658,6 +627,7 @@ int sub (int x, int y)
         -   Only promote values to registers directly before they are used
         -   Compiler back-end can remove loads and stores
 
+
 ## **<span class="underline">Styles of IR</span>**
 
 -   Intermediate representations are usually:
@@ -666,12 +636,14 @@ int sub (int x, int y)
     -   Flat, stack-based
     -   Or any combination of the above three
 
+
 ## **<span class="underline">Structural IR</span>**
 
 -   Graphically oriented
 -   Heavily used in source-to-source translators
 -   Tend to be large
 -   <font color="blue"> Examples: Trees</font>
+
 
 ## **<span class="underline">Linear IR</span>**
 
@@ -681,16 +653,19 @@ int sub (int x, int y)
 -   Easier to rearrange
 -   <font color="blue"> Examples: 3 address code</font>
 
+
 ## **<span class="underline">Hybrid IR</span>**
 
 -   Combination of graphs and linear code
 -   Attempt to take best of each
 -   <font color="blue"> Examples: Control Flow Graph</font>
 
+
 ## **<span class="underline">Abstract Syntax Tree</span>**
 
 -   An **Abstract Syntax Tree (AST)** is a way of representing the syntax of a programming language as a hierarchical tree-like structure. This structure is used for generating symbol tables for compilers and later code generation. The tree represents all of the constructs in the language and their subsequent rules. AST is the procedure's parse tree.
 -   For ease of manipulation, can use a linearized (operator) form of the tree: \(x - 2*y\) \(\rightarrow\) \(x 2 y *\) - postfix form
+
 
 ## **<span class="underline">Directed Acyclic Graphs (DAGs)</span>**
 
@@ -699,9 +674,11 @@ int sub (int x, int y)
 
 ![img](./images/DAG.png)
 
+
 ## **<span class="underline">Directed Acyclic Graphs (DAGs)</span>**
 
 -   The DAG can be built from the AST by doing a post-order traversal, constructing each node and linking to an existing node if the constructed already exists in the DAG, otherwise add the constructed node to the DAG
+
 
 ## **<span class="underline">3-Address Code</span>**
 
@@ -718,12 +695,14 @@ int sub (int x, int y)
     -   **address and pointer assignments**: *x = &y*, *x = \*y*, *\*x = y*
     -   **indexed instructions**: *x[i] = y*, *x = y[i]*
 
+
 ## **<span class="underline">3-Address Code</span>**
 
 -   An *Address* can be one of the following:
     -   **Name** - is a pointer to the symbol table entyr that corresponds to a source program name (variable)
     -   **Constant**
     -   **Temporary** - *compiler-generated temporaries* created as needed. They may be removed by different optimization phases. The remaining *temporaries* will be allocated to hardware registers if possible
+
 
 ## **<span class="underline">3-Address Code</span>**
 
@@ -732,20 +711,19 @@ int sub (int x, int y)
     -   Introduces a new set of machines (the temp results)
     -   Compact form
 
+
 ## **<span class="underline">Stack Machine Code</span>**
 
 -   Can simplify *IR* by assuming implicit stack:
     -   *z = x - 2 \* y* becomes
 
-```asm
-push z
-push x
-push 2
-push y
-multiply
-substract
-store
-```
+    push z
+    push x
+    push 2
+    push y
+    multiply
+    substract
+    store
 
 -   <font color="red"> Advantages:</font>
     -   compact form
@@ -755,6 +733,7 @@ store
 -   <font color="red"> Disadvantages:</font>
     -   processors operate on registers, not stacks
     -   difficult to reuse values on the stack
+
 
 ## **<span class="underline">3-Address Code: Quadruples</span>**
 
@@ -769,45 +748,179 @@ store
     -   easy to reorder
     -   explicit names
 
+
 ## **<span class="underline">3-Address Code: Quadruples</span>**
 
 -   *a = b \* -c + b \* -c*
 -   3-adress code
 
-```c
-t1 = minus c
-t2 = b * t1
-t3 = minus c
-t4 = b * t3
-t5 = t2 + t4
-a = t5
-```
+    t1 = minus c
+    t2 = b * t1
+    t3 = minus c
+    t4 = b * t3
+    t5 = t2 + t4
+    a = t5
 
 -   Quadruples
 
-|   | *op*  | *arg1* | *arg2* | *result* |
-|--- |----- |------ |------ |-------- |
-| 0 | minus | *c*    |        | *t1*     |
-| 1 | \*    | *b*    | *t1*   | *t2*     |
-| 2 | minus | *c*    |        | *t3*     |
-| 3 | \*    | *b*    | *t3*   | *t4*     |
-| 4 | +     | *t2*   | *t4*   | *t5*     |
-| 5 | =     | *t5*   |        | *a*      |
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left">*op*</th>
+<th scope="col" class="org-left">*arg1*</th>
+<th scope="col" class="org-left">*arg2*</th>
+<th scope="col" class="org-left">*result*</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">minus</td>
+<td class="org-left">*c*</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*t1*</td>
+</tr>
+
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">\*</td>
+<td class="org-left">*b*</td>
+<td class="org-left">*t1*</td>
+<td class="org-left">*t2*</td>
+</tr>
+
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">minus</td>
+<td class="org-left">*c*</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*t3*</td>
+</tr>
+
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">\*</td>
+<td class="org-left">*b*</td>
+<td class="org-left">*t3*</td>
+<td class="org-left">*t4*</td>
+</tr>
+
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">+</td>
+<td class="org-left">*t2*</td>
+<td class="org-left">*t4*</td>
+<td class="org-left">*t5*</td>
+</tr>
+
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">=</td>
+<td class="org-left">*t5*</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*a*</td>
+</tr>
+</tbody>
+</table>
+
 
 ## **<span class="underline">3-Address Code: Triple</span>**
 
 -   With *quadruples* the *result* field is used to specify the *temporary* that holds the result of the instruction. *Triples* are an optimization (in terms of space) where we use the instruction's position to specify the *temporary* that will hold the result.
 
-|   | *op*  | *arg1* | *arg2* |
-|--- |----- |------ |------ |
-| 0 | minus | *c*    |        |
-| 1 | \*    | *b*    | (0)    |
-| 2 | minus | *c*    |        |
-| 3 | \*    | *b*    | (2)    |
-| 4 | +     | (1)    | (3)    |
-| 5 | =     | *a*    | (4)    |
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left">*op*</th>
+<th scope="col" class="org-left">*arg1*</th>
+<th scope="col" class="org-left">*arg2*</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">minus</td>
+<td class="org-left">*c*</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">\*</td>
+<td class="org-left">*b*</td>
+<td class="org-left">(0)</td>
+</tr>
+
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">minus</td>
+<td class="org-left">*c*</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">\*</td>
+<td class="org-left">*b*</td>
+<td class="org-left">(2)</td>
+</tr>
+
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">+</td>
+<td class="org-left">(1)</td>
+<td class="org-left">(3)</td>
+</tr>
+
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">=</td>
+<td class="org-left">*a*</td>
+<td class="org-left">(4)</td>
+</tr>
+</tbody>
+</table>
 
 -   The bracketed numbers are pointers to the *temporaries* associated with each entry in the *triple* structure.
+
 
 ## **<span class="underline">3-Address Code: Triple</span>**
 
@@ -820,20 +933,111 @@ a = t5
 -   25% less space consumed than quads
 -   Much harder to reorder
 
+
 ## **<span class="underline">3-Address Code: Indirect Triple</span>**
 
 -   In the subsequent optimization stage, *triples* cause complications as reordering the triples will result in a triple referring to the wrong *temporary*. The solution is to use another table to index into the *triple* structure
 
-|   | *op*  | *arg1* | *arg2* |  | idx | ref |
-|--- |----- |------ |------ |--- |--- |--- |
-| 0 | minus | *c*    |        |  | 25  | (0) |
-| 1 | \*    | *b*    | (0)    |  | 26  | (1) |
-| 2 | minus | *c*    |        |  | 27  | (2) |
-| 3 | \*    | *b*    | (2)    |  | 28  | (3) |
-| 4 | +     | (1)    | (3)    |  | 29  | (4) |
-| 5 | =     | *a*    | (4)    |  | 30  | (5) |
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left">*op*</th>
+<th scope="col" class="org-left">*arg1*</th>
+<th scope="col" class="org-left">*arg2*</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">idx</th>
+<th scope="col" class="org-left">ref</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">minus</td>
+<td class="org-left">*c*</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">25</td>
+<td class="org-left">(0)</td>
+</tr>
+
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">\*</td>
+<td class="org-left">*b*</td>
+<td class="org-left">(0)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">26</td>
+<td class="org-left">(1)</td>
+</tr>
+
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">minus</td>
+<td class="org-left">*c*</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">27</td>
+<td class="org-left">(2)</td>
+</tr>
+
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">\*</td>
+<td class="org-left">*b*</td>
+<td class="org-left">(2)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">28</td>
+<td class="org-left">(3)</td>
+</tr>
+
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">+</td>
+<td class="org-left">(1)</td>
+<td class="org-left">(3)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">29</td>
+<td class="org-left">(4)</td>
+</tr>
+
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">=</td>
+<td class="org-left">*a*</td>
+<td class="org-left">(4)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">30</td>
+<td class="org-left">(5)</td>
+</tr>
+</tbody>
+</table>
 
 -   The entries in the index table can be reordered without messing up the references to *temporaries*
+
 
 ## **<span class="underline">Basic Block</span>**
 
@@ -846,12 +1050,11 @@ a = t5
     -   Each instruction in a basic block is executed after all the preceding instructions have been executed
 -   Example:
 
-```c
-L:
-  t = 2 * x;
-  w = t + x;
-  if (w > 0) goto L;
-```
+    L:
+      t = 2 * x;
+      w = t + x;
+      if (w > 0) goto L;
+
 
 ## **<span class="underline">Basic Block</span>**
 
@@ -863,6 +1066,7 @@ L:
 -   To locate **Basic Blocks** in flattened code:
     -   **Starts with**: (1) target of a branch (label) or (2) the instruction after a conditional branch
     -   **Ends with**: (1) a branch or (2) the instruction before the target of a branch
+
 
 ## **<span class="underline">Control Flow Graph (CFG)</span>**
 
@@ -877,27 +1081,28 @@ L:
         -   all **"return"** nodes in a method (procedure) CFG are **terminal** nodes. Sometimes all **return** nodes can have additional edges (one for each) to the only **exit** terminal node
         -   conditional and unconditional **jumps** represent **edges** in a method (procedure) CFG
 
+
 ## **<span class="underline">Control Flow Graph Example</span>**
 
-```c
-  goto L2;
-L1:
-  t0 = 3 >> x;
-  t1 = y / t0;
-  x = t1;
-  if (y == 0) goto L3;
-  t2 = x - 3;
-  print t2;
-L3:
-L2:
-  t4 = 4 * y;
-  x = t4 < t5;
-  if (t5 != 0) goto L1;
-```
+      goto L2;
+    L1:
+      t0 = 3 >> x;
+      t1 = y / t0;
+      x = t1;
+      if (y == 0) goto L3;
+      t2 = x - 3;
+      print t2;
+    L3:
+    L2:
+      t4 = 4 * y;
+      x = t4 < t5;
+      if (t5 != 0) goto L1;
+
 
 ## **<span class="underline">Control Flow Graph Example</span>**
 
 ![img](./images/CFG.png)
+
 
 ## **<span class="underline">Building Control Flow Graph</span>**
 
@@ -909,6 +1114,7 @@ L2:
     -   For each ***leader*** its *basic block* are all the subsequent instructions until the next ***leader***
     -   The jumps (conditional or unconditional) are always to ***leaders*** (i.e. the start of a ***basic block***) and these form the edges in the ***control flow graph***
 
+
 ## **<span class="underline">Static Single Assignment (SSA)</span>**
 
 -   An *IR* is in ***Static Single Assignment (SSA)*** form if each variable (or temporary) is **assigned exactly once** and every variable (or temporary) is **assigned a value before** it is used
@@ -919,13 +1125,16 @@ L2:
     -   \(p = e - p\) \(\rightarrow\) \(p_{3} = e - p_{2}\)
     -   \(q = p + q\) \(\rightarrow\) \(q_{2} = p_{3} + q_{1}\)
 
+
 ## **<span class="underline">SSA Example</span>**
 
 ![img](./images/CFG0.png)
 
+
 ## **<span class="underline">SSA Example</span>**
 
 ![img](./images/CFG1.png)
+
 
 ## **<span class="underline">Static Single Assignment</span>**
 
@@ -933,9 +1142,11 @@ L2:
     -   No intervening statements define variable
     -   Safe to propagate facts about variables only along edges
 
+
 ## **<span class="underline">What About Joines?</span>**
 
 ![img](./images/CFG2.png)
+
 
 ## **<span class="underline">What About Joines?</span>**
 
@@ -946,6 +1157,7 @@ L2:
 -   We need a **Ф** function at some node **if**
     -   Two non-null CFG paths that both define some variable
     -   Such that both paths start at two distinct nodes and end at this node
+
 
 ## **<span class="underline">Other Necessary Components</span>**
 
@@ -966,6 +1178,7 @@ L2:
         -   overlap information
         -   virtual register assignments
 
+
 # **<span class="underline">LLVM IR</span>**
 
 -   LLVM is a compiler infrastructure designed as a set of reusable libraries with well-defined interfaces
@@ -975,6 +1188,7 @@ L2:
     -   First release: 2003
     -   Open source
     -   [http://llvm.org](http://llvm.org)
+
 
 ## **<span class="underline">Goals of LLVM IR</span>**
 
@@ -988,6 +1202,7 @@ L2:
     -   Can't postpone everything until link or runtime
     -   No lowering in the IR
 
+
 ## **<span class="underline">LLVM Program Structure</span>**
 
 -   **Module contains Functions/GlobalVariables**
@@ -1000,6 +1215,7 @@ L2:
     -   All operands have types
     -   Instruction result is typed
 
+
 ## **<span class="underline">LLVM Coding Basics</span>**
 
 -   **LLVM IR is almost all double-linked lists**:
@@ -1008,12 +1224,11 @@ L2:
     -   BasicBlock contains list of Instructions
 -   **Linked lists are traversed with iterators**:
 
-```c++
-Function *M = ...;
-for (Function::iterator I = M->begin(); I != M->end(); ++I) {
-  BasicBlock &BB = *I;
-}
-```
+    Function *M = ...;
+    for (Function::iterator I = M->begin(); I != M->end(); ++I) {
+      BasicBlock &BB = *I;
+    }
+
 
 ## **<span class="underline">LLVM Instruction Set Overview</span>**
 
@@ -1032,6 +1247,7 @@ for (Function::iterator I = M->begin(); I != M->end(); ++I) {
     -   Each variable is assigned exactly once
     -   Def-use chains are explicit and each contains a single elements
 
+
 ## **<span class="underline">LLVM Instruction Set Overview</span>**
 
 -   **High-level information exposed in the code**
@@ -1040,6 +1256,7 @@ for (Function::iterator I = M->begin(); I != M->end(); ++I) {
     -   Explicit language-independent type-information
     -   Explicit typed pointer arithmetic
         -   Preserve array subscript and structure indexing
+
 
 ## **<span class="underline">LLVM Type System Details</span>**
 
@@ -1053,6 +1270,7 @@ for (Function::iterator I = M->begin(); I != M->end(); ++I) {
         -   *Front-ends* can *<font color="green"> implement</font>* safe languages
         -   Also easy to define a type-safe subset of LLVM
 
+
 ## **<span class="underline">Lowering Source-Level Types to LLVM IR</span>**
 
 -   **Source language types are lowered**:
@@ -1064,6 +1282,7 @@ for (Function::iterator I = M->begin(); I != M->end(); ++I) {
     -   Bitfields: \(struct\) \(X\) \(\{int:4, int:2\}\) \(\rightarrow\) \(\{i32\}\)
     -   Inheritance: \(class\) \(T:S\{int\) \(X;\}\) \(\rightarrow\) \(\{S, i32\}\)
     -   Methods: \(class\) \(T\{void\) \(foo();\}\) \(\rightarrow\) \(void\) \(foo(T*);\)
+
 
 ## **<span class="underline">LLVM IR Operations</span>**
 
@@ -1083,6 +1302,7 @@ for (Function::iterator I = M->begin(); I != M->end(); ++I) {
     -   *<res> = phi <type> [<val-0>,<label-0],[<val-1>,<label-1],&#x2026;*
     -   return value *val-i* of type *type* such that the basic block executed right before the current one is of *label-i*
 
+
 ## **<span class="underline">LLVM IR Primitive Types</span>**
 
 -   void: \(void\)
@@ -1094,6 +1314,7 @@ for (Function::iterator I = M->begin(); I != M->end(); ++I) {
     -   \(double\) (64-bit floating point value)
 -   pointer types: *<type>\**
 
+
 ## **<span class="underline">LLVM IR Registers</span>**
 
 -   Identifier syntax
@@ -1102,6 +1323,7 @@ for (Function::iterator I = M->begin(); I != M->end(); ++I) {
 -   A register has a function-level scope
     -   Two registers in different functions may have the same identifier
 -   A register is assigned for a particular type and a value at its first (and the only) definition
+
 
 ## **<span class="underline">LLVM IR Variables</span>**
 
@@ -1116,6 +1338,7 @@ for (Function::iterator I = M->begin(); I != M->end(); ++I) {
     -   The \(malloc\) function call allocates memory on the heap
     -   The \(free\) function call frees the memory allocated by \(malloc\)
 
+
 ## **<span class="underline">LLVM IR Aggregate & Function Types</span>**
 
 -   **Array**
@@ -1127,42 +1350,40 @@ for (Function::iterator I = M->begin(); I != M->end(); ++I) {
     -   examples: *type{ i32, i32, i32}*, *type{ i8, i32 }*
 -   **Function**
 
+
 ## **<span class="underline">LLVM IR Example</span>**
 
-```c++
-unsigned add1(unsigned a, unsigned b) {
-  return a+b;
-}
+    unsigned add1(unsigned a, unsigned b) {
+      return a+b;
+    }
+    
+    // Perhaps not the most efficient way to add two numbers.
+    unsigned add2(unsigned a, unsigned b) {
+      if (a == 0) return b;
+      return add2(a-1, b+1);
+    }
 
-// Perhaps not the most efficient way to add two numbers.
-unsigned add2(unsigned a, unsigned b) {
-  if (a == 0) return b;
-  return add2(a-1, b+1);
-}
-```
+    define i32 @add1(i32 %a, i32 %b) {
+    entry:
+      %tmp1 = add i32 %a, %b
+      ret i32 %tmp1
+    }
+    
+    define i32 @add2(i32 %a, i32 %b) {
+    entry:
+      %tmp1 = icmp eq i32 %a, 0
+      br i1 %tmp1, label %done, label %recurse
+    
+    recurse:
+      %tmp2 = sub i32 %a, 1
+      %tmp3 = add i32 %b, 1
+      %tmp4 = call i32 @add2(i32 %tmp2, i32 %tmp3)
+      ret i32 %tmp4
+    
+    done:
+      ret i32 %b
+    }
 
-```c++
-define i32 @add1(i32 %a, i32 %b) {
-entry:
-  %tmp1 = add i32 %a, %b
-  ret i32 %tmp1
-}
-
-define i32 @add2(i32 %a, i32 %b) {
-entry:
-  %tmp1 = icmp eq i32 %a, 0
-  br i1 %tmp1, label %done, label %recurse
-
-recurse:
-  %tmp2 = sub i32 %a, 1
-  %tmp3 = add i32 %b, 1
-  %tmp4 = call i32 @add2(i32 %tmp2, i32 %tmp3)
-  ret i32 %tmp4
-
-done:
-  ret i32 %b
-}
-```
 
 ## **<span class="underline">LLVM IR Generating Commands</span>**
 
@@ -1172,3 +1393,4 @@ done:
     -   `$ clang -S -emit-llvm program.c -o program.ll`
 -   **Using interpreter to run bitcode**
     -   `$lli program.bc`
+
